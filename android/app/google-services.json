@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "582340080924",
+    "project_id": "innominatus-alumnus",
+    "storage_bucket": "innominatus-alumnus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582340080924:android:a94568a9fa3f4645c8f6d9",
+        "android_client_info": {
+          "package_name": "com.io.innominatus.innominatus_ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582340080924-rnkvpeeq27knms152qjaq2ecd8gks8k0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD789w1zO_HpB8yGWzKnnhRKuis_JETLN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582340080924-rnkvpeeq27knms152qjaq2ecd8gks8k0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
