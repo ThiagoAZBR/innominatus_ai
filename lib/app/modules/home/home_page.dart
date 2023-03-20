@@ -3,9 +3,9 @@ import 'package:innominatus_ai/app/modules/home/widgets/cards/card_sugestion.dar
 import 'package:innominatus_ai/app/shared/miscellaneous/app_routes.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../app_controller.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
-import '../../app_controller.dart';
 
 class HomePage extends StatelessWidget {
   final AppController appController;
@@ -98,11 +98,8 @@ class HomePage extends StatelessWidget {
                       child: FloatingActionButton(
                         backgroundColor: Colors.white,
                         tooltip: 'IA',
-                        onPressed: () async {
-                          if (await appController.validateIfAppIsAvailable()) {
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushNamed(context, AppRoutes.chatPage);
-                          }
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.chatPage);
                         },
                         child: Lottie.asset(
                           "assets/data.json",

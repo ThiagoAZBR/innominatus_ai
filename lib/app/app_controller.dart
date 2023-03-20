@@ -4,8 +4,8 @@ import 'package:rx_notifier/rx_notifier.dart';
 
 import 'domain/models/chat_completion.dart';
 import 'domain/usecases/create_chat_completion.dart';
-import 'shared/utils/validator_utils.dart';
 import 'modules/home/app_states.dart';
+import 'shared/utils/validator_utils.dart';
 
 class AppController {
   // UseCases
@@ -23,7 +23,8 @@ class AppController {
   final _state = RxNotifier<AppState>(const DefaultState());
   // Functions
   Future<AppState> createChatCompletion(
-      CreateChatCompletionParam params) async {
+    CreateChatCompletionParam params,
+  ) async {
     final hasError = ValidatorUtils.isValidForRequest(
       params.content,
       userMessages,
