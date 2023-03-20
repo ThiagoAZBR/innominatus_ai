@@ -26,60 +26,62 @@ class ChatPage extends StatelessWidget {
         onTap: FocusScope.of(context).unfocus,
         child: Scaffold(
           body: SafeArea(
-            child: Stack(
+            child: Column(
               children: [
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: RxBuilder(
-                      builder: (_) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              InkWell(
-                                onTap: () => Navigator.maybePop(context),
-                                child: const Icon(
-                                  Icons.arrow_back,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: RxBuilder(
+                        builder: (_) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () => Navigator.maybePop(context),
+                                  child: const Icon(
+                                    Icons.arrow_back,
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.linked_camera_outlined,
                                   color: AppColors.black,
                                 ),
-                              ),
-                              const Icon(
-                                Icons.linked_camera_outlined,
-                                color: AppColors.black,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 36),
-                          ...appController.chatMessages
-                              .map((chatMessage) => chatMessage.isUser
-                                  ? Align(
-                                      alignment: Alignment.topRight,
-                                      child: MessageBox(
+                              ],
+                            ),
+                            const SizedBox(height: 36),
+                            ...appController.chatMessages
+                                .map((chatMessage) => chatMessage.isUser
+                                    ? Align(
+                                        alignment: Alignment.topRight,
+                                        child: MessageBox(
+                                          child: Text(
+                                            chatMessage.message,
+                                            style: AppTextStyles.interLittle(),
+                                          ),
+                                        ))
+                                    : MessageBox(
+                                        backgroundColor: AppColors.black,
                                         child: Text(
                                           chatMessage.message,
-                                          style: AppTextStyles.interLittle(),
+                                          style: AppTextStyles.interLittle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ))
-                                  : MessageBox(
-                                      backgroundColor: AppColors.black,
-                                      child: Text(
-                                        chatMessage.message,
-                                        style: AppTextStyles.interLittle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ))
-                              .toList(),
-                          Visibility(
-                            visible: appController.isLoading(),
-                            child: TypingIndicator(
-                              showIndicator: appController.isLoading(),
+                                .toList(),
+                            Visibility(
+                              visible: appController.isLoading(),
+                              child: TypingIndicator(
+                                showIndicator: appController.isLoading(),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 64),
-                        ],
+                            const SizedBox(height: 64),
+                          ],
+                        ),
                       ),
                     ),
                   ),
