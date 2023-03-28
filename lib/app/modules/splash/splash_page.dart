@@ -4,10 +4,10 @@ import 'package:lottie/lottie.dart';
 
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
-import '../../core/app_controller.dart';
+import '../chat/controllers/chat_controller.dart';
 
 class SplashPage extends StatelessWidget {
-  final AppController appController;
+  final ChatController appController;
   const SplashPage({
     Key? key,
     required this.appController,

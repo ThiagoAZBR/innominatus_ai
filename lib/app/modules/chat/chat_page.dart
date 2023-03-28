@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/chat/widgets/typing_indicator.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../core/app_controller.dart';
+import 'controllers/chat_controller.dart';
 import '../../domain/usecases/create_chat_completion.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
-import '../home/app_states.dart';
+import 'controllers/states/chat_states.dart';
+import 'widgets/message_box.dart';
 
 class ChatPage extends StatelessWidget {
-  final AppController appController;
+  final ChatController appController;
   const ChatPage({
     Key? key,
     required this.appController,
@@ -57,14 +58,14 @@ class ChatPage extends StatelessWidget {
                                     ? Align(
                                         alignment: Alignment.topRight,
                                         child: MessageBox(
-                                          child: Text(
+                                          child: SelectableText(
                                             chatMessage.message,
                                             style: AppTextStyles.interLittle(),
                                           ),
                                         ))
                                     : MessageBox(
                                         backgroundColor: AppColors.secondary,
-                                        child: Text(
+                                        child: SelectableText(
                                           chatMessage.message,
                                           style: AppTextStyles.interLittle(
                                             color: Colors.white,
@@ -116,7 +117,7 @@ class ChatPage extends StatelessWidget {
                                   child: TextField(
                                     onChanged: (text) {
                                       if (appController.appState
-                                          is MissingRequisitesState) {
+                                          is ChatMissingRequisitesState) {
                                         appController.setTextFieldError(null);
                                       }
                                     },
@@ -147,7 +148,7 @@ class ChatPage extends StatelessWidget {
                                                   .messageFieldController.text,
                                             ),
                                           );
-                                          if (state is HttpErrorState) {
+                                          if (state is ChatHttpErrorState) {
                                             appController.showErrorToUser();
                                           }
                                         },
@@ -169,7 +170,8 @@ class ChatPage extends StatelessWidget {
                 ),
                 RxBuilder(
                   builder: (_) => Visibility(
-                    visible: appController.appState is MissingRequisitesState,
+                    visible:
+                        appController.appState is ChatMissingRequisitesState,
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
@@ -190,45 +192,6 @@ class ChatPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class MessageBox extends StatelessWidget {
-  final Widget child;
-  final Color backgroundColor;
-  final EdgeInsets margin;
-
-  const MessageBox({
-    Key? key,
-    required this.child,
-    this.backgroundColor = AppColors.primary,
-    this.margin = const EdgeInsets.only(bottom: 24),
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.75,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: backgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadow,
-            offset: const Offset(0, 4),
-            blurRadius: 4,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      margin: margin,
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: child,
       ),
     );
   }

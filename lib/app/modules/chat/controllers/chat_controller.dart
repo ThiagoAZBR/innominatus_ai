@@ -1,13 +1,13 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/widgets.dart';
+import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../domain/models/chat_completion.dart';
-import '../domain/usecases/create_chat_completion.dart';
-import '../modules/home/app_states.dart';
-import '../shared/utils/validator_utils.dart';
+import '../../../domain/models/chat_completion.dart';
+import '../../../domain/usecases/create_chat_completion.dart';
+import '../../../shared/utils/validator_utils.dart';
 
-class AppController {
+class ChatController {
   final CreateChatCompletion chatCompletion;
 
   final String validMessage = "Aplicação autorizada!";
@@ -19,11 +19,11 @@ class AppController {
   final artificialIntelligenceMessages$ = RxList<String>();
   final _isAppAvailable$ = RxNotifier(false);
   final _errorMessage$ = RxNotifier<String?>(null);
-  final _state$ = RxNotifier<AppState>(const DefaultState());
+  final _state$ = RxNotifier<ChatState>(const ChatDefaultState());
 
-  AppController(this.chatCompletion);
+  ChatController(this.chatCompletion);
 
-  Future<AppState> createChatCompletion(
+  Future<ChatState> createChatCompletion(
     CreateChatCompletionParam params,
   ) async {
     final hasError = ValidatorUtils.isValidForRequest(
@@ -64,7 +64,7 @@ class AppController {
     artificialIntelligenceMessages$.clear();
     userMessages$.clear();
     setTextFieldError(null);
-    _state$.value = const DefaultState();
+    _state$.value = const ChatDefaultState();
   }
 
   Future<bool> validateIfAppIsAvailable() async {
@@ -79,28 +79,28 @@ class AppController {
   }
 
   // Getters and Setters
-  void setLoading() => _state$.value = const LoadingState();
+  void setLoading() => _state$.value = const ChatLoadingState();
 
-  AppState setHttpError([Exception? failure]) {
-    _state$.value = const HttpErrorState();
+  ChatState setHttpError([Exception? failure]) {
+    _state$.value = const ChatHttpErrorState();
     return appState;
   }
 
-  AppState setMissingRequisitesError(String message) {
+  ChatState setMissingRequisitesError(String message) {
     setTextFieldError(message);
-    _state$.value = const MissingRequisitesState();
+    _state$.value = const ChatMissingRequisitesState();
     return appState;
   }
 
-  AppState setDefaultState(ChatCompletionModel chatCompletion) {
+  ChatState setDefaultState(ChatCompletionModel chatCompletion) {
     saveAIMessages(chatCompletion.choices.first.message.content.trimLeft());
-    _state$.value = const DefaultState();
+    _state$.value = const ChatDefaultState();
     return appState;
   }
 
-  bool isLoading() => _state$.value is LoadingState;
-  bool hasError() => _state$.value is HttpErrorState;
-  AppState get appState => _state$.value;
+  bool isLoading() => _state$.value is ChatLoadingState;
+  bool hasError() => _state$.value is ChatHttpErrorState;
+  ChatState get appState => _state$.value;
 
   int takeLength() => artificialIntelligenceMessages$.length;
 
@@ -109,7 +109,6 @@ class AppController {
 
   String? get errorMessage => _errorMessage$.value;
   void setTextFieldError(String? message) => _errorMessage$.value = message;
-
 }
 
 class ChatMessage {

@@ -1,14 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:innominatus_ai/app/shared/themes/app_color.dart';
 
 class TypingIndicator extends StatefulWidget {
   const TypingIndicator({
     super.key,
     this.showIndicator = false,
-    this.bubbleColor =  Colors.transparent,
-    this.flashingCircleDarkColor = const Color(0xFF333333),
-    this.flashingCircleBrightColor = const Color(0xFFaec1dd),
+    this.bubbleColor = Colors.transparent,
+    this.flashingCircleDarkColor = AppColors.secondary,
+    this.flashingCircleBrightColor = AppColors.lightWhite,
   });
 
   final bool showIndicator;
