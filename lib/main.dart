@@ -3,8 +3,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:innominatus_ai/app/app_container.dart';
-import 'package:innominatus_ai/app/app_widget.dart';
+import 'package:innominatus_ai/app/core/app_container.dart';
+import 'package:innominatus_ai/app/core/app_widget.dart';
 
 import 'firebase_options.dart';
 

@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
-import '../../app_controller.dart';
+import '../../core/app_controller.dart';
 
 class SplashPage extends StatelessWidget {
   final AppController appController;
@@ -50,7 +50,7 @@ class SplashPage extends StatelessWidget {
                             'Eu sou a Chaos, sua IA :)',
                             style: AppTextStyles.interBig(),
                           ),
-                          SizedBox(height: 58),
+                          const SizedBox(height: 58),
                           Text(
                             'Vamos começar!',
                             style: AppTextStyles.interBig(),
@@ -68,9 +68,9 @@ class SplashPage extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton(
-                        backgroundColor: AppColors.backgroundItems,
-                        onPressed: () =>
-                            Navigator.popAndPushNamed(context, AppRoutes.homePage),
+                        backgroundColor: AppColors.primary,
+                        onPressed: () => Navigator.popAndPushNamed(
+                            context, AppRoutes.homePage),
                         child: const Icon(
                           Icons.arrow_forward,
                           color: AppColors.black,

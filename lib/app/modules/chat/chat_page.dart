@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/chat/widgets/typing_indicator.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../app_controller.dart';
+import '../../core/app_controller.dart';
 import '../../domain/usecases/create_chat_completion.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
@@ -25,6 +25,7 @@ class ChatPage extends StatelessWidget {
       child: GestureDetector(
         onTap: FocusScope.of(context).unfocus,
         child: Scaffold(
+          backgroundColor: AppColors.primary,
           body: SafeArea(
             child: Column(
               children: [
@@ -36,8 +37,9 @@ class ChatPage extends StatelessWidget {
                         builder: (_) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            // Icons Header
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 InkWell(
                                   onTap: () => Navigator.maybePop(context),
@@ -46,14 +48,11 @@ class ChatPage extends StatelessWidget {
                                     color: AppColors.black,
                                   ),
                                 ),
-                                const Icon(
-                                  Icons.linked_camera_outlined,
-                                  color: AppColors.black,
-                                ),
                               ],
                             ),
                             const SizedBox(height: 36),
-                            ...appController.chatMessages
+                            // Messages
+                            ...appController.chatMessages$
                                 .map((chatMessage) => chatMessage.isUser
                                     ? Align(
                                         alignment: Alignment.topRight,
@@ -64,7 +63,7 @@ class ChatPage extends StatelessWidget {
                                           ),
                                         ))
                                     : MessageBox(
-                                        backgroundColor: AppColors.black,
+                                        backgroundColor: AppColors.secondary,
                                         child: Text(
                                           chatMessage.message,
                                           style: AppTextStyles.interLittle(
@@ -86,20 +85,21 @@ class ChatPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                // Text Field
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    color: Colors.white,
+                    color: AppColors.primary,
                     padding: const EdgeInsets.only(
                       top: 8,
-                      left: 32,
+                      left: 14,
                       bottom: 32,
-                      right: 32,
+                      right: 14,
                     ),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: AppColors.backgroundItems,
+                        borderRadius: BorderRadius.circular(24),
+                        color: AppColors.lightWhite,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -136,13 +136,8 @@ class ChatPage extends StatelessWidget {
                                 Expanded(
                                   flex: 1,
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      const Icon(
-                                        Icons.mic_none_outlined,
-                                        color: AppColors.black,
-                                      ),
                                       InkWell(
                                         onTap: () async {
                                           final state = await appController
@@ -208,7 +203,7 @@ class MessageBox extends StatelessWidget {
   const MessageBox({
     Key? key,
     required this.child,
-    this.backgroundColor = AppColors.backgroundItems,
+    this.backgroundColor = AppColors.primary,
     this.margin = const EdgeInsets.only(bottom: 24),
   }) : super(key: key);
 
@@ -221,6 +216,14 @@ class MessageBox extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: backgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadow,
+            offset: const Offset(0, 4),
+            blurRadius: 4,
+            spreadRadius: 0,
+          ),
+        ],
       ),
       margin: margin,
       child: Padding(

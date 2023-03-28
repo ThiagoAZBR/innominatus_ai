@@ -3,7 +3,7 @@ import 'package:innominatus_ai/app/modules/home/widgets/cards/card_sugestion.dar
 import 'package:innominatus_ai/app/shared/miscellaneous/app_routes.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../app_controller.dart';
+import '../../core/app_controller.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
 
@@ -17,6 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primary,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -29,7 +30,7 @@ class HomePage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.backgroundItems,
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(1000),
                   ),
                   child: const Padding(
@@ -52,7 +53,7 @@ class HomePage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.58,
                         height: 142,
                         decoration: BoxDecoration(
-                          color: AppColors.backgroundItems,
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
@@ -61,7 +62,7 @@ class HomePage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.58,
                         height: 142,
                         decoration: BoxDecoration(
-                          color: AppColors.backgroundItems,
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
