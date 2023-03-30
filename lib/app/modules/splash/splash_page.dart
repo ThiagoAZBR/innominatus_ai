@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/shared/miscellaneous/app_routes.dart';
+import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../shared/themes/app_color.dart';

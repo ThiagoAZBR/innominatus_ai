@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_sugestion.dart';
-import 'package:innominatus_ai/app/shared/miscellaneous/app_routes.dart';
+import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
+import 'package:innominatus_ai/app/shared/routes/args/subjects_page_args.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -24,10 +25,10 @@ final List<Widget> pageViewChildren = [
 ];
 
 class HomePage extends StatelessWidget {
-  final HomeController controller;
+  final HomeController appController;
   const HomePage({
     Key? key,
-    required this.controller,
+    required this.appController,
   }) : super(key: key);
 
   @override
@@ -82,10 +83,10 @@ class HomePage extends StatelessWidget {
                         builder: (_) => Stack(
                           children: [
                             PageView.builder(
-                              controller: controller.pageController,
+                              controller: appController.pageController,
                               itemCount: pageViewChildren.length,
                               onPageChanged: (int index) =>
-                                  controller.setPageCounter(index),
+                                  appController.setPageCounter(index),
                               itemBuilder: (context, index) =>
                                   pageViewChildren[index],
                             ),
@@ -105,11 +106,12 @@ class HomePage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(1000),
-                                              color: controller.pageCounter ==
-                                                      pageViewChildren
-                                                          .indexOf(page)
-                                                  ? AppColors.lightBlack
-                                                  : AppColors.lightWhite,
+                                              color:
+                                                  appController.pageCounter ==
+                                                          pageViewChildren
+                                                              .indexOf(page)
+                                                      ? AppColors.lightBlack
+                                                      : AppColors.lightWhite,
                                             ),
                                           ),
                                         ))
@@ -122,14 +124,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
-                Text(
-                  'Sugestões',
-                  style: AppTextStyles.interBig(),
-                ),
-                const SizedBox(height: 24),
-                const SuggestionPlaceholders(),
-                const SizedBox(height: 32),
+                const SizedBox(height: 64),
                 Text(
                   'Recursos',
                   style: AppTextStyles.interBig(),
@@ -175,13 +170,26 @@ class SuggestionPlaceholders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Row(
-          children: const <Widget>[
-            CardSuggestion(suggestion: 'Lorem Ipsum Dolor'),
-            SizedBox(width: 12),
-            CardSuggestion(suggestion: 'Lorem Ipsum Dolor'),
-          ],
+        Container(
+          constraints: const BoxConstraints(
+            maxHeight: 142,
+          ),
+          height: 80,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              InkWell(
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  AppRoutes.subjectsPage,
+                  arguments: SubjectsPageArgs(),
+                ),
+                child: const CardSuggestion(suggestion: 'Ler um Artigo'),
+              ),
+            ],
+          ),
         ),
       ],
     );

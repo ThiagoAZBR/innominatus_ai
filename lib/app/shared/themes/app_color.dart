@@ -7,5 +7,6 @@ class AppColors {
   static const Color lightBlack = Color(0xff201F1F);
   static const Color textColor = Color(0xff000000);
   static const Color secondary = Color(0xff2B53E2);
+  static const Color link = Color(0xff0175c2);
   static Color shadow = Colors.black.withOpacity(0.2);
 }
