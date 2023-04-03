@@ -1,6 +1,7 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
+import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../domain/models/chat_completion.dart';
@@ -82,6 +83,11 @@ class ChatController {
   void setLoading() => _state$.value = const ChatLoadingState();
 
   ChatState setHttpError([Exception? failure]) {
+    if (failure is HomologResponse) {
+      saveAIMessages('Ainda está funcionando :D');
+      _state$.value = const ChatDefaultState();
+      return appState;
+    }
     _state$.value = const ChatHttpErrorState();
     return appState;
   }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/shared/network/app_urls.dart';
 
@@ -22,6 +23,9 @@ class ChatRepositoryImpl implements ChatRepository {
     CreateChatCompletionParam params,
   ) async {
     try {
+      if (kDebugMode) {
+        return Left(HomologResponse());
+      }
       final Map data = params.toMap();
       final response = await dio.post(
         AppUrls.createChatCompletion,
