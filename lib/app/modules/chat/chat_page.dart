@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:innominatus_ai/app/modules/chat/widgets/chat_text_field.dart';
 import 'package:innominatus_ai/app/modules/chat/widgets/typing_indicator.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import 'controllers/chat_controller.dart';
-import '../../domain/usecases/create_chat_completion.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
+import 'controllers/chat_controller.dart';
 import 'controllers/states/chat_states.dart';
 import 'widgets/message_box.dart';
 
 class ChatPage extends StatelessWidget {
-  final ChatController appController;
+  final ChatController chatController;
   const ChatPage({
     Key? key,
-    required this.appController,
+    required this.chatController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        appController.cleanData();
+        chatController.cleanData();
         return true;
       },
       child: GestureDetector(
@@ -53,7 +53,7 @@ class ChatPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 36),
                             // Messages
-                            ...appController.chatMessages$
+                            ...chatController.chatMessages$
                                 .map((chatMessage) => chatMessage.isUser
                                     ? Align(
                                         alignment: Alignment.topRight,
@@ -74,9 +74,9 @@ class ChatPage extends StatelessWidget {
                                       ))
                                 .toList(),
                             Visibility(
-                              visible: appController.isLoading(),
+                              visible: chatController.isLoading(),
                               child: TypingIndicator(
-                                showIndicator: appController.isLoading(),
+                                showIndicator: chatController.isLoading(),
                               ),
                             ),
                             const SizedBox(height: 64),
@@ -89,89 +89,14 @@ class ChatPage extends StatelessWidget {
                 // Text Field
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: AppColors.primary,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      left: 14,
-                      bottom: 32,
-                      right: 14,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        color: AppColors.lightWhite,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                        ),
-                        child: RxBuilder(
-                          builder: (_) => AbsorbPointer(
-                            absorbing: appController.isLoading(),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 4,
-                                  child: TextField(
-                                    onChanged: (text) {
-                                      if (appController.appState
-                                          is ChatMissingRequisitesState) {
-                                        appController.setTextFieldError(null);
-                                      }
-                                    },
-                                    controller:
-                                        appController.messageFieldController,
-                                    focusNode:
-                                        appController.messageFieldFocusNode,
-                                    cursorColor: AppColors.black,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: ' Mensagem...',
-                                    ),
-                                    minLines: 1,
-                                    maxLines: 3,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () async {
-                                          final state = await appController
-                                              .createChatCompletion(
-                                            CreateChatCompletionParam(
-                                              appController
-                                                  .messageFieldController.text,
-                                            ),
-                                          );
-                                          if (state is ChatHttpErrorState) {
-                                            appController.showErrorToUser();
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.send,
-                                          color: AppColors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: ChatTextField(
+                    chatController: chatController,
                   ),
                 ),
                 RxBuilder(
                   builder: (_) => Visibility(
                     visible:
-                        appController.appState is ChatMissingRequisitesState,
+                        chatController.appState is ChatMissingRequisitesState,
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Padding(
@@ -180,7 +105,7 @@ class ChatPage extends StatelessWidget {
                           left: 36,
                         ),
                         child: Text(
-                          appController.errorMessage ?? '',
+                          chatController.errorMessage ?? '',
                           style: AppTextStyles.interLittle(color: Colors.red),
                           textAlign: TextAlign.left,
                         ),

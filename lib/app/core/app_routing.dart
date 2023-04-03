@@ -25,7 +25,7 @@ class AppRouting {
           );
         },
         AppRoutes.chatPage: (context) => ChatPage(
-              appController: I.get(),
+              chatController: I.get(),
             ),
         AppRoutes.subjectsPage: (context) {
           _handleSubjectsPageDependencies();
