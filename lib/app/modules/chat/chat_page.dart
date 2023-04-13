@@ -60,14 +60,14 @@ class ChatPage extends StatelessWidget {
                                         child: MessageBox(
                                           child: SelectableText(
                                             chatMessage.message,
-                                            style: AppTextStyles.interLittle(),
+                                            style: AppTextStyles.interSmall(),
                                           ),
                                         ))
                                     : MessageBox(
                                         backgroundColor: AppColors.secondary,
                                         child: SelectableText(
                                           chatMessage.message,
-                                          style: AppTextStyles.interLittle(
+                                          style: AppTextStyles.interSmall(
                                             color: Colors.white,
                                           ),
                                         ),
@@ -106,7 +106,7 @@ class ChatPage extends StatelessWidget {
                         ),
                         child: Text(
                           chatController.errorMessage ?? '',
-                          style: AppTextStyles.interLittle(color: Colors.red),
+                          style: AppTextStyles.interSmall(color: Colors.red),
                           textAlign: TextAlign.left,
                         ),
                       ),

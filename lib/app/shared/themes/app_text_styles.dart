@@ -3,7 +3,17 @@ import 'package:flutter/material.dart';
 import 'app_color.dart';
 
 class AppTextStyles {
-  static TextStyle interLittle({
+  static TextStyle interVerySmall({
+    Color color = AppColors.textColor,
+    FontWeight fontWeight = FontWeight.normal,
+  }) =>
+      TextStyle(
+        fontSize: 12,
+        fontFamily: 'inter',
+        fontWeight: fontWeight,
+        color: color,
+      );
+  static TextStyle interSmall({
     Color color = AppColors.textColor,
     FontWeight fontWeight = FontWeight.normal,
   }) =>

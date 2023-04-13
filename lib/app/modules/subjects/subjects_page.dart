@@ -90,7 +90,7 @@ class SubjectFloatingButton extends StatelessWidget {
         right: 12,
       ),
       child: FloatingActionButton(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.secondary,
         onPressed: () {
           if (controller.state is StudyAreasSelectionState) {
             controller.setToTopicsSelectionState();
@@ -98,7 +98,7 @@ class SubjectFloatingButton extends StatelessWidget {
         },
         child: const Icon(
           Icons.arrow_forward,
-          color: AppColors.black,
+          color: AppColors.primary,
         ),
       ),
     );

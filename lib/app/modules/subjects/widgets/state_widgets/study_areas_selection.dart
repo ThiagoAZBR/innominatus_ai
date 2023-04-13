@@ -22,6 +22,13 @@ class StudyAreasSelection extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16, top: 8),
+              child: Text(
+                'Você consegue selecionar tema ao tocar em cima dele',
+                style: AppTextStyles.interSmall(),
+              ),
+            ),
             const SizedBox(height: 32),
             const SubjectCard(
               topic: 'Tecnologia',

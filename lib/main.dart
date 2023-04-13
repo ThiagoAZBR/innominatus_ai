@@ -34,10 +34,7 @@ void main() async {
 
   runApp(
     const AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.dark,
-      ),
+      value: SystemUiOverlayStyle.dark,
       child: AppWidget(),
     ),
   );
