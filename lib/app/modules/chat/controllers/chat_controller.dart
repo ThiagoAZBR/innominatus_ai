@@ -1,5 +1,6 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/widgets.dart';
+import 'package:innominatus_ai/app/core/text_constants/app_constants.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -15,9 +16,16 @@ class ChatController {
   final TextEditingController messageFieldController = TextEditingController();
   FocusNode messageFieldFocusNode = FocusNode();
 
-  final chatMessages$ = RxList<ChatMessage>();
+  final chatMessages$ = RxList<ChatMessage>([
+    ChatMessage(
+      isUser: false,
+      message: AppConstants.chaosSelfIntroduction,
+    ),
+  ]);
+  final artificialIntelligenceMessages$ = RxList<String>([
+    AppConstants.chaosSelfIntroduction,
+  ]);
   final userMessages$ = RxList<String>();
-  final artificialIntelligenceMessages$ = RxList<String>();
   final _isAppAvailable$ = RxNotifier(false);
   final _errorMessage$ = RxNotifier<String?>(null);
   final _state$ = RxNotifier<ChatState>(const ChatDefaultState());
