@@ -3,7 +3,6 @@ import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_sugestion.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/subjects_page_args.dart';
-import 'package:lottie/lottie.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/themes/app_color.dart';
@@ -142,19 +141,48 @@ class HomePage extends StatelessWidget {
           alignment: Alignment.bottomRight,
           child: Padding(
             padding: const EdgeInsets.only(
-              right: 32,
-              bottom: 98,
+              bottom: 36,
             ),
-            child: FloatingActionButton(
-              backgroundColor: Colors.white,
-              tooltip: 'IA',
-              onPressed: () {
+            child: InkWell(
+              onTap: () {
                 Navigator.pushNamed(context, AppRoutes.chatPage);
               },
-              child: Lottie.asset(
-                "assets/data.json",
-                height: 42,
-                width: 42,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      offset: const Offset(0, 4),
+                      blurRadius: 4,
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.chat,
+                        color: AppColors.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Pergunte a Chaos',
+                        style:
+                            AppTextStyles.interSmall(color: AppColors.primary),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
