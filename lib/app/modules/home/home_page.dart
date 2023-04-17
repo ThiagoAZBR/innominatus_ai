@@ -123,12 +123,12 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 64),
+                const SizedBox(height: 36),
                 Text(
                   'Recursos',
                   style: AppTextStyles.interBig(),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 const SuggestionPlaceholders(),
               ],
             ),
@@ -141,7 +141,7 @@ class HomePage extends StatelessWidget {
           alignment: Alignment.bottomRight,
           child: Padding(
             padding: const EdgeInsets.only(
-              bottom: 36,
+              bottom: 24,
             ),
             child: InkWell(
               onTap: () {
@@ -200,23 +200,14 @@ class SuggestionPlaceholders extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Container(
-          constraints: const BoxConstraints(
-            maxHeight: 142,
-          ),
-          height: 80,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              InkWell(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  AppRoutes.subjectsPage,
-                  arguments: SubjectsPageArgs(),
-                ),
-                child: const CardSuggestion(suggestion: 'Ler um Artigo'),
-              ),
-            ],
+        CardAction(
+          title: 'Iniciar estudos',
+          subtitle:
+              'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',
+          onTap: () => Navigator.pushNamed(
+            context,
+            AppRoutes.subjectsPage,
+            arguments: SubjectsPageArgs(),
           ),
         ),
       ],
