@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:innominatus_ai/app/core/app_container.dart';
+import 'package:innominatus_ai/app/core/containers/app_container.dart';
 import 'package:innominatus_ai/app/core/app_widget.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/study_roadmap.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/sub_topic.dart';

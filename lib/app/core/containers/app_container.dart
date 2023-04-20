@@ -4,7 +4,7 @@ import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/create_chat_completion.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart';
 
-import '../shared/localDB/localdb.dart';
+import '../../shared/localDB/localdb.dart';
 
 abstract class Dependencies {
   void setup();
