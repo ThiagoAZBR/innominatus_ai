@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/core/app_routing.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 
 class AppWidget extends StatelessWidget {
@@ -7,9 +10,15 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = GetIt.I.get<PrefsImpl>();
+    final hasShowedSplashScreen = prefs.get(
+      LocalDBConstants.hasShowedSplashScreen,
+    );
     return MaterialApp(
       routes: AppRouting().routes(),
-      initialRoute: AppRoutes.splashPage,
+      initialRoute: hasShowedSplashScreen != null
+          ? AppRoutes.homePage
+          : AppRoutes.splashPage,
       debugShowCheckedModeBanner: false,
     );
   }

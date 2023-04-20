@@ -17,9 +17,7 @@ class AppRouting {
   final I = GetIt.I;
 
   Map<String, Widget Function(BuildContext)> routes() => {
-        AppRoutes.splashPage: (context) => SplashPage(
-              appController: I.get(),
-            ),
+        AppRoutes.splashPage: (context) => const SplashPage(),
         AppRoutes.homePage: (context) {
           _handleHomePageDependencies();
           return HomePage(

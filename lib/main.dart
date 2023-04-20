@@ -4,8 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:innominatus_ai/app/core/app_container.dart';
 import 'package:innominatus_ai/app/core/app_widget.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/study_roadmap.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/sub_topic.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
@@ -28,8 +33,16 @@ void main() async {
   };
 
   // Create Instances for App
+  await Hive.initFlutter();
+  Hive.registerAdapter(StudyRoadmapAdapter());
+  Hive.registerAdapter(SubTopicAdapter());
+  final studyRoadmap = await Hive.openBox<StudyRoadmap>(
+    LocalDBConstants.studyRoadmap,
+  );
   final sharedPreferences = await SharedPreferences.getInstance();
-  GetIt.I.registerSingleton(() => sharedPreferences);
+  GetIt.I.registerSingleton(studyRoadmap);
+  GetIt.I.registerSingleton(sharedPreferences);
+  
   AppContainer().setup();
 
   runApp(

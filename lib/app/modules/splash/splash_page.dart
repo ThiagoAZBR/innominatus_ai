@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
-import '../chat/controllers/chat_controller.dart';
 
 class SplashPage extends StatelessWidget {
-  final ChatController appController;
   const SplashPage({
     Key? key,
-    required this.appController,
   }) : super(key: key);
 
   @override
@@ -69,8 +69,16 @@ class SplashPage extends StatelessWidget {
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton(
                         backgroundColor: AppColors.primary,
-                        onPressed: () => Navigator.popAndPushNamed(
-                            context, AppRoutes.homePage),
+                        onPressed: () {
+                          GetIt.I.get<PrefsImpl>().put(
+                                LocalDBConstants.hasShowedSplashScreen,
+                                false,
+                              );
+                          Navigator.popAndPushNamed(
+                            context,
+                            AppRoutes.homePage,
+                          );
+                        },
                         child: const Icon(
                           Icons.arrow_forward,
                           color: AppColors.black,
