@@ -33,7 +33,7 @@ class AppRouting {
         AppRoutes.subjectsPage: (context) {
           _handleSubjectsPageDependencies();
           return SubjectsPage(
-            subjectsController: I.get(),
+            subjectsController: I.get<SubjectsController>(),
           );
         }
       };

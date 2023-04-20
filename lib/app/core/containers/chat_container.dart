@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:innominatus_ai/app/core/app_controller.dart';
 import 'package:innominatus_ai/app/core/containers/app_container.dart';
 
 import '../../domain/usecases/create_chat_completion.dart';
@@ -15,6 +16,7 @@ class ChatContainer implements Dependencies {
   void setup() {
     I.registerLazySingleton(
       () => ChatController(
+        I.get<AppController>(),
         I.get<CreateChatCompletion>(),
       ),
     );

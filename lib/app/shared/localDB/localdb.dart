@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalDB {
   get(String key, [defaultValue]);
+  List<String>? getListString(String key);
   Future put(String key, value);
   Future putAll(Map json);
   Future delete(String key);
@@ -32,6 +33,11 @@ class HiveImpl<A> implements LocalDB {
   Future putAll(Map json) async {
     return await putAll(json);
   }
+
+  @override
+  List<String>? getListString(String key) {
+    return null;
+  }
 }
 
 class PrefsImpl implements LocalDB {
@@ -46,7 +52,7 @@ class PrefsImpl implements LocalDB {
 
   @override
   get(String key, [defaultValue]) {
-    return  sharedPreferences.get(key);
+    return sharedPreferences.get(key);
   }
 
   @override
@@ -63,5 +69,10 @@ class PrefsImpl implements LocalDB {
   @override
   Future putAll(Map json) async {
     return;
+  }
+
+  @override
+  List<String>? getListString(String key) {
+    return sharedPreferences.getStringList(key);
   }
 }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:innominatus_ai/app/core/containers/subjects_container.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/states/subjects_states.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
-import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/study_areas_selection.dart';
+import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/sub_topics_selection.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_error.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_loading.dart';
-import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/topics_selection.dart';
+import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_selection.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -27,8 +28,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
   late final SubjectsPageArgs args;
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
+    controller.appController.resetSelectedCarts();
+    SubjectsContainer().dispose();
   }
 
   @override
@@ -45,8 +48,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
   @override
   Widget build(BuildContext context) {
     final Map mapBuilder = {
-      const StudyAreasSelectionState().toString(): const StudyAreasSelection(),
-      const TopicsSelectionState().toString(): TopicsSelection(
+      const SubjectsSelectionState().toString(): SubjectsSelection(
+        subjectsController: controller,
+      ),
+      const SubTopicsSelectionState().toString(): SubTopicsSelection(
         canChooseMoreThanOneTopic: args.canChooseMoreThanOneTopic,
       ),
       const SubjectsPageLoadingState().toString(): const SubjectsLoading(),
@@ -55,7 +60,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (controller.state is TopicsSelectionState) {
+        if (controller.state$ is SubTopicsSelectionState) {
           controller.setToStudyAreaSelectionState();
           return false;
         }
@@ -65,7 +70,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
         floatingButton: SubjectFloatingButton(controller: controller),
         child: SingleChildScrollView(
           child: RxBuilder(
-            builder: (_) => mapBuilder[controller.state.toString()],
+            builder: (_) => mapBuilder[controller.state$.toString()],
           ),
         ),
       ),
@@ -92,7 +97,7 @@ class SubjectFloatingButton extends StatelessWidget {
       child: FloatingActionButton(
         backgroundColor: AppColors.secondary,
         onPressed: () {
-          if (controller.state is StudyAreasSelectionState) {
+          if (controller.state$ is SubjectsSelectionState) {
             controller.setToTopicsSelectionState();
           }
         },

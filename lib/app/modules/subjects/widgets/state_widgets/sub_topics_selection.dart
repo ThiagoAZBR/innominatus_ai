@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
-import '../../../../core/text_constants/subjects_page_constants.dart';
 import '../topic_card.dart';
 
-class TopicsSelection extends StatelessWidget {
+class SubTopicsSelection extends StatelessWidget {
   final bool canChooseMoreThanOneTopic;
-  const TopicsSelection({
+  const SubTopicsSelection({
     Key? key,
     required this.canChooseMoreThanOneTopic,
   }) : super(key: key);
@@ -36,17 +35,14 @@ class TopicsSelection extends StatelessWidget {
           const SizedBox(height: 32),
           const SubjectCard(
             topic: 'Ciência de Dados',
-            description: SubjectsPageConstants.loremIpsum,
           ),
           const SizedBox(height: 32),
           const SubjectCard(
             topic: 'Ciber-Segurança',
-            description: SubjectsPageConstants.loremIpsum,
           ),
           const SizedBox(height: 32),
           const SubjectCard(
             topic: 'Desenvolvimento de Software',
-            description: SubjectsPageConstants.loremIpsum,
           ),
         ],
       ),

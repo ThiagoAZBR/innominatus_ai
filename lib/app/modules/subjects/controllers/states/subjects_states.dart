@@ -2,12 +2,12 @@ abstract class SubjectsStates {
   const SubjectsStates();
 }
 
-class StudyAreasSelectionState implements SubjectsStates {
-  const StudyAreasSelectionState();
+class SubjectsSelectionState implements SubjectsStates {
+  const SubjectsSelectionState();
 }
 
-class TopicsSelectionState implements SubjectsStates {
-  const TopicsSelectionState();
+class SubTopicsSelectionState implements SubjectsStates {
+  const SubTopicsSelectionState();
 }
 
 class SubjectsPageLoadingState implements SubjectsStates {

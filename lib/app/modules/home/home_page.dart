@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
                         vertical: 12,
                       ),
                       child: Text(
-                        'Olá, Luna!',
+                        'Olá!',
                         style: AppTextStyles.interBig(
                           fontWeight: FontWeight.w600,
                         ),

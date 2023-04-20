@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:innominatus_ai/app/core/app_controller.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/create_chat_completion.dart';
-import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart';
+import 'package:innominatus_ai/app/domain/usecases/get_roadmap.dart';
+import 'package:innominatus_ai/app/domain/usecases/get_subjects.dart';
 
 import '../../shared/localDB/localdb.dart';
 
@@ -33,8 +35,20 @@ class AppContainer implements Dependencies {
       ),
     );
     I.registerLazySingleton(
-      () => ChatController(
-        I.get<CreateChatCompletion>(),
+      () => GetSubjects(
+        I.get<ChatRepository>(),
+      ),
+    );
+    I.registerLazySingleton(
+      () => GetRoadmap(
+        I.get<ChatRepository>(),
+      ),
+    );
+    I.registerSingleton(
+      AppController(
+        getSubjects: I.get<GetSubjects>(),
+        getRoadmap: I.get<GetRoadmap>(),
+        prefs: I.get<PrefsImpl>(),
       ),
     );
   }
