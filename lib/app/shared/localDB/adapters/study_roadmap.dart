@@ -4,7 +4,7 @@ import 'package:innominatus_ai/app/shared/localDB/adapters/sub_topic.dart';
 
 part 'study_roadmap.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: 1)
 class StudyRoadmap {
   @HiveField(0)
   List<SubTopic> subTopic;

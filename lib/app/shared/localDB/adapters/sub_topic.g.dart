@@ -8,7 +8,7 @@ part of 'sub_topic.dart';
 
 class SubTopicAdapter extends TypeAdapter<SubTopic> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
   SubTopic read(BinaryReader reader) {
@@ -18,7 +18,7 @@ class SubTopicAdapter extends TypeAdapter<SubTopic> {
     };
     return SubTopic(
       subjectParent: fields[0] as String,
-      classSubjects: (fields[1] as List).cast<String>(),
+      classSubjects: (fields[1] as List).cast<ClassSubject>(),
     );
   }
 

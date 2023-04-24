@@ -1,32 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'study_roadmap.dart';
+part of 'class_content.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class StudyRoadmapAdapter extends TypeAdapter<StudyRoadmap> {
+class ClassContentAdapter extends TypeAdapter<ClassContent> {
   @override
-  final int typeId = 1;
+  final int typeId = 4;
 
   @override
-  StudyRoadmap read(BinaryReader reader) {
+  ClassContent read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return StudyRoadmap(
-      subTopic: (fields[0] as List).cast<SubTopic>(),
+    return ClassContent(
+      script: fields[0] as String,
+      questions: (fields[1] as List?)?.cast<Question>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, StudyRoadmap obj) {
+  void write(BinaryWriter writer, ClassContent obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.subTopic);
+      ..write(obj.script)
+      ..writeByte(1)
+      ..write(obj.questions);
   }
 
   @override
@@ -35,7 +38,7 @@ class StudyRoadmapAdapter extends TypeAdapter<StudyRoadmap> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StudyRoadmapAdapter &&
+      other is ClassContentAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -1,32 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'study_roadmap.dart';
+part of 'question.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class StudyRoadmapAdapter extends TypeAdapter<StudyRoadmap> {
+class QuestionAdapter extends TypeAdapter<Question> {
   @override
-  final int typeId = 1;
+  final int typeId = 5;
 
   @override
-  StudyRoadmap read(BinaryReader reader) {
+  Question read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return StudyRoadmap(
-      subTopic: (fields[0] as List).cast<SubTopic>(),
+    return Question(
+      question: fields[0] as String,
+      answer: fields[1] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, StudyRoadmap obj) {
+  void write(BinaryWriter writer, Question obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.subTopic);
+      ..write(obj.question)
+      ..writeByte(1)
+      ..write(obj.answer);
   }
 
   @override
@@ -35,7 +38,7 @@ class StudyRoadmapAdapter extends TypeAdapter<StudyRoadmap> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StudyRoadmapAdapter &&
+      other is QuestionAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
