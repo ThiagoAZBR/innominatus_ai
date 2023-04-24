@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/core/app_assets.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../shared/themes/app_color.dart';
 import '../../../../shared/themes/app_text_styles.dart';
@@ -45,8 +46,12 @@ class CardAction extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
                     imageUrl: AppAssets.studyWoman,
-                    placeholder: (context, url) => Container(
-                      color: Colors.grey.shade300,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        color: AppColors.primary,
+                      ),
                     ),
                     errorWidget: (context, url, error) => Align(
                       child: Lottie.asset(
