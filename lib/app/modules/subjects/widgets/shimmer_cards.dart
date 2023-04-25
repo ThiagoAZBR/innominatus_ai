@@ -20,6 +20,12 @@ class ShimmerCards extends StatelessWidget {
           _ShimmerCard(),
           SizedBox(height: 32),
           _ShimmerCard(),
+          SizedBox(height: 32),
+          _ShimmerCard(),
+          SizedBox(height: 32),
+          _ShimmerCard(),
+          SizedBox(height: 32),
+          _ShimmerCard(),
         ],
       ),
     );
@@ -33,18 +39,10 @@ class _ShimmerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 48,
+      height: 64,
       decoration: BoxDecoration(
         color: AppColors.primary,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadow,
-            offset: const Offset(0, 4),
-            blurRadius: 4,
-            spreadRadius: 0,
-          ),
-        ],
       ),
     );
   }

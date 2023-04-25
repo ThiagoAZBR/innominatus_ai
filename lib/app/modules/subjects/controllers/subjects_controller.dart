@@ -12,7 +12,9 @@ class SubjectsController {
 
   Future<void> getSubjects() async {
     startLoading();
-    await appController.getSubjects();
+    if (appController.subjects$.isEmpty) {
+      await appController.getSubjects();
+    }
     for (var i = 0; i < appController.subjects$.length; i++) {
       appController.isSelectedList.add(false);
     }

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/core/app_controller.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
+import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
@@ -34,6 +35,11 @@ class AppContainer implements Dependencies {
         I.get<Dio>(),
       ),
     );
+    I.registerLazySingleton<RemoteDBRepository>(
+      () => FirebaseStoreRepository(
+        I.get<FirebaseFirestore>(),
+      ),
+    );
     I.registerLazySingleton(
       () => CreateChatCompletion(
         I.get<ChatRepository>(),
@@ -42,6 +48,11 @@ class AppContainer implements Dependencies {
     I.registerLazySingleton(
       () => GetSubjectsAI(
         I.get<ChatRepository>(),
+      ),
+    );
+    I.registerLazySingleton(
+      () => GetSubjectsDB(
+        I.get<RemoteDBRepository>(),
       ),
     );
     I.registerLazySingleton(
