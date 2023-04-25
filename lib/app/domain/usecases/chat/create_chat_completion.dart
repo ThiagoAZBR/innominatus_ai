@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
-import '../models/chat_completion.dart';
+import '../../models/chat_completion.dart';
 
 class CreateChatCompletion
     implements UseCase<ChatCompletionModel, CreateChatCompletionParam> {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../../domain/usecases/create_chat_completion.dart';
+import '../../../domain/usecases/chat/create_chat_completion.dart';
 import '../../../shared/themes/app_color.dart';
 import '../controllers/states/chat_states.dart';
 

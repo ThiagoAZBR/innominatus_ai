@@ -1,5 +1,5 @@
-import 'package:innominatus_ai/app/domain/usecases/get_roadmap.dart';
-import 'package:innominatus_ai/app/domain/usecases/get_subjects.dart';
+import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
+import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';

@@ -8,7 +8,7 @@ import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.d
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 
 import '../../../domain/models/chat_completion.dart';
-import '../../../domain/usecases/create_chat_completion.dart';
+import '../../../domain/usecases/chat/create_chat_completion.dart';
 import '../../../shared/utils/validator_utils.dart';
 
 class ChatController {
