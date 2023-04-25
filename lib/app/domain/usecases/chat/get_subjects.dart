@@ -2,10 +2,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
-class GetSubjects implements UseCase<List<String>, NoParams> {
+class GetSubjectsAI implements UseCase<List<String>, NoParams> {
   final ChatRepository chatRepository;
 
-  GetSubjects(this.chatRepository);
+  GetSubjectsAI(this.chatRepository);
 
   @override
   Future<Either<Exception, List<String>>> call({

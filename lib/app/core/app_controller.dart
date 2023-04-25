@@ -1,12 +1,14 @@
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class AppController {
-  final GetSubjects _getSubjects;
+  final GetSubjectsAI _getSubjectsAI;
+  final GetSubjectsDB _getSubjectsDB;
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
@@ -15,25 +17,39 @@ class AppController {
   final subjects$ = RxList<String>();
 
   AppController({
-    required GetSubjects getSubjects,
+    required GetSubjectsAI getSubjects,
     required GetRoadmap getRoadmap,
+    required GetSubjectsDB getSubjectsDB,
     required this.prefs,
-  })  : _getSubjects = getSubjects,
+  })  : _getSubjectsAI = getSubjects,
+        _getSubjectsDB = getSubjectsDB,
         _getRoadmap = getRoadmap;
 
   Future<bool> getSubjects() async {
     final subjects = prefs.getListString(LocalDBConstants.subject);
+
     if (subjects != null) {
       subjects$.addAll(subjects);
       return true;
     }
-    final response = await _getSubjects(params: const NoParams());
-    response.map((data) {
-      subjects$.addAll(data);
-      prefs.put(LocalDBConstants.subject, data);
+
+    final responseDB = await _getSubjectsDB(params: const NoParams());
+    if (responseDB.isRight()) {
+      responseDB.map((data) => onSuccess(data.items));
       return true;
-    });
-    return false;
+    }
+
+    final responseAI = await _getSubjectsAI(params: const NoParams());
+    if (responseAI.isRight()) {
+      responseAI.map(onSuccess);
+    }
+    
+    return responseAI.isRight();
+  }
+
+  void onSuccess(List<String> data) {
+    subjects$.addAll(data);
+    prefs.put(LocalDBConstants.subject, data);
   }
 
   void resetSelectedCarts() =>

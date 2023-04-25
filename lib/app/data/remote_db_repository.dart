@@ -27,7 +27,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
     } on FirebaseException catch (e) {
       return Left(e);
     } catch (e) {
-      return Left(UnexpectedException());
+      return Left(EmptyCacheException());
     }
   }
 }

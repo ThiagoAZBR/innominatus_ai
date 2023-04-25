@@ -6,6 +6,7 @@ import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dart';
 
 import '../../shared/localDB/localdb.dart';
 
@@ -39,7 +40,7 @@ class AppContainer implements Dependencies {
       ),
     );
     I.registerLazySingleton(
-      () => GetSubjects(
+      () => GetSubjectsAI(
         I.get<ChatRepository>(),
       ),
     );
@@ -50,7 +51,8 @@ class AppContainer implements Dependencies {
     );
     I.registerSingleton(
       AppController(
-        getSubjects: I.get<GetSubjects>(),
+        getSubjects: I.get<GetSubjectsAI>(),
+        getSubjectsDB: I.get<GetSubjectsDB>(),
         getRoadmap: I.get<GetRoadmap>(),
         prefs: I.get<PrefsImpl>(),
       ),
