@@ -40,7 +40,9 @@ class ChatRepositoryImpl implements ChatRepository {
       }
       final Map data = params.toMap();
       final response = await dio.post(
-        AppUrls.createChatCompletion,
+        kDebugMode
+            ? AppUrls.createChatCompletionHomolog
+            : AppUrls.createChatCompletionProduction,
         data: data,
       );
       return Right(_handleChatResponse(response));
@@ -60,7 +62,9 @@ class ChatRepositoryImpl implements ChatRepository {
         AppConstants.getRoadmap(params.content),
       ).toMap();
       final response = await dio.post(
-        AppUrls.createChatCompletion,
+        kDebugMode
+            ? AppUrls.createChatCompletionHomolog
+            : AppUrls.createChatCompletionProduction,
         data: data,
       );
       return Right(_handleGetRoadmapResponse(response));
@@ -80,7 +84,9 @@ class ChatRepositoryImpl implements ChatRepository {
         content: AppConstants.getSubjects,
       ).toMap();
       final response = await dio.post(
-        AppUrls.createChatCompletion,
+        kDebugMode
+            ? AppUrls.createChatCompletionHomolog
+            : AppUrls.createChatCompletionProduction,
         data: data,
       );
       return Right(_handleGetSubjectsResponse(response));
@@ -117,6 +123,7 @@ List<String> _handleGetRoadmapResponse(Response response) {
 
   throw UnexpectedException();
 }
+
 List<String> _handleGetSubjectsResponse(Response response) {
   if (response.statusCode == 200) {
     ChatCompletionModel chatCompletionModel = ChatCompletionModel.fromJson(

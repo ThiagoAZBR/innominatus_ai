@@ -1,4 +1,6 @@
 class AppUrls {
-  static const createChatCompletion =
+  static const createChatCompletionHomolog =
       'https://aicsforwba.execute-api.us-east-1.amazonaws.com/chat';
+  static const createChatCompletionProduction =
+      'https://express-api-chaos-production.up.railway.app/chat';
 }
