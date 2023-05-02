@@ -30,7 +30,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
   @override
   void dispose() {
     super.dispose();
-    controller.appController.resetSelectedCarts();
+    controller.resetSelectedCarts();
     SubjectsContainer().dispose();
   }
 

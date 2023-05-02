@@ -12,7 +12,6 @@ class AppController {
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
-  List isSelectedList = <bool>[];
 
   final subjects$ = RxList<String>();
 
@@ -51,7 +50,4 @@ class AppController {
     subjects$.addAll(data);
     prefs.put(LocalDBConstants.subject, data);
   }
-
-  void resetSelectedCarts() =>
-      isSelectedList = List.of(isSelectedList).map((e) => false).toList();
 }

@@ -7,6 +7,7 @@ class SubjectsController {
 
   final _isSubjectLoading$ = RxNotifier(false);
   final _state = RxNotifier<SubjectsStates>(const SubjectsPageLoadingState());
+  List isSelectedList = <bool>[];
 
   SubjectsController(this.appController);
 
@@ -16,14 +17,14 @@ class SubjectsController {
       await appController.getSubjects();
     }
     for (var i = 0; i < appController.subjects$.length; i++) {
-      appController.isSelectedList.add(false);
+      isSelectedList.add(false);
     }
     endLoading();
   }
 
   void changeSelectedCard(int i) {
-    appController.resetSelectedCarts();
-    appController.isSelectedList[i] = !appController.isSelectedList[i];
+    resetSelectedCarts();
+    isSelectedList[i] = !isSelectedList[i];
   }
 
   void setToTopicsSelectionState() {
@@ -32,6 +33,11 @@ class SubjectsController {
 
   void setToStudyAreaSelectionState() {
     _state.value = const SubjectsSelectionState();
+  }
+
+  void resetSelectedCarts() {
+    isSelectedList = List.of(isSelectedList).map((e) => false).toList();
+    appController.subjects$.clear();
   }
 
   SubjectsStates get state$ => _state.value;
