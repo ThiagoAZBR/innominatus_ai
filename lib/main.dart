@@ -9,10 +9,9 @@ import 'package:innominatus_ai/app/core/containers/app_container.dart';
 import 'package:innominatus_ai/app/core/app_widget.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/study_roadmap.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/sub_topic.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'app/core/text_constants/localdb_constants.dart';
 import 'firebase_options.dart';
 
 void main() async {

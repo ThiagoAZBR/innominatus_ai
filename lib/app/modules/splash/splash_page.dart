@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
+import 'package:innominatus_ai/app/core/text_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:lottie/lottie.dart';
 
