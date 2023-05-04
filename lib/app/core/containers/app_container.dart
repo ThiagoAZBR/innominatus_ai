@@ -62,7 +62,6 @@ class AppContainer implements Dependencies {
     );
     I.registerSingleton(
       AppController(
-        getSubjects: I.get<GetSubjectsAI>(),
         getSubjectsDB: I.get<GetSubjectsDB>(),
         getRoadmap: I.get<GetRoadmap>(),
         prefs: I.get<PrefsImpl>(),

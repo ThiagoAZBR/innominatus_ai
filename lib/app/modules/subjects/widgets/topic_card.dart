@@ -4,12 +4,14 @@ import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import '../../../shared/themes/app_color.dart';
 
 class SubjectCard extends StatelessWidget {
-  final String topic;
+  final String subject;
+  final String description;
   final bool isCardSelected;
 
   const SubjectCard({
     Key? key,
-    required this.topic,
+    required this.subject,
+    required this.description,
     this.isCardSelected = false,
   }) : super(key: key);
 
@@ -43,7 +45,7 @@ class SubjectCard extends StatelessWidget {
           children: <Widget>[
             // Name of the Topic
             Text(
-              topic,
+              subject,
               style: AppTextStyles.interMedium(),
             ),
           ],

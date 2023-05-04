@@ -22,7 +22,8 @@ class FirebaseStoreRepository implements RemoteDBRepository {
     try {
       final response = await firebaseFirestore
           .collection(RemoteDBConstants.shared)
-          .doc(RemoteDBConstants.subjects).get();
+          .doc(RemoteDBConstants.subjects)
+          .get();
       return Right(await _handleGetSubjects(response));
     } on FirebaseException catch (e) {
       return Left(e);
@@ -35,5 +36,5 @@ class FirebaseStoreRepository implements RemoteDBRepository {
 Future<SubjectsModel> _handleGetSubjects(
   DocumentSnapshot<Map<String, dynamic>> json,
 ) async {
-  return SubjectsModel.fromMap(json.data()!);
+  return SubjectsModel.fromJson(json.data()!);
 }

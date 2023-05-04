@@ -33,17 +33,7 @@ class SubTopicsSelection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const SubjectCard(
-            topic: 'Ciência de Dados',
-          ),
-          const SizedBox(height: 32),
-          const SubjectCard(
-            topic: 'Ciber-Segurança',
-          ),
-          const SizedBox(height: 32),
-          const SubjectCard(
-            topic: 'Desenvolvimento de Software',
-          ),
+          
         ],
       ),
     );

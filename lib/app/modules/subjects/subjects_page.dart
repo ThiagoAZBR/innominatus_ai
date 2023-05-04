@@ -31,6 +31,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
   void dispose() {
     super.dispose();
     controller.resetSelectedCarts();
+    controller.appController.subjects$.clear();
     SubjectsContainer().dispose();
   }
 

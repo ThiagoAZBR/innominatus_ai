@@ -37,7 +37,6 @@ class SubjectsController {
 
   void resetSelectedCarts() {
     isSelectedList = List.of(isSelectedList).map((e) => false).toList();
-    appController.subjects$.clear();
   }
 
   SubjectsStates get state$ => _state.value;

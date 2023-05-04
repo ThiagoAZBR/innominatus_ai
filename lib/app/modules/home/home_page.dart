@@ -207,7 +207,9 @@ class SuggestionPlaceholders extends StatelessWidget {
           onTap: () => Navigator.pushNamed(
             context,
             AppRoutes.subjectsPage,
-            arguments: SubjectsPageArgs(),
+            arguments: SubjectsPageArgs(
+              canChooseMoreThanOneTopic: true,
+            ),
           ),
         ),
       ],

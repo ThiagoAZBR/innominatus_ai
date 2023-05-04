@@ -1,4 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:innominatus_ai/app/core/text_constants/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalDB {
@@ -7,37 +9,6 @@ abstract class LocalDB {
   Future put(String key, value);
   Future putAll(Map json);
   Future delete(String key);
-}
-
-class HiveImpl<A> implements LocalDB {
-  final Box<A> box;
-
-  HiveImpl(this.box);
-
-  @override
-  Future delete(String key) async {
-    return await box.delete(key);
-  }
-
-  @override
-  get(String key, [defaultValue]) {
-    return box.get(key, defaultValue: defaultValue);
-  }
-
-  @override
-  Future put(String key, value) async {
-    return await box.put(key, value);
-  }
-
-  @override
-  Future putAll(Map json) async {
-    return await putAll(json);
-  }
-
-  @override
-  List<String>? getListString(String key) {
-    return null;
-  }
 }
 
 class PrefsImpl implements LocalDB {
@@ -75,4 +46,9 @@ class PrefsImpl implements LocalDB {
   List<String>? getListString(String key) {
     return sharedPreferences.getStringList(key);
   }
+}
+
+class HiveBoxInstances {
+  static Box get subjects =>
+      Hive.box(LocalDBConstants.subjects);
 }

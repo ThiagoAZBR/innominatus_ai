@@ -1,13 +1,16 @@
+import 'package:innominatus_ai/app/domain/models/subject_item.dart';
+
 class SubjectsModel {
-  final List<String> items;
+  final List<SubjectItemModel> items;
 
   SubjectsModel({
     required this.items,
   });
 
-  factory SubjectsModel.fromMap(Map<String, dynamic> map) {
+  factory SubjectsModel.fromJson(Map<String, dynamic> map) {
     return SubjectsModel(
-      items: List<String>.from(map['items']),
+      items: List<SubjectItemModel>.from(
+          map['items']?.map((x) => SubjectItemModel.fromJson(x))),
     );
   }
 }

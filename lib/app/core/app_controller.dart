@@ -1,54 +1,50 @@
+import 'package:innominatus_ai/app/core/text_constants/localdb_constants.dart';
+import 'package:innominatus_ai/app/domain/models/subject_item.dart';
+import 'package:innominatus_ai/app/domain/models/subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
-import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
-import 'package:innominatus_ai/app/core/text_constants/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class AppController {
-  final GetSubjectsAI _getSubjectsAI;
   final GetSubjectsDB _getSubjectsDB;
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
-  final subjects$ = RxList<String>();
+  final subjects$ = RxList<SubjectItemModel>();
 
   AppController({
-    required GetSubjectsAI getSubjects,
     required GetRoadmap getRoadmap,
     required GetSubjectsDB getSubjectsDB,
     required this.prefs,
-  })  : _getSubjectsAI = getSubjects,
-        _getSubjectsDB = getSubjectsDB,
+  })  : _getSubjectsDB = getSubjectsDB,
         _getRoadmap = getRoadmap;
 
   Future<bool> getSubjects() async {
-    final subjects = prefs.getListString(LocalDBConstants.subjects);
+    final subjectsBox = HiveBoxInstances.subjects;
+    final SubjectsModel? subjects = subjectsBox.get(LocalDBConstants.subjects);
 
     if (subjects != null) {
-      subjects$.addAll(subjects);
+      subjects$.addAll(subjects.items);
       return true;
     }
 
     final responseDB = await _getSubjectsDB(params: const NoParams());
     if (responseDB.isRight()) {
-      responseDB.map((data) => onSuccess(data.items));
-      return true;
+      responseDB.map(getSubjectsOnSuccess);
     }
 
-    final responseAI = await _getSubjectsAI(params: const NoParams());
-    if (responseAI.isRight()) {
-      responseAI.map(onSuccess);
-    }
-
-    return responseAI.isRight();
+    return responseDB.isRight();
   }
 
-  // Future<bool> getSubTopicsRoadmap() {}
-
-  void onSuccess(List<String> data) {
-    subjects$.addAll(data);
-    prefs.put(LocalDBConstants.subjects, data);
+  void getSubjectsOnSuccess(SubjectsModel data) {
+    final subjectsBox = HiveBoxInstances.subjects;
+    subjects$.addAll(data.items);
+    subjectsBox.put(
+      LocalDBConstants.subjects,
+      SubjectsLocalDB.fromSubjectsModel(data),
+    );
   }
 }
