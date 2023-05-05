@@ -40,13 +40,24 @@ class AppTextStyles {
     FontWeight fontWeight = FontWeight.normal,
   }) =>
       TextStyle(
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: 'inter',
         fontWeight: fontWeight,
         color: color,
       );
 
   static TextStyle interVeryBig({
+    Color color = AppColors.textColor,
+    FontWeight fontWeight = FontWeight.normal,
+  }) =>
+      TextStyle(
+        fontSize: 20,
+        fontFamily: 'inter',
+        fontWeight: fontWeight,
+        color: color,
+      );
+
+  static TextStyle interHuge({
     Color color = AppColors.textColor,
     FontWeight fontWeight = FontWeight.normal,
   }) =>

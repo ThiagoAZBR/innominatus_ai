@@ -23,7 +23,11 @@ class SubjectsController {
   }
 
   void changeSelectedCard(int i) {
+    final int indexOfPreviousSelectedSubject = isSelectedList.indexOf(true);
     resetSelectedCarts();
+    if (i == indexOfPreviousSelectedSubject) {
+      return;
+    }
     isSelectedList[i] = !isSelectedList[i];
   }
 

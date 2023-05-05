@@ -39,7 +39,7 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
           children: <Widget>[
             Text(
               'Escolha um tema',
-              style: AppTextStyles.interBig(
+              style: AppTextStyles.interVeryBig(
                 fontWeight: FontWeight.w500,
               ),
             ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
-import '../topic_card.dart';
-
 class SubTopicsSelection extends StatelessWidget {
   final bool canChooseMoreThanOneTopic;
   const SubTopicsSelection({
@@ -21,7 +19,7 @@ class SubTopicsSelection extends StatelessWidget {
             canChooseMoreThanOneTopic
                 ? "Escolha até 3 tópicos"
                 : "Escolha um tópico",
-            style: AppTextStyles.interBig(
+            style: AppTextStyles.interVeryBig(
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -33,7 +31,6 @@ class SubTopicsSelection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          
         ],
       ),
     );

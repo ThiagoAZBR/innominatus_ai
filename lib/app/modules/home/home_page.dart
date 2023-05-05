@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                       ),
                       child: Text(
                         'Olá!',
-                        style: AppTextStyles.interBig(
+                        style: AppTextStyles.interVeryBig(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -126,7 +126,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 36),
                 Text(
                   'Recursos',
-                  style: AppTextStyles.interBig(),
+                  style: AppTextStyles.interVeryBig(),
                 ),
                 const SizedBox(height: 16),
                 const SuggestionPlaceholders(),
