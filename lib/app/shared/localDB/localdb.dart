@@ -49,6 +49,6 @@ class PrefsImpl implements LocalDB {
 }
 
 class HiveBoxInstances {
-  static Box get subjects =>
-      Hive.box(LocalDBConstants.subjects);
+  static Box get subjects => Hive.box(LocalDBConstants.subjects);
+  static Box get subTopics => Hive.box(LocalDBConstants.studyRoadmap);
 }

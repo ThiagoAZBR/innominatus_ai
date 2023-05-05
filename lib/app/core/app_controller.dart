@@ -47,4 +47,23 @@ class AppController {
       SubjectsLocalDB.fromSubjectsModel(data),
     );
   }
+
+  Future<List<String>?> getRoadmap(GetRoadmapParams params) async {
+    final subTopics = prefs.get(LocalDBConstants.subTopics);
+
+    if (subTopics != null) {
+      return subTopics;
+    }
+    // TODO: Add Firestore integration
+    final response = await _getRoadmap(params: params);
+    return response.fold((failure) => null, (data) {
+      _saveSubTopicsLocalDB(params.content);
+      return data;
+    });
+  }
+
+  void _saveSubTopicsLocalDB(String subject) {
+    prefs.put(LocalDBConstants.subjects, subject);
+    prefs.put(LocalDBConstants.subjectsWithSubtopics, subject);
+  }
 }
