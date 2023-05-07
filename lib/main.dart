@@ -8,7 +8,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:innominatus_ai/app/core/app_widget.dart';
 import 'package:innominatus_ai/app/core/containers/app_container.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/study_roadmap.dart';
-import 'package:innominatus_ai/app/shared/localDB/adapters/sub_topic.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
