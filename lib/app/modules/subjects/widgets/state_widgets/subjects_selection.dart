@@ -70,7 +70,7 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                                 description:
                                     appController.subjects$[i].description,
                                 isCardSelected:
-                                    subjectsController.isSelectedList[i],
+                                    subjectsController.isSubjectSelectedList[i],
                               ),
                             ),
                           ),

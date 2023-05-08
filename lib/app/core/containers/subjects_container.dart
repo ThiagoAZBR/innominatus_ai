@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/core/app_controller.dart';
 import 'package:innominatus_ai/app/core/containers/app_container.dart';
+import 'package:innominatus_ai/app/modules/subjects/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 
 class SubjectsContainer implements Dependencies {
@@ -15,6 +16,11 @@ class SubjectsContainer implements Dependencies {
     I.registerLazySingleton(
       () => SubjectsController(
         I.get<AppController>(),
+      ),
+    );
+    I.registerLazySingleton(
+      () => SubTopicsController(
+        I.get<SubjectsController>(),
       ),
     );
   }

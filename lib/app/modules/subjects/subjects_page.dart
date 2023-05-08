@@ -6,6 +6,7 @@ import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/sub_to
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_error.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_loading.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_selection.dart';
+import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -68,7 +69,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
         return true;
       },
       child: AppScaffold(
-        floatingButton: SubjectFloatingButton(controller: controller),
+        floatingButton: SubjectFloatingButton(
+          controller: controller,
+          context: context,
+        ),
         child: SingleChildScrollView(
           child: RxBuilder(
             builder: (_) => mapBuilder[controller.state$.toString()],
@@ -82,9 +86,12 @@ class _SubjectsPageState extends State<SubjectsPage> {
 }
 
 class SubjectFloatingButton extends StatelessWidget {
+  final BuildContext context;
   final SubjectsController controller;
+
   const SubjectFloatingButton({
     Key? key,
+    required this.context,
     required this.controller,
   }) : super(key: key);
 
@@ -99,7 +106,40 @@ class SubjectFloatingButton extends StatelessWidget {
         backgroundColor: AppColors.secondary,
         onPressed: () {
           if (controller.state$ is SubjectsSelectionState) {
+            if (!controller.isSubjectSelectedList
+                .any((element) => element == true)) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Atenção: Selecione pelo menos um Tema',
+                      style: AppTextStyles.interMedium(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                  backgroundColor: AppColors.secondary,
+                ),
+              );
+              return;
+            }
             controller.setToTopicsSelectionState();
+          }
+          if (controller.state$ is SubTopicsSelectionState) {
+            if (!controller.isSubtopicSelectedList
+                .any((element) => element == true)) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Atenção: Selecione pelo menos um Tópico'),
+                  ),
+                  backgroundColor: AppColors.secondary,
+                ),
+              );
+              return;
+            }
           }
         },
         child: const Icon(

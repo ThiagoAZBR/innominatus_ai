@@ -7,7 +7,8 @@ class SubjectsController {
 
   final _isSubjectLoading$ = RxNotifier(false);
   final _state = RxNotifier<SubjectsStates>(const SubjectsPageLoadingState());
-  List isSelectedList = <bool>[];
+  List isSubjectSelectedList = <bool>[];
+  List isSubtopicSelectedList = <bool>[];
 
   SubjectsController(this.appController);
 
@@ -17,18 +18,19 @@ class SubjectsController {
       await appController.getSubjects();
     }
     for (var i = 0; i < appController.subjects$.length; i++) {
-      isSelectedList.add(false);
+      isSubjectSelectedList.add(false);
     }
     endLoading();
   }
 
   void changeSelectedCard(int i) {
-    final int indexOfPreviousSelectedSubject = isSelectedList.indexOf(true);
+    final int indexOfPreviousSelectedSubject =
+        isSubjectSelectedList.indexOf(true);
     resetSelectedCarts();
     if (i == indexOfPreviousSelectedSubject) {
       return;
     }
-    isSelectedList[i] = !isSelectedList[i];
+    isSubjectSelectedList[i] = !isSubjectSelectedList[i];
   }
 
   void setToTopicsSelectionState() {
@@ -40,7 +42,8 @@ class SubjectsController {
   }
 
   void resetSelectedCarts() {
-    isSelectedList = List.of(isSelectedList).map((e) => false).toList();
+    isSubjectSelectedList =
+        List.of(isSubjectSelectedList).map((e) => false).toList();
   }
 
   SubjectsStates get state$ => _state.value;
