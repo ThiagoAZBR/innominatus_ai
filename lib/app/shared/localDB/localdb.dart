@@ -1,6 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:innominatus_ai/app/core/text_constants/localdb_constants.dart';
-import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalDB {
