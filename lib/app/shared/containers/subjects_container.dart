@@ -9,6 +9,7 @@ class SubjectsContainer implements Dependencies {
   @override
   void dispose() {
     I.unregister<SubjectsController>();
+    I.unregister<SubTopicsController>();
   }
 
   @override

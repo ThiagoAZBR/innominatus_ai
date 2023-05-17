@@ -63,7 +63,8 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                             padding: const EdgeInsets.only(bottom: 32),
                             child: InkWell(
                               onTap: () => setState(
-                                () => subjectsController.changeSelectedCard(i),
+                                () => subjectsController
+                                    .changeSubjectSelectedCard(i),
                               ),
                               child: SubjectCard(
                                 subject: appController.subjects$[i].subject,

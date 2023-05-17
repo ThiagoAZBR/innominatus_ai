@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/states/subjects_states.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/sub_topics_selection.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_error.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_loading.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_selection.dart';
+import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -68,14 +68,18 @@ class _SubjectsPageState extends State<SubjectsPage> {
         }
         return true;
       },
-      child: AppScaffold(
-        floatingButton: SubjectFloatingButton(
-          controller: controller,
-          context: context,
-        ),
-        child: SingleChildScrollView(
-          child: RxBuilder(
-            builder: (_) => mapBuilder[controller.state$.toString()],
+      child: RxBuilder(
+        builder: (_) => AppScaffold(
+          floatingButton: Visibility(
+            visible:
+                controller.isFloatingButtonVisible(controller.state$).value,
+            child: SubjectFloatingButton(
+              controller: controller,
+              context: context,
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: mapBuilder[controller.state$.toString()],
           ),
         ),
       ),
@@ -102,49 +106,40 @@ class SubjectFloatingButton extends StatelessWidget {
         bottom: 64,
         right: 12,
       ),
-      child: FloatingActionButton(
-        backgroundColor: AppColors.secondary,
-        onPressed: () {
+      child: InkWell(
+        onTap: () {
           if (controller.state$ is SubjectsSelectionState) {
-            if (!controller.isSubjectSelectedList
-                .any((element) => element == true)) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Atenção: Selecione pelo menos um Tema',
-                      style: AppTextStyles.interMedium(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                  backgroundColor: AppColors.secondary,
-                ),
-              );
-              return;
-            }
             controller.setToTopicsSelectionState();
           }
-          if (controller.state$ is SubTopicsSelectionState) {
-            if (!controller.isSubtopicSelectedList
-                .any((element) => element == true)) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Atenção: Selecione pelo menos um Tópico'),
-                  ),
-                  backgroundColor: AppColors.secondary,
-                ),
-              );
-              return;
-            }
-          }
+          if (controller.state$ is SubTopicsSelectionState) {}
         },
-        child: const Icon(
-          Icons.arrow_forward,
-          color: AppColors.primary,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: AppColors.secondary,
+          ),
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 24,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Continuar',
+                style: AppTextStyles.interMedium(
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(
+                Icons.arrow_forward,
+                color: AppColors.primary,
+              ),
+            ],
+          ),
         ),
       ),
     );
