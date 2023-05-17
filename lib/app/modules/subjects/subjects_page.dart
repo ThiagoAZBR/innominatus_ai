@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/core/containers/subjects_container.dart';
+import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/states/subjects_states.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/sub_topics_selection.dart';

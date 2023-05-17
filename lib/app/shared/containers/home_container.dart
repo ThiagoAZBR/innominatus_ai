@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:innominatus_ai/app/core/containers/app_container.dart';
+import 'package:innominatus_ai/app/shared/containers/app_container.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 
 class HomeContainer implements Dependencies {

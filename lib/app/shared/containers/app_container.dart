@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:innominatus_ai/app/core/app_controller.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
@@ -9,7 +9,7 @@ import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dart';
 
-import '../../shared/localDB/localdb.dart';
+import '../localDB/localdb.dart';
 
 abstract class Dependencies {
   void setup();

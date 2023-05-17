@@ -1,4 +1,4 @@
-import 'package:innominatus_ai/app/core/app_controller.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/states/subjects_states.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:innominatus_ai/app/core/text_constants/remote_db_constants.dart';
+import 'package:innominatus_ai/app/shared/text_constants/remote_db_constants.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 
 import '../domain/models/subjects.dart';

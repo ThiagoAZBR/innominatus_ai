@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/core/app_controller.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/shimmer_cards.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/topic_card.dart';

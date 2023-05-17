@@ -1,4 +1,4 @@
-import 'package:innominatus_ai/app/core/text_constants/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/text_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 import 'package:innominatus_ai/app/domain/models/subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';

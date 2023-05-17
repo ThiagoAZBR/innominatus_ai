@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:innominatus_ai/app/core/text_constants/app_constants.dart';
+import 'package:innominatus_ai/app/shared/text_constants/app_constants.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';

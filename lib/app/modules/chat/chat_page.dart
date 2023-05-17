@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/core/containers/chat_container.dart';
+import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
 import 'package:innominatus_ai/app/modules/chat/widgets/chat_text_field.dart';
 import 'package:innominatus_ai/app/modules/chat/widgets/typing_indicator.dart';
 import 'package:rx_notifier/rx_notifier.dart';
