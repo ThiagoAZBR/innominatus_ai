@@ -1,4 +1,3 @@
-import 'package:innominatus_ai/app/shared/text_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 import 'package:innominatus_ai/app/domain/models/subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
@@ -6,6 +5,7 @@ import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dar
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
+import 'package:innominatus_ai/app/shared/text_constants/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class AppController {
@@ -49,21 +49,12 @@ class AppController {
   }
 
   Future<List<String>?> getRoadmap(GetRoadmapParams params) async {
-    final subTopics = prefs.get(LocalDBConstants.subTopics);
-
-    if (subTopics != null) {
-      return subTopics;
-    }
+    // TODO: Call Subtopics by using Subject in LocalDB
     // TODO: Add Firestore integration
     final response = await _getRoadmap(params: params);
-    return response.fold((failure) => null, (data) {
-      _saveSubTopicsLocalDB(params.content);
-      return data;
-    });
-  }
-
-  void _saveSubTopicsLocalDB(String subject) {
-    prefs.put(LocalDBConstants.subjects, subject);
-    prefs.put(LocalDBConstants.subjectsWithSubtopics, subject);
+    return response.fold(
+      (failure) => null,
+      (data) => data,
+    );
   }
 }
