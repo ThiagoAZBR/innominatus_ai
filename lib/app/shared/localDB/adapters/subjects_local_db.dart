@@ -5,6 +5,8 @@ import '../../../domain/models/subjects.dart';
 
 part 'subjects_local_db.g.dart';
 
+// This class is made to recover the Subjects to show when creating or rearranging the Study Roadmap
+// The Subject when it's displayed, it has the name and description of it
 @HiveType(typeId: 6)
 class SubjectsLocalDB extends SubjectsModel {
   @HiveField(0)

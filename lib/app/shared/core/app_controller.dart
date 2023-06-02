@@ -1,12 +1,14 @@
-import 'package:innominatus_ai/app/domain/models/subject_item.dart';
-import 'package:innominatus_ai/app/domain/models/subjects.dart';
-import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
-import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dart';
-import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
-import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
-import 'package:innominatus_ai/app/shared/text_constants/localdb_constants.dart';
+import '../../domain/models/subject_item.dart';
+import '../../domain/models/subjects.dart';
+import '../../domain/usecases/chat/get_roadmap.dart';
+import '../../domain/usecases/remote_db/get_subjects_db.dart';
+import '../../domain/usecases/usecase.dart';
+import '../localDB/adapters/subjects_local_db.dart';
+import '../localDB/localdb.dart';
+import '../text_constants/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
+
+import '../localDB/localdb_instances.dart';
 
 class AppController {
   final GetSubjectsDB _getSubjectsDB;

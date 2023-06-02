@@ -1,5 +1,3 @@
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:innominatus_ai/app/shared/text_constants/localdb_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalDB {
@@ -45,9 +43,4 @@ class PrefsImpl implements LocalDB {
   List<String>? getListString(String key) {
     return sharedPreferences.getStringList(key);
   }
-}
-
-class HiveBoxInstances {
-  static Box get subjects => Hive.box(LocalDBConstants.subjects);
-  static Box get subTopics => Hive.box(LocalDBConstants.studyRoadmap);
 }
