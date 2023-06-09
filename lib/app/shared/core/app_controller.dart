@@ -5,7 +5,7 @@ import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/subjects_local_db.dart';
 import '../localDB/localdb.dart';
-import '../text_constants/localdb_constants.dart';
+import '../localDB/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../localDB/localdb_instances.dart';

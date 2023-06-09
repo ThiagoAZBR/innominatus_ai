@@ -10,7 +10,7 @@ import 'package:innominatus_ai/app/shared/containers/app_container.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/shared/text_constants/localdb_constants.dart';
+import 'app/shared/localDB/localdb_constants.dart';
 import 'firebase_options.dart';
 
 void main() async {
