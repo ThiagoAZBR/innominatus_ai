@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:innominatus_ai/app/modules/subjects/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
 import 'package:innominatus_ai/app/shared/containers/home_container.dart';
 import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
@@ -34,6 +35,7 @@ class AppRouting {
           _handleSubjectsPageDependencies();
           return SubjectsPage(
             subjectsController: I.get<SubjectsController>(),
+            subTopicsController: I.get<SubTopicsController>(),
           );
         }
       };

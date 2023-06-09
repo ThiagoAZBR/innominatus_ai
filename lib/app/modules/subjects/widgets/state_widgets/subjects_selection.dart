@@ -67,7 +67,7 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                                     .changeSubjectSelectedCard(i),
                               ),
                               child: SubjectCard(
-                                subject: appController.subjects$[i].subject,
+                                title: appController.subjects$[i].subject,
                                 description:
                                     appController.subjects$[i].description,
                                 isCardSelected:

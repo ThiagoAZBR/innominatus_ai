@@ -7,8 +7,8 @@ class SubjectsController {
 
   final _isSubjectLoading$ = RxNotifier(false);
   final _state = RxNotifier<SubjectsStates>(const SubjectsPageLoadingState());
-  List isSubjectSelectedList = <bool>[];
-  List isSubtopicSelectedList = <bool>[];
+  List<bool> isSubjectSelectedList = <bool>[];
+  List<bool> isSubtopicSelectedList = <bool>[];
   final RxNotifier _hasAnySubjectSelected = RxNotifier(false);
   final RxNotifier _hasAnySubtopicSelected = RxNotifier(false);
 

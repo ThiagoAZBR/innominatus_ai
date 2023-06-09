@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rx_notifier/rx_notifier.dart';
+
 import 'package:innominatus_ai/app/modules/subjects/controllers/states/subjects_states.dart';
+import 'package:innominatus_ai/app/modules/subjects/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/sub_topics_selection.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_error.dart';
@@ -8,7 +11,6 @@ import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjec
 import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
-import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/routes/args/subjects_page_args.dart';
 import '../../shared/themes/app_color.dart';
@@ -16,9 +18,11 @@ import '../../shared/utils/route_utils.dart';
 
 class SubjectsPage extends StatefulWidget {
   final SubjectsController subjectsController;
+  final SubTopicsController subTopicsController;
   const SubjectsPage({
     Key? key,
     required this.subjectsController,
+    required this.subTopicsController,
   }) : super(key: key);
 
   @override
@@ -55,6 +59,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
       ),
       const SubTopicsSelectionState().toString(): SubTopicsSelection(
         canChooseMoreThanOneSubTopic: args.canChooseMoreThanOneSubTopic,
+        subTopicsController: subTopicsController,
       ),
       const SubjectsPageLoadingState().toString(): const SubjectsLoading(),
       const SubjectsPageErrorState().toString(): const SubjectsError()
@@ -87,6 +92,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
   }
 
   SubjectsController get controller => widget.subjectsController;
+  SubTopicsController get subTopicsController => widget.subTopicsController;
 }
 
 class SubjectFloatingButton extends StatelessWidget {

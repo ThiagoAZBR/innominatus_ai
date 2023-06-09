@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
+import 'package:innominatus_ai/app/modules/subjects/controllers/sub_topics_controller.dart';
+import 'package:innominatus_ai/app/modules/subjects/widgets/shimmer_cards.dart';
+import 'package:innominatus_ai/app/modules/subjects/widgets/subject_card.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 class SubTopicsSelection extends StatefulWidget {
+  final SubTopicsController subTopicsController;
   final bool canChooseMoreThanOneSubTopic;
   const SubTopicsSelection({
     Key? key,
+    required this.subTopicsController,
     required this.canChooseMoreThanOneSubTopic,
   }) : super(key: key);
 
@@ -13,6 +21,21 @@ class SubTopicsSelection extends StatefulWidget {
 }
 
 class _SubTopicsSelectionState extends State<SubTopicsSelection> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        final subjects =
+            await appController.getRoadmap(GetRoadmapParams(topic));
+        if (subjects != null) {
+          subTopicsController.subTopics$.addAll(subjects);
+          subTopicsController.endLoading();
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,8 +59,34 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
             ),
           ),
           const SizedBox(height: 32),
+          RxBuilder(
+            builder: (context) => subTopicsController.isLoading$
+                ? const ShimmerCards()
+                : Column(
+                    children: <Widget>[
+                      for (int i = 0;
+                          i < subTopicsController.subTopics$.length;
+                          i++)
+                        InkWell(
+                          onTap: () => setState(
+                            () => subTopicsController
+                                .changeSubTopicsSelectedCard(i),
+                          ),
+                          child: SubjectCard(
+                            title: subTopicsController.subTopics$[i],
+                            isCardSelected:
+                                subTopicsController.isSubtopicSelectedList[i],
+                          ),
+                        )
+                    ],
+                  ),
+          )
         ],
       ),
     );
   }
+
+  SubTopicsController get subTopicsController => widget.subTopicsController;
+  AppController get appController => subTopicsController.appController;
+  String get topic => subTopicsController.getTopic();
 }

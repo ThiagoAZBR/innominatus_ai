@@ -4,14 +4,14 @@ import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import '../../../shared/themes/app_color.dart';
 
 class SubjectCard extends StatefulWidget {
-  final String subject;
-  final String description;
+  final String title;
+  final String? description;
   final bool isCardSelected;
 
   const SubjectCard({
     Key? key,
-    required this.subject,
-    required this.description,
+    required this.title,
+    this.description,
     this.isCardSelected = false,
   }) : super(key: key);
 
@@ -52,29 +52,38 @@ class _SubjectCardState extends State<SubjectCard> {
           children: <Widget>[
             // Name of the Topic
             Text(
-              widget.subject,
+              widget.title,
               style: AppTextStyles.interBig(fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 24),
-            Visibility(
-              visible: isExpanded,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  widget.description,
-                  style: AppTextStyles.interSmall(),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () => setState(() => isExpanded = !isExpanded),
-              child: Text(
-                isExpanded ? 'Minimizar descrição' : 'Conhecer mais dessa área',
-                style: AppTextStyles.interSmall(
-                  color: AppColors.link,
-                ),
-              ),
-            ),
+            widget.description != null
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Visibility(
+                        visible: isExpanded,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Text(
+                            widget.description!,
+                            style: AppTextStyles.interSmall(),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => setState(() => isExpanded = !isExpanded),
+                        child: Text(
+                          isExpanded
+                              ? 'Minimizar descrição'
+                              : 'Conhecer mais dessa área',
+                          style: AppTextStyles.interSmall(
+                            color: AppColors.link,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
