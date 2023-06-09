@@ -3,7 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/shared/text_constants/remote_db_constants.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 
-import '../domain/models/subjects.dart';
+import '../domain/models/shared_subjects.dart';
 import '../domain/usecases/usecase.dart';
 
 abstract class RemoteDBRepository {

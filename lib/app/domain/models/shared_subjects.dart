@@ -1,4 +1,4 @@
-import 'package:innominatus_ai/app/domain/models/subject_item.dart';
+import 'package:innominatus_ai/app/domain/models/shared_subject_item.dart';
 
 class SharedSubjectsModel {
   final List<SharedSubjectItemModel> items;

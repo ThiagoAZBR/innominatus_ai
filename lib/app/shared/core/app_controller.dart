@@ -1,5 +1,5 @@
-import '../../domain/models/subject_item.dart';
-import '../../domain/models/subjects.dart';
+import '../../domain/models/shared_subject_item.dart';
+import '../../domain/models/shared_subjects.dart';
 import '../../domain/usecases/chat/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/usecase.dart';

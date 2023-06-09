@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
-import '../../../domain/models/subject_item.dart';
-import '../../../domain/models/subjects.dart';
+import '../../../domain/models/shared_subject_item.dart';
+import '../../../domain/models/shared_subjects.dart';
 
 part 'subjects_local_db.g.dart';
 
