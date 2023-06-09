@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/shimmer_cards.dart';
-import 'package:innominatus_ai/app/modules/subjects/widgets/subject_card.dart';
+import 'package:innominatus_ai/app/modules/subjects/widgets/selection_card.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -72,7 +72,7 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
                             () => subTopicsController
                                 .changeSubTopicsSelectedCard(i),
                           ),
-                          child: SubjectCard(
+                          child: SelectionCard(
                             title: subTopicsController.subTopics$[i],
                             isCardSelected:
                                 subTopicsController.isSubtopicSelectedList[i],

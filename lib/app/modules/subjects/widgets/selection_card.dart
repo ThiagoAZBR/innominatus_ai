@@ -3,12 +3,12 @@ import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
 import '../../../shared/themes/app_color.dart';
 
-class SubjectCard extends StatefulWidget {
+class SelectionCard extends StatefulWidget {
   final String title;
   final String? description;
   final bool isCardSelected;
 
-  const SubjectCard({
+  const SelectionCard({
     Key? key,
     required this.title,
     this.description,
@@ -16,10 +16,10 @@ class SubjectCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SubjectCard> createState() => _SubjectCardState();
+  State<SelectionCard> createState() => _SelectionCardState();
 }
 
-class _SubjectCardState extends State<SubjectCard> {
+class _SelectionCardState extends State<SelectionCard> {
   bool isExpanded = false;
 
   @override
