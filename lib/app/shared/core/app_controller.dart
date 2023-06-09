@@ -1,3 +1,7 @@
+import 'package:innominatus_ai/app/domain/models/subject_item.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_with_subtopics_local_db.dart';
+import 'package:rx_notifier/rx_notifier.dart';
+
 import '../../domain/models/shared_subject_item.dart';
 import '../../domain/models/shared_subjects.dart';
 import '../../domain/usecases/chat/get_roadmap.dart';
@@ -6,8 +10,6 @@ import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/subjects_local_db.dart';
 import '../localDB/localdb.dart';
 import '../localDB/localdb_constants.dart';
-import 'package:rx_notifier/rx_notifier.dart';
-
 import '../localDB/localdb_instances.dart';
 
 class AppController {
@@ -52,12 +54,47 @@ class AppController {
   }
 
   Future<List<String>?> getRoadmap(GetRoadmapParams params) async {
-    // TODO: Call Subtopics by using Subject in LocalDB
-    // TODO: Add Firestore integration
+    final subjectsWithSubtopicsBox = HiveBoxInstances.subjectsWithSubtopics;
+    final SubjectsWithSubtopicsLocalDB? subjectsWithSubtopics =
+        subjectsWithSubtopicsBox.get(
+      LocalDBConstants.subjectsWithSubtopics,
+    );
+
+    if (subjectsWithSubtopics != null) {
+      final hasSubtopics = subjectsWithSubtopics.subjects.any(
+        (subject) => subject.name.toLowerCase() == params.topic.toLowerCase(),
+      );
+
+      if (hasSubtopics) {
+        return subjectsWithSubtopics.subjects
+            .firstWhere((subject) =>
+                subject.name.toLowerCase() == params.topic.toLowerCase())
+            .subtopics;
+      }
+    }
     final response = await _getRoadmap(params: params);
     return response.fold(
       (failure) => null,
-      (data) => data,
+      (data) {
+        if (subjectsWithSubtopics != null) {
+          subjectsWithSubtopics.subjects.add(
+            SubjectItemModel(subtopics: data, name: params.topic),
+          );
+          subjectsWithSubtopicsBox.put(
+            LocalDBConstants.subjectsWithSubtopics,
+            subjectsWithSubtopics,
+          );
+        } else {
+          // First Time it is created
+          subjectsWithSubtopicsBox.put(
+            LocalDBConstants.subjectsWithSubtopics,
+            SubjectsWithSubtopicsLocalDB(
+              subjects: [SubjectItemModel(subtopics: data, name: params.topic)],
+            ),
+          );
+        }
+        return data;
+      },
     );
   }
 }

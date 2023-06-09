@@ -53,15 +53,18 @@ class SubjectItemLocalDBAdapter extends TypeAdapter<SubjectItemLocalDB> {
     };
     return SubjectItemLocalDB(
       subtopics: (fields[0] as List).cast<String>(),
+      name: fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubjectItemLocalDB obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.subtopics);
+      ..write(obj.subtopics)
+      ..writeByte(1)
+      ..write(obj.name);
   }
 
   @override

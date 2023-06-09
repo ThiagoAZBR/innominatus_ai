@@ -29,13 +29,20 @@ class SubjectsWithSubtopicsLocalDB extends SubjectsWithSubtopicsModel {
 class SubjectItemLocalDB extends SubjectItemModel {
   @HiveField(0)
   final List<String> subtopics;
+  @HiveField(1)
+  final String name;
+
   SubjectItemLocalDB({
     required this.subtopics,
-  }) : super(subtopics: subtopics);
+    required this.name,
+  }) : super(subtopics: subtopics, name: name);
 
   factory SubjectItemLocalDB.fromSubjectItemModel(
     SubjectItemModel subjectItem,
   ) {
-    return SubjectItemLocalDB(subtopics: subjectItem.subtopics);
+    return SubjectItemLocalDB(
+      subtopics: subjectItem.subtopics,
+      name: subjectItem.name,
+    );
   }
 }
