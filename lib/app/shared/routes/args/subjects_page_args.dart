@@ -1,9 +1,9 @@
 class SubjectsPageArgs {
   final String? studyArea;
-  final bool canChooseMoreThanOneTopic;
+  final bool canChooseMoreThanOneSubTopic;
 
   SubjectsPageArgs({
     this.studyArea,
-    this.canChooseMoreThanOneTopic = false,
+    this.canChooseMoreThanOneSubTopic = false,
   });
 }

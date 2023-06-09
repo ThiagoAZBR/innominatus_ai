@@ -7,12 +7,12 @@ class SubjectsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: <Widget>[
-        const LoadingPlaceholder(),
-        const SizedBox(height: 32),
+         LoadingPlaceholder(),
+         SizedBox(height: 32),
         Column(
-          children: const <Widget>[
+          children: <Widget>[
             LoadingPlaceholder(),
             SizedBox(height: 8),
             LoadingPlaceholder(),

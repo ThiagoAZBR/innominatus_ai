@@ -16,14 +16,14 @@ class GetRoadmap implements UseCase<List<String>, GetRoadmapParams> {
 }
 
 class GetRoadmapParams {
-  final String content;
+  final String topic;
 
-  GetRoadmapParams(this.content);
+  GetRoadmapParams(this.topic);
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    result.addAll({'content': content});
+    result.addAll({'content': topic});
 
     return result;
   }

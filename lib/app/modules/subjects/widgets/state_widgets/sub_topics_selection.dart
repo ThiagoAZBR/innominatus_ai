@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
-class SubTopicsSelection extends StatelessWidget {
-  final bool canChooseMoreThanOneTopic;
+class SubTopicsSelection extends StatefulWidget {
+  final bool canChooseMoreThanOneSubTopic;
   const SubTopicsSelection({
     Key? key,
-    required this.canChooseMoreThanOneTopic,
+    required this.canChooseMoreThanOneSubTopic,
   }) : super(key: key);
 
+  @override
+  State<SubTopicsSelection> createState() => _SubTopicsSelectionState();
+}
+
+class _SubTopicsSelectionState extends State<SubTopicsSelection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,7 +21,7 @@ class SubTopicsSelection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            canChooseMoreThanOneTopic
+            widget.canChooseMoreThanOneSubTopic
                 ? "Escolha até 3 tópicos"
                 : "Escolha um tópico",
             style: AppTextStyles.interVeryBig(

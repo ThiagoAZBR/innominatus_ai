@@ -37,7 +37,7 @@ class SubjectsController {
     hasAnySubjectSelected = true;
   }
 
-  void setToTopicsSelectionState() {
+  void setToSubTopicsSelectionState() {
     _state.value = const SubTopicsSelectionState();
   }
 

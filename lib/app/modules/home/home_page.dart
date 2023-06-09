@@ -208,7 +208,7 @@ class SuggestionPlaceholders extends StatelessWidget {
             context,
             AppRoutes.subjectsPage,
             arguments: SubjectsPageArgs(
-              canChooseMoreThanOneTopic: true,
+              canChooseMoreThanOneSubTopic: true,
             ),
           ),
         ),

@@ -41,7 +41,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as SubjectsPageArgs;
     if (args.studyArea != null) {
-      controller.setToTopicsSelectionState();
+      controller.setToSubTopicsSelectionState();
     } else {
       controller.setToStudyAreaSelectionState();
     }
@@ -54,7 +54,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
         subjectsController: controller,
       ),
       const SubTopicsSelectionState().toString(): SubTopicsSelection(
-        canChooseMoreThanOneTopic: args.canChooseMoreThanOneTopic,
+        canChooseMoreThanOneSubTopic: args.canChooseMoreThanOneSubTopic,
       ),
       const SubjectsPageLoadingState().toString(): const SubjectsLoading(),
       const SubjectsPageErrorState().toString(): const SubjectsError()
@@ -109,7 +109,7 @@ class SubjectFloatingButton extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (controller.state$ is SubjectsSelectionState) {
-            controller.setToTopicsSelectionState();
+            controller.setToSubTopicsSelectionState();
           }
           if (controller.state$ is SubTopicsSelectionState) {}
         },

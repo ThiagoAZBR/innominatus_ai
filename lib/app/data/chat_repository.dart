@@ -59,7 +59,7 @@ class ChatRepositoryImpl implements ChatRepository {
   ) async {
     try {
       final Map data = GetRoadmapParams(
-        AppConstants.getRoadmap(params.content),
+        AppConstants.getRoadmap(params.topic),
       ).toMap();
       final response = await dio.post(
         kDebugMode
