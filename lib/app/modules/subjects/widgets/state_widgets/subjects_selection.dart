@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/shimmer_cards.dart';
-import 'package:innominatus_ai/app/modules/subjects/widgets/topic_card.dart';
+import 'package:innominatus_ai/app/modules/subjects/widgets/subject_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../../shared/themes/app_text_styles.dart';

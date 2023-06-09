@@ -11,8 +11,8 @@ class ShimmerCards extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
-      child: Column(
-        children: const <Widget>[
+      child: const Column(
+        children: <Widget>[
           _ShimmerCard(),
           SizedBox(height: 32),
           _ShimmerCard(),
