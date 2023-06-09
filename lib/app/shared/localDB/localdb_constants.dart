@@ -1,6 +1,5 @@
 class LocalDBConstants {
-  static const String subjects = 'subjects';
-  static const String subjectsWithSubtopics = 'subjectsWithSubtopics';
+  static const String sharedSubjects = 'sharedSubjects';
   // SharedPreferences
   static const String hasShowedSplashScreen = 'isFirstTimeOfSplashScreen';
 }

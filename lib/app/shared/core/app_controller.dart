@@ -25,8 +25,9 @@ class AppController {
         _getRoadmap = getRoadmap;
 
   Future<bool> getSubjects() async {
-    final subjectsBox = HiveBoxInstances.subjects;
-    final SubjectsModel? subjects = subjectsBox.get(LocalDBConstants.subjects);
+    final subjectsBox = HiveBoxInstances.sharedSubjects;
+    final SubjectsModel? subjects =
+        subjectsBox.get(LocalDBConstants.sharedSubjects);
 
     if (subjects != null) {
       subjects$.addAll(subjects.items);
@@ -42,10 +43,10 @@ class AppController {
   }
 
   void getSubjectsOnSuccess(SubjectsModel data) {
-    final subjectsBox = HiveBoxInstances.subjects;
+    final subjectsBox = HiveBoxInstances.sharedSubjects;
     subjects$.addAll(data.items);
     subjectsBox.put(
-      LocalDBConstants.subjects,
+      LocalDBConstants.sharedSubjects,
       SubjectsLocalDB.fromSubjectsModel(data),
     );
   }

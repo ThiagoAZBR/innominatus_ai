@@ -35,7 +35,7 @@ void main() async {
   Hive.registerAdapter(SubjectsLocalDBAdapter());
   Hive.registerAdapter(SubjectItemLocalDBAdapter());
   // Hive Instances
-  await Hive.openBox(LocalDBConstants.subjects);
+  await Hive.openBox(LocalDBConstants.sharedSubjects);
   final sharedPreferences = await SharedPreferences.getInstance();
   GetIt.I.registerSingleton(sharedPreferences);
 
