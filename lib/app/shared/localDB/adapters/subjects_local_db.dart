@@ -8,36 +8,39 @@ part 'subjects_local_db.g.dart';
 // This class is made to recover the Subjects to show when creating or rearranging the Study Roadmap
 // The Subject when it's displayed, it has the name and description of it
 @HiveType(typeId: 6)
-class SubjectsLocalDB extends SubjectsModel {
+class SharedSubjectsLocalDB extends SharedSubjectsModel {
   @HiveField(0)
-  final List<SubjectItemModel> items;
+  final List<SharedSubjectItemModel> items;
 
-  SubjectsLocalDB({
+  SharedSubjectsLocalDB({
     required this.items,
   }) : super(items: items);
 
-  factory SubjectsLocalDB.fromSubjectsModel(SubjectsModel subjectsModel) {
+  factory SharedSubjectsLocalDB.fromSubjectsModel(
+      SharedSubjectsModel subjectsModel) {
     final hiveItems = subjectsModel.items
-        .map((subjectItem) => SubjectItemLocalDB.fromSubjectItem(subjectItem))
+        .map((subjectItem) =>
+            SharedSubjectItemLocalDB.fromSubjectItem(subjectItem))
         .toList();
-    return SubjectsLocalDB(items: hiveItems);
+    return SharedSubjectsLocalDB(items: hiveItems);
   }
 }
 
 @HiveType(typeId: 7)
-class SubjectItemLocalDB extends SubjectItemModel {
+class SharedSubjectItemLocalDB extends SharedSubjectItemModel {
   @HiveField(0)
   final String subject;
   @HiveField(1)
   final String description;
 
-  SubjectItemLocalDB({
+  SharedSubjectItemLocalDB({
     required this.subject,
     required this.description,
   }) : super(subject: subject, description: description);
 
-  factory SubjectItemLocalDB.fromSubjectItem(SubjectItemModel subjectItem) {
-    return SubjectItemLocalDB(
+  factory SharedSubjectItemLocalDB.fromSubjectItem(
+      SharedSubjectItemModel subjectItem) {
+    return SharedSubjectItemLocalDB(
       subject: subjectItem.subject,
       description: subjectItem.description,
     );

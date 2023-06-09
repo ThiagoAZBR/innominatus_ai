@@ -32,8 +32,8 @@ void main() async {
 
   // Create Instances for App
   await Hive.initFlutter();
-  Hive.registerAdapter(SubjectsLocalDBAdapter());
-  Hive.registerAdapter(SubjectItemLocalDBAdapter());
+  Hive.registerAdapter(SharedSubjectsLocalDBAdapter());
+  Hive.registerAdapter(SharedSubjectItemLocalDBAdapter());
   // Hive Instances
   await Hive.openBox(LocalDBConstants.sharedSubjects);
   final sharedPreferences = await SharedPreferences.getInstance();

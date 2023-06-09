@@ -1,16 +1,16 @@
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 
-class SubjectsModel {
-  final List<SubjectItemModel> items;
+class SharedSubjectsModel {
+  final List<SharedSubjectItemModel> items;
 
-  SubjectsModel({
+  SharedSubjectsModel({
     required this.items,
   });
 
-  factory SubjectsModel.fromJson(Map<String, dynamic> map) {
-    return SubjectsModel(
-      items: List<SubjectItemModel>.from(
-          map['items']?.map((x) => SubjectItemModel.fromJson(x))),
+  factory SharedSubjectsModel.fromJson(Map<String, dynamic> map) {
+    return SharedSubjectsModel(
+      items: List<SharedSubjectItemModel>.from(
+          map['items']?.map((x) => SharedSubjectItemModel.fromJson(x))),
     );
   }
 }

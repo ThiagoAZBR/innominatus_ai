@@ -1,14 +1,14 @@
-class SubjectItemModel {
+class SharedSubjectItemModel {
   final String subject;
   final String description;
 
-  SubjectItemModel({
+  SharedSubjectItemModel({
     required this.subject,
     required this.description,
   });
 
-  factory SubjectItemModel.fromJson(Map<String, dynamic> map) {
-    return SubjectItemModel(
+  factory SharedSubjectItemModel.fromJson(Map<String, dynamic> map) {
+    return SharedSubjectItemModel(
       subject: map['subject'] ?? '',
       description: map['description'] ?? '',
     );

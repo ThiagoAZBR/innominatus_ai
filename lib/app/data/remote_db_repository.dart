@@ -7,7 +7,7 @@ import '../domain/models/subjects.dart';
 import '../domain/usecases/usecase.dart';
 
 abstract class RemoteDBRepository {
-  Future<Either<Exception, SubjectsModel>> getSubjects(
+  Future<Either<Exception, SharedSubjectsModel>> getSubjects(
     NoParams params,
   );
 }
@@ -18,7 +18,8 @@ class FirebaseStoreRepository implements RemoteDBRepository {
   FirebaseStoreRepository(this.firebaseFirestore);
 
   @override
-  Future<Either<Exception, SubjectsModel>> getSubjects(NoParams params) async {
+  Future<Either<Exception, SharedSubjectsModel>> getSubjects(
+      NoParams params) async {
     try {
       final response = await firebaseFirestore
           .collection(RemoteDBConstants.shared)
@@ -33,8 +34,8 @@ class FirebaseStoreRepository implements RemoteDBRepository {
   }
 }
 
-Future<SubjectsModel> _handleGetSubjects(
+Future<SharedSubjectsModel> _handleGetSubjects(
   DocumentSnapshot<Map<String, dynamic>> json,
 ) async {
-  return SubjectsModel.fromJson(json.data()!);
+  return SharedSubjectsModel.fromJson(json.data()!);
 }

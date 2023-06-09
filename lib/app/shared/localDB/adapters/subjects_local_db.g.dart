@@ -6,23 +6,23 @@ part of 'subjects_local_db.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SubjectsLocalDBAdapter extends TypeAdapter<SubjectsLocalDB> {
+class SharedSubjectsLocalDBAdapter extends TypeAdapter<SharedSubjectsLocalDB> {
   @override
   final int typeId = 6;
 
   @override
-  SubjectsLocalDB read(BinaryReader reader) {
+  SharedSubjectsLocalDB read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SubjectsLocalDB(
-      items: (fields[0] as List).cast<SubjectItemModel>(),
+    return SharedSubjectsLocalDB(
+      items: (fields[0] as List).cast<SharedSubjectItemModel>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, SubjectsLocalDB obj) {
+  void write(BinaryWriter writer, SharedSubjectsLocalDB obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
@@ -35,29 +35,30 @@ class SubjectsLocalDBAdapter extends TypeAdapter<SubjectsLocalDB> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SubjectsLocalDBAdapter &&
+      other is SharedSubjectsLocalDBAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
-class SubjectItemLocalDBAdapter extends TypeAdapter<SubjectItemLocalDB> {
+class SharedSubjectItemLocalDBAdapter
+    extends TypeAdapter<SharedSubjectItemLocalDB> {
   @override
   final int typeId = 7;
 
   @override
-  SubjectItemLocalDB read(BinaryReader reader) {
+  SharedSubjectItemLocalDB read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SubjectItemLocalDB(
+    return SharedSubjectItemLocalDB(
       subject: fields[0] as String,
       description: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, SubjectItemLocalDB obj) {
+  void write(BinaryWriter writer, SharedSubjectItemLocalDB obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -72,7 +73,7 @@ class SubjectItemLocalDBAdapter extends TypeAdapter<SubjectItemLocalDB> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SubjectItemLocalDBAdapter &&
+      other is SharedSubjectItemLocalDBAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

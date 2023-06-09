@@ -15,7 +15,7 @@ class AppController {
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
-  final subjects$ = RxList<SubjectItemModel>();
+  final subjects$ = RxList<SharedSubjectItemModel>();
 
   AppController({
     required GetRoadmap getRoadmap,
@@ -26,7 +26,7 @@ class AppController {
 
   Future<bool> getSubjects() async {
     final subjectsBox = HiveBoxInstances.sharedSubjects;
-    final SubjectsModel? subjects =
+    final SharedSubjectsModel? subjects =
         subjectsBox.get(LocalDBConstants.sharedSubjects);
 
     if (subjects != null) {
@@ -42,12 +42,12 @@ class AppController {
     return responseDB.isRight();
   }
 
-  void getSubjectsOnSuccess(SubjectsModel data) {
+  void getSubjectsOnSuccess(SharedSubjectsModel data) {
     final subjectsBox = HiveBoxInstances.sharedSubjects;
     subjects$.addAll(data.items);
     subjectsBox.put(
       LocalDBConstants.sharedSubjects,
-      SubjectsLocalDB.fromSubjectsModel(data),
+      SharedSubjectsLocalDB.fromSubjectsModel(data),
     );
   }
 
