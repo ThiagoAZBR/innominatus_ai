@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import 'package:innominatus_ai/app/modules/subjects/controllers/states/subjects_states.dart';
-import 'package:innominatus_ai/app/modules/subjects/controllers/sub_topics_controller.dart';
+import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
-import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/sub_topics_selection.dart';
+import 'package:innominatus_ai/app/modules/subtopics/sub_topics_selection.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_error.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_loading.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/state_widgets/subjects_selection.dart';
