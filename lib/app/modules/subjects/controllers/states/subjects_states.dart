@@ -6,10 +6,6 @@ class SubjectsSelectionState implements SubjectsStates {
   const SubjectsSelectionState();
 }
 
-class SubTopicsSelectionState implements SubjectsStates {
-  const SubTopicsSelectionState();
-}
-
 class SubjectsPageLoadingState implements SubjectsStates {
   const SubjectsPageLoadingState();
 }

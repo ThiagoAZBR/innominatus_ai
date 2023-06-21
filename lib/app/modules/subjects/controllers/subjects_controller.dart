@@ -8,9 +8,7 @@ class SubjectsController {
   final _isSubjectLoading$ = RxNotifier(false);
   final _state = RxNotifier<SubjectsStates>(const SubjectsPageLoadingState());
   List<bool> isSubjectSelectedList = <bool>[];
-  List<bool> isSubtopicSelectedList = <bool>[];
   final RxNotifier _hasAnySubjectSelected = RxNotifier(false);
-  final RxNotifier _hasAnySubtopicSelected = RxNotifier(false);
 
   SubjectsController(this.appController);
 
@@ -37,11 +35,7 @@ class SubjectsController {
     hasAnySubjectSelected = true;
   }
 
-  void setToSubTopicsSelectionState() {
-    _state.value = const SubTopicsSelectionState();
-  }
-
-  void setToStudyAreaSelectionState() {
+  void setToSubjectsSelectionState() {
     _state.value = const SubjectsSelectionState();
   }
 
@@ -51,10 +45,7 @@ class SubjectsController {
   }
 
   RxNotifier isFloatingButtonVisible(SubjectsStates state) {
-    if (state is SubjectsSelectionState) {
-      return _hasAnySubjectSelected;
-    }
-    return _hasAnySubtopicSelected;
+    return _hasAnySubjectSelected;
   }
 
   // Getters and Setters
@@ -62,10 +53,6 @@ class SubjectsController {
   bool get isSubjectLoading$ => _isSubjectLoading$.value;
   startLoading() => _isSubjectLoading$.value = true;
   endLoading() => _isSubjectLoading$.value = false;
-
-  bool get hasAnySubtopicSelected => _hasAnySubtopicSelected.value;
-  set hasAnySubtopicSelected(bool value) =>
-      _hasAnySubtopicSelected.value = value;
 
   bool get hasAnySubjectSelected => _hasAnySubjectSelected.value;
   set hasAnySubjectSelected(bool value) => _hasAnySubjectSelected.value = value;

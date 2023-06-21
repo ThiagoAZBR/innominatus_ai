@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
+import 'package:innominatus_ai/app/shared/containers/subtopics_container.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:innominatus_ai/app/shared/widgets/shimmer_cards.dart';
-import 'package:innominatus_ai/app/shared/core/app_controller.dart';
-import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:rx_notifier/rx_notifier.dart';
+
+import '../../shared/routes/args/subtopics_page_args.dart';
+import '../../shared/themes/app_text_styles.dart';
+import '../../shared/utils/route_utils.dart';
 
 class SubTopicsSelection extends StatefulWidget {
   final SubTopicsController subTopicsController;
-  final bool canChooseMoreThanOneSubTopic;
   const SubTopicsSelection({
     Key? key,
     required this.subTopicsController,
-    required this.canChooseMoreThanOneSubTopic,
   }) : super(key: key);
 
   @override
@@ -22,21 +24,16 @@ class SubTopicsSelection extends StatefulWidget {
 
 class _SubTopicsSelectionState extends State<SubTopicsSelection> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        final subjects = await appController
-            .getSubtopicsFromSubjectRoadmap(GetRoadmapParams(topic));
-        if (subjects != null) {
-          subTopicsController.subTopics$.addAll(subjects);
-          for (var i = 0; i < subTopicsController.subTopics$.length; i++) {
-            subTopicsController.isSubtopicSelectedList.add(false);
-          }
-          subTopicsController.endLoading();
-        }
-      },
-    );
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = RouteUtils.getArgs(context) as SubTopicsPageArgs;
+    fetchSubTopics(args.subject);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    SubTopicsContainer().dispose();
   }
 
   @override
@@ -47,9 +44,7 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            widget.canChooseMoreThanOneSubTopic
-                ? "Escolha até 3 tópicos"
-                : "Escolha um tópico",
+            "Escolha um tópico",
             style: AppTextStyles.interVeryBig(
               fontWeight: FontWeight.w500,
             ),
@@ -95,5 +90,17 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
 
   SubTopicsController get subTopicsController => widget.subTopicsController;
   AppController get appController => subTopicsController.appController;
-  String get topic => subTopicsController.getTopic();
+
+  // UI Functions
+  Future<void> fetchSubTopics(String subject) async {
+    final subjects = await appController
+        .getSubtopicsFromSubjectRoadmap(GetRoadmapParams(subject));
+    if (subjects != null) {
+      subTopicsController.subTopics$.addAll(subjects);
+      for (var i = 0; i < subTopicsController.subTopics$.length; i++) {
+        subTopicsController.isSubtopicSelectedList.add(false);
+      }
+      subTopicsController.endLoading();
+    }
+  }
 }

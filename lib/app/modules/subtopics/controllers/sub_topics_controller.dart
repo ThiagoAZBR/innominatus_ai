@@ -1,29 +1,27 @@
-import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class SubTopicsController {
-  final SubjectsController subjectsController;
+  final AppController appController;
   final RxList<String> subTopics$ = RxList();
+  List<bool> isSubtopicSelectedList = <bool>[];
   final RxNotifier _isLoading = RxNotifier<bool>(true);
+  final RxNotifier _hasAnySubtopicSelected = RxNotifier(false);
 
-  SubTopicsController(this.subjectsController);
-
-  String getTopic() {
-    int index = subjectsController.isSubjectSelectedList.indexOf(true);
-    return appController.subjects$[index].subject;
-  }
+  SubTopicsController(
+    this.appController,
+  );
 
   void changeSubTopicsSelectedCard(int i) {
     final int indexOfPreviousSelectedSubject =
         isSubtopicSelectedList.indexOf(true);
     resetSelectedCarts();
     if (i == indexOfPreviousSelectedSubject) {
-      subjectsController.hasAnySubtopicSelected = false;
+      hasAnySubtopicSelected = false;
       return;
     }
     isSubtopicSelectedList[i] = !isSubtopicSelectedList[i];
-    subjectsController.hasAnySubtopicSelected = true;
+    hasAnySubtopicSelected = true;
   }
 
   void resetSelectedCarts() {
@@ -32,13 +30,11 @@ class SubTopicsController {
   }
 
   // Getters and Setters
-  AppController get appController => subjectsController.appController;
-
   bool get isLoading$ => _isLoading.value;
   void startLoading() => _isLoading.value = true;
   void endLoading() => _isLoading.value = false;
-  List<bool> get isSubtopicSelectedList =>
-      subjectsController.isSubtopicSelectedList;
-  set isSubtopicSelectedList(List<bool> newList) =>
-      subjectsController.isSubtopicSelectedList = newList;
+
+  bool get hasAnySubtopicSelected => _hasAnySubtopicSelected.value;
+  set hasAnySubtopicSelected(bool value) =>
+      _hasAnySubtopicSelected.value = value;
 }
