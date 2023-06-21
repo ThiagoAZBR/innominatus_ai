@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/sub_topics_controller.dart';
-import 'package:innominatus_ai/app/modules/subjects/widgets/shimmer_cards.dart';
 import 'package:innominatus_ai/app/modules/subjects/widgets/selection_card.dart';
+import 'package:innominatus_ai/app/modules/subjects/widgets/shimmer_cards.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -26,10 +26,13 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
-        final subjects =
-            await appController.getRoadmap(GetRoadmapParams(topic));
+        final subjects = await appController
+            .getSubtopicsFromSubjectRoadmap(GetRoadmapParams(topic));
         if (subjects != null) {
           subTopicsController.subTopics$.addAll(subjects);
+          for (var i = 0; i < subTopicsController.subTopics$.length; i++) {
+            subTopicsController.isSubtopicSelectedList.add(false);
+          }
           subTopicsController.endLoading();
         }
       },
@@ -67,15 +70,19 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
                       for (int i = 0;
                           i < subTopicsController.subTopics$.length;
                           i++)
-                        InkWell(
-                          onTap: () => setState(
-                            () => subTopicsController
-                                .changeSubTopicsSelectedCard(i),
-                          ),
-                          child: SelectionCard(
-                            title: subTopicsController.subTopics$[i],
-                            isCardSelected:
-                                subTopicsController.isSubtopicSelectedList[i],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 32),
+                          child: InkWell(
+                            onTap: () => setState(
+                              () => subTopicsController
+                                  .changeSubTopicsSelectedCard(i),
+                            ),
+                            child: SelectionCard(
+                              isSemiBold: false,
+                              title: subTopicsController.subTopics$[i],
+                              isCardSelected:
+                                  subTopicsController.isSubtopicSelectedList[i],
+                            ),
                           ),
                         )
                     ],

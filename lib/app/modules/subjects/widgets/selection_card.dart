@@ -6,12 +6,14 @@ import '../../../shared/themes/app_color.dart';
 class SelectionCard extends StatefulWidget {
   final String title;
   final String? description;
+  final bool isSemiBold;
   final bool isCardSelected;
 
   const SelectionCard({
     Key? key,
     required this.title,
     this.description,
+    this.isSemiBold = true,
     this.isCardSelected = false,
   }) : super(key: key);
 
@@ -53,9 +55,15 @@ class _SelectionCardState extends State<SelectionCard> {
             // Name of the Topic
             Text(
               widget.title,
-              style: AppTextStyles.interBig(fontWeight: FontWeight.w500),
+              style: AppTextStyles.interBig(
+                fontWeight:
+                    widget.isSemiBold ? FontWeight.w500 : FontWeight.normal,
+              ),
             ),
-            const SizedBox(height: 24),
+            Visibility(
+              visible: widget.description != null,
+              child: const SizedBox(height: 24),
+            ),
             widget.description != null
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

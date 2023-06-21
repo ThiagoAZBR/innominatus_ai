@@ -1,5 +1,3 @@
-import 'package:innominatus_ai/app/domain/models/subject_item.dart';
-import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_with_subtopics_local_db.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../domain/models/shared_subject_item.dart';
@@ -8,6 +6,7 @@ import '../../domain/usecases/chat/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/subjects_local_db.dart';
+import '../localDB/adapters/subjects_with_subtopics_local_db.dart';
 import '../localDB/localdb.dart';
 import '../localDB/localdb_constants.dart';
 import '../localDB/localdb_instances.dart';
@@ -53,7 +52,9 @@ class AppController {
     );
   }
 
-  Future<List<String>?> getRoadmap(GetRoadmapParams params) async {
+  Future<List<String>?> getSubtopicsFromSubjectRoadmap(
+    GetRoadmapParams params,
+  ) async {
     final subjectsWithSubtopicsBox = HiveBoxInstances.subjectsWithSubtopics;
     final SubjectsWithSubtopicsLocalDB? subjectsWithSubtopics =
         subjectsWithSubtopicsBox.get(
@@ -61,14 +62,18 @@ class AppController {
     );
 
     if (subjectsWithSubtopics != null) {
-      final hasSubtopics = subjectsWithSubtopics.subjects.any(
-        (subject) => subject.name.toLowerCase() == params.topic.toLowerCase(),
+      final selectedSubject = params.topic.toLowerCase();
+
+      final hasSubtopicsFromSelectedSubject =
+          subjectsWithSubtopics.subjects.any(
+        (subject) => subject.name.toLowerCase() == selectedSubject,
       );
 
-      if (hasSubtopics) {
+      if (hasSubtopicsFromSelectedSubject) {
         return subjectsWithSubtopics.subjects
-            .firstWhere((subject) =>
-                subject.name.toLowerCase() == params.topic.toLowerCase())
+            .firstWhere(
+              (subject) => subject.name.toLowerCase() == selectedSubject,
+            )
             .subtopics;
       }
     }
@@ -78,18 +83,20 @@ class AppController {
       (data) {
         if (subjectsWithSubtopics != null) {
           subjectsWithSubtopics.subjects.add(
-            SubjectItemModel(subtopics: data, name: params.topic),
+            SubjectItemLocalDB(subtopics: data, name: params.topic),
           );
           subjectsWithSubtopicsBox.put(
             LocalDBConstants.subjectsWithSubtopics,
             subjectsWithSubtopics,
           );
         } else {
-          // First Time it is created
+          // First Time it's created SubjectsWithSubtopics
           subjectsWithSubtopicsBox.put(
             LocalDBConstants.subjectsWithSubtopics,
             SubjectsWithSubtopicsLocalDB(
-              subjects: [SubjectItemModel(subtopics: data, name: params.topic)],
+              subjects: [
+                SubjectItemLocalDB(subtopics: data, name: params.topic)
+              ],
             ),
           );
         }
