@@ -7,4 +7,5 @@ class HiveBoxInstances {
   static Box get subjectsWithSubtopics => Hive.box(
         LocalDBConstants.subjectsWithSubtopics,
       );
+  static Box get studyPlan => Hive.box(LocalDBConstants.studyPlan);
 }
