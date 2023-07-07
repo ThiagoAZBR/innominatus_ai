@@ -13,12 +13,21 @@ class SubTopicsController {
   );
 
   void changeSubTopicsSelectedCard(int i) {
-    final int indexOfPreviousSelectedSubject =
-        isSubtopicSelectedList.indexOf(true);
-    resetSelectedCarts();
-    if (i == indexOfPreviousSelectedSubject) {
+    final List<bool> indexOfPreviousSelectedSubtopic =
+        isSubtopicSelectedList.where((subtopic) => subtopic == true).toList();
+    if (isSubtopicSelectedList[i] &&
+        indexOfPreviousSelectedSubtopic.length == 1) {
       hasAnySubtopicSelected = false;
+      resetSelectedCarts();
       return;
+    }
+    if (indexOfPreviousSelectedSubtopic.length == 3) {
+      if (isSubtopicSelectedList[i]) {
+        isSubtopicSelectedList[i] = !isSubtopicSelectedList[i];
+        return;
+      }
+      final int lastSelectedSubtopic = isSubtopicSelectedList.lastIndexOf(true);
+      isSubtopicSelectedList[lastSelectedSubtopic] = false;
     }
     isSubtopicSelectedList[i] = !isSubtopicSelectedList[i];
     hasAnySubtopicSelected = true;
