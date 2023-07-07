@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:lottie/lottie.dart';
 
@@ -18,8 +18,8 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 142,
+          padding: EdgeInsets.only(
+            top: MediaQuery.sizeOf(context).height * 0.15,
             right: 32,
             left: 32,
           ),
@@ -33,8 +33,8 @@ class SplashPage extends StatelessWidget {
                   children: <Widget>[
                     Lottie.asset(
                       "assets/data.json",
-                      height: 300,
-                      width: 300,
+                      height: 250,
+                      width: 250,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -50,7 +50,7 @@ class SplashPage extends StatelessWidget {
                             'Eu sou a Chaos, sua IA :)',
                             style: AppTextStyles.interVeryBig(),
                           ),
-                          const SizedBox(height: 58),
+                          const SizedBox(height: 32),
                           Text(
                             'Vamos começar!',
                             style: AppTextStyles.interVeryBig(),
