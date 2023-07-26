@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:innominatus_ai/app/shared/text_constants/remote_db_constants.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
+import 'package:innominatus_ai/app/shared/text_constants/remote_db_constants.dart';
 
-import '../domain/models/shared_subjects.dart';
+import '../domain/models/shared_fields_of_study.dart';
 import '../domain/usecases/usecase.dart';
 
 abstract class RemoteDBRepository {
-  Future<Either<Exception, SharedSubjectsModel>> getSubjects(
+  Future<Either<Exception, SharedFieldsOfStudyModel>> getSubjects(
     NoParams params,
   );
 }
@@ -18,7 +18,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
   FirebaseStoreRepository(this.firebaseFirestore);
 
   @override
-  Future<Either<Exception, SharedSubjectsModel>> getSubjects(
+  Future<Either<Exception, SharedFieldsOfStudyModel>> getSubjects(
       NoParams params) async {
     try {
       final response = await firebaseFirestore
@@ -34,8 +34,8 @@ class FirebaseStoreRepository implements RemoteDBRepository {
   }
 }
 
-Future<SharedSubjectsModel> _handleGetSubjects(
+Future<SharedFieldsOfStudyModel> _handleGetSubjects(
   DocumentSnapshot<Map<String, dynamic>> json,
 ) async {
-  return SharedSubjectsModel.fromJson(json.data()!);
+  return SharedFieldsOfStudyModel.fromJson(json.data()!);
 }

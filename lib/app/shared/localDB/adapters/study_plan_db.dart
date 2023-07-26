@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:innominatus_ai/app/domain/models/shared_subjects.dart';
+import 'package:innominatus_ai/app/domain/models/shared_fields_of_study.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 
 part 'study_plan_db.g.dart';
@@ -7,14 +7,14 @@ part 'study_plan_db.g.dart';
 @HiveType(typeId: 3)
 class StudyPlanLocalDB {
   @HiveField(0)
-  final SharedSubjectsModel studyPlan;
+  final SharedFieldsOfStudyModel studyPlan;
 
   StudyPlanLocalDB({
     required this.studyPlan,
   });
 
   factory StudyPlanLocalDB.fromSubjectsModel(
-    SharedSubjectsModel subjectsModel,
+    SharedFieldsOfStudyModel subjectsModel,
   ) {
     final hiveItems = subjectsModel.items
         .map((subjectItem) =>

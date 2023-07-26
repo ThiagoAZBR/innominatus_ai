@@ -1,7 +1,7 @@
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../domain/models/shared_subject_item.dart';
-import '../../domain/models/shared_subjects.dart';
+import '../../domain/models/shared_field_of_study_item.dart';
+import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/usecases/chat/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/usecase.dart';
@@ -16,7 +16,7 @@ class AppController {
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
-  final subjects$ = RxList<SharedSubjectItemModel>();
+  final subjects$ = RxList<SharedFieldOfStudyItemModel>();
 
   AppController({
     required GetRoadmap getRoadmap,
@@ -27,7 +27,7 @@ class AppController {
 
   Future<bool> getSubjects() async {
     final subjectsBox = HiveBoxInstances.sharedSubjects;
-    final SharedSubjectsModel? subjects =
+    final SharedFieldsOfStudyModel? subjects =
         subjectsBox.get(LocalDBConstants.sharedSubjects);
 
     if (subjects != null) {
@@ -43,7 +43,7 @@ class AppController {
     return responseDB.isRight();
   }
 
-  void getSubjectsOnSuccess(SharedSubjectsModel data) {
+  void getSubjectsOnSuccess(SharedFieldsOfStudyModel data) {
     final subjectsBox = HiveBoxInstances.sharedSubjects;
     subjects$.addAll(data.items);
     subjectsBox.put(

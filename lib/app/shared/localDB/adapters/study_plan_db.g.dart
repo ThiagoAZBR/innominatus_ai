@@ -17,7 +17,7 @@ class StudyPlanLocalDBAdapter extends TypeAdapter<StudyPlanLocalDB> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return StudyPlanLocalDB(
-      studyPlan: fields[0] as SharedSubjectsModel,
+      studyPlan: fields[0] as SharedFieldsOfStudyModel,
     );
   }
 
