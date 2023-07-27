@@ -94,7 +94,7 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
   // UI Functions
   Future<void> fetchSubTopics(String subject) async {
     final subjects = await appController
-        .getSubtopicsFromSubjectRoadmap(GetRoadmapParams(subject));
+        .getSubjectsFromFieldOfStudyRoadmap(GetRoadmapParams(subject));
     if (subjects != null) {
       subTopicsController.subTopics$.addAll(subjects);
       for (var i = 0; i < subTopicsController.subTopics$.length; i++) {

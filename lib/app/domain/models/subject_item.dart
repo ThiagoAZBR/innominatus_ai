@@ -1,9 +1,9 @@
-class SubjectItemModel {
-  final List<String> subtopics;
+class FieldOfStudyItemModel {
+  final List<String> subjects;
   final String name;
 
-  SubjectItemModel({
-    required this.subtopics,
+  FieldOfStudyItemModel({
+    required this.subjects,
     required this.name,
   });
 }

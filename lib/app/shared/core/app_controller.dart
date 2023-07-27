@@ -52,50 +52,53 @@ class AppController {
     );
   }
 
-  Future<List<String>?> getSubtopicsFromSubjectRoadmap(
+  Future<List<String>?> getSubjectsFromFieldOfStudyRoadmap(
     GetRoadmapParams params,
   ) async {
-    final subjectsWithSubtopicsBox = HiveBoxInstances.subjectsWithSubtopics;
-    final SubjectsWithSubtopicsLocalDB? subjectsWithSubtopics =
-        subjectsWithSubtopicsBox.get(
-      LocalDBConstants.subjectsWithSubtopics,
+    final fieldsOfStudyWithSubjectsBox =
+        HiveBoxInstances.fieldsOfStudyWithSubjects;
+    final FieldsOfStudyWithSubjectsLocalDB? fieldsOfStudyWithSubjects =
+        fieldsOfStudyWithSubjectsBox.get(
+      LocalDBConstants.fieldsOfStudyWithSubjects,
     );
 
-    if (subjectsWithSubtopics != null) {
-      final selectedSubject = params.topic.toLowerCase();
+    if (fieldsOfStudyWithSubjects != null) {
+      final selectedFieldOfStudy = params.topic.toLowerCase();
 
-      final hasSubtopicsFromSelectedSubject =
-          subjectsWithSubtopics.subjects.any(
-        (subject) => subject.name.toLowerCase() == selectedSubject,
+      final hasSubjectsFromSelectedFieldOfStudy =
+          fieldsOfStudyWithSubjects.fieldsOfStudy.any(
+        (fieldOfStudy) =>
+            fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
       );
 
-      if (hasSubtopicsFromSelectedSubject) {
-        return subjectsWithSubtopics.subjects
+      if (hasSubjectsFromSelectedFieldOfStudy) {
+        return fieldsOfStudyWithSubjects.fieldsOfStudy
             .firstWhere(
-              (subject) => subject.name.toLowerCase() == selectedSubject,
+              (fieldOfStudy) =>
+                  fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
             )
-            .subtopics;
+            .subjects;
       }
     }
     final response = await _getRoadmap(params: params);
     return response.fold(
       (failure) => null,
       (data) {
-        if (subjectsWithSubtopics != null) {
-          subjectsWithSubtopics.subjects.add(
-            SubjectItemLocalDB(subtopics: data, name: params.topic),
+        if (fieldsOfStudyWithSubjects != null) {
+          fieldsOfStudyWithSubjects.fieldsOfStudy.add(
+            FieldOfStudyItemLocalDB(subjects: data, name: params.topic),
           );
-          subjectsWithSubtopicsBox.put(
-            LocalDBConstants.subjectsWithSubtopics,
-            subjectsWithSubtopics,
+          fieldsOfStudyWithSubjectsBox.put(
+            LocalDBConstants.fieldsOfStudyWithSubjects,
+            fieldsOfStudyWithSubjects,
           );
         } else {
-          // First Time it's created SubjectsWithSubtopics
-          subjectsWithSubtopicsBox.put(
-            LocalDBConstants.subjectsWithSubtopics,
-            SubjectsWithSubtopicsLocalDB(
-              subjects: [
-                SubjectItemLocalDB(subtopics: data, name: params.topic)
+          // First Time it's created SubjectsWithSubjects
+          fieldsOfStudyWithSubjectsBox.put(
+            LocalDBConstants.fieldsOfStudyWithSubjects,
+            FieldsOfStudyWithSubjectsLocalDB(
+              fieldsOfStudy: [
+                FieldOfStudyItemLocalDB(subjects: data, name: params.topic)
               ],
             ),
           );

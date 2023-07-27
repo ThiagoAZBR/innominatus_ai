@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:innominatus_ai/app/shared/core/app_widget.dart';
 import 'package:innominatus_ai/app/shared/containers/app_container.dart';
+import 'package:innominatus_ai/app/shared/core/app_widget.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/study_plan_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/subjects_with_subtopics_local_db.dart';
@@ -41,7 +41,7 @@ void main() async {
   Hive.registerAdapter(StudyPlanLocalDBAdapter());
   // Hive Instances
   await Hive.openBox(LocalDBConstants.sharedFieldsOfStudy);
-  await Hive.openBox(LocalDBConstants.subjectsWithSubtopics);
+  await Hive.openBox(LocalDBConstants.fieldsOfStudyWithSubjects);
   await Hive.openBox(LocalDBConstants.studyPlan);
   // Shared Preferences
   final sharedPreferences = await SharedPreferences.getInstance();

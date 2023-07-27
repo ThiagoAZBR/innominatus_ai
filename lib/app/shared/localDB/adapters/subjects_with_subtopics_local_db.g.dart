@@ -7,27 +7,27 @@ part of 'subjects_with_subtopics_local_db.dart';
 // **************************************************************************
 
 class SubjectsWithSubtopicsLocalDBAdapter
-    extends TypeAdapter<SubjectsWithSubtopicsLocalDB> {
+    extends TypeAdapter<FieldsOfStudyWithSubjectsLocalDB> {
   @override
   final int typeId = 1;
 
   @override
-  SubjectsWithSubtopicsLocalDB read(BinaryReader reader) {
+  FieldsOfStudyWithSubjectsLocalDB read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SubjectsWithSubtopicsLocalDB(
-      subjects: (fields[0] as List).cast<SubjectItemModel>(),
+    return FieldsOfStudyWithSubjectsLocalDB(
+      fieldsOfStudy: (fields[0] as List).cast<FieldOfStudyItemModel>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, SubjectsWithSubtopicsLocalDB obj) {
+  void write(BinaryWriter writer, FieldsOfStudyWithSubjectsLocalDB obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.subjects);
+      ..write(obj.fieldsOfStudy);
   }
 
   @override
@@ -41,28 +41,28 @@ class SubjectsWithSubtopicsLocalDBAdapter
           typeId == other.typeId;
 }
 
-class SubjectItemLocalDBAdapter extends TypeAdapter<SubjectItemLocalDB> {
+class SubjectItemLocalDBAdapter extends TypeAdapter<FieldOfStudyItemLocalDB> {
   @override
   final int typeId = 2;
 
   @override
-  SubjectItemLocalDB read(BinaryReader reader) {
+  FieldOfStudyItemLocalDB read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SubjectItemLocalDB(
-      subtopics: (fields[0] as List).cast<String>(),
+    return FieldOfStudyItemLocalDB(
+      subjects: (fields[0] as List).cast<String>(),
       name: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, SubjectItemLocalDB obj) {
+  void write(BinaryWriter writer, FieldOfStudyItemLocalDB obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.subtopics)
+      ..write(obj.subjects)
       ..writeByte(1)
       ..write(obj.name);
   }

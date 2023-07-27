@@ -6,42 +6,42 @@ import '../../../domain/models/subject_item.dart';
 part 'subjects_with_subtopics_local_db.g.dart';
 
 @HiveType(typeId: 1)
-class SubjectsWithSubtopicsLocalDB extends SubjectsWithSubtopicsModel {
+class FieldsOfStudyWithSubjectsLocalDB extends FieldsOfStudyWithSubtopicsModel {
   @HiveField(0)
-  final List<SubjectItemModel> subjects;
+  final List<FieldOfStudyItemModel> fieldsOfStudy;
 
-  SubjectsWithSubtopicsLocalDB({
-    required this.subjects,
-  }) : super(subjects: subjects);
+  FieldsOfStudyWithSubjectsLocalDB({
+    required this.fieldsOfStudy,
+  }) : super(fieldsOfStudy: fieldsOfStudy);
 
-  factory SubjectsWithSubtopicsLocalDB.fromSubjectsWithSubtopicsModel(
-    SubjectsWithSubtopicsModel subjectsWithSubtopics,
+  factory FieldsOfStudyWithSubjectsLocalDB.fromSubjectsWithSubtopicsModel(
+    FieldsOfStudyWithSubtopicsModel subjectsWithSubtopics,
   ) {
-    return SubjectsWithSubtopicsLocalDB(
-      subjects: subjectsWithSubtopics.subjects
-          .map((e) => SubjectItemLocalDB.fromSubjectItemModel(e))
+    return FieldsOfStudyWithSubjectsLocalDB(
+      fieldsOfStudy: subjectsWithSubtopics.fieldsOfStudy
+          .map((e) => FieldOfStudyItemLocalDB.fromSubjectItemModel(e))
           .toList(),
     );
   }
 }
 
 @HiveType(typeId: 2)
-class SubjectItemLocalDB extends SubjectItemModel {
+class FieldOfStudyItemLocalDB extends FieldOfStudyItemModel {
   @HiveField(0)
-  final List<String> subtopics;
+  final List<String> subjects;
   @HiveField(1)
   final String name;
 
-  SubjectItemLocalDB({
-    required this.subtopics,
+  FieldOfStudyItemLocalDB({
+    required this.subjects,
     required this.name,
-  }) : super(subtopics: subtopics, name: name);
+  }) : super(subjects: subjects, name: name);
 
-  factory SubjectItemLocalDB.fromSubjectItemModel(
-    SubjectItemModel subjectItem,
+  factory FieldOfStudyItemLocalDB.fromSubjectItemModel(
+    FieldOfStudyItemModel subjectItem,
   ) {
-    return SubjectItemLocalDB(
-      subtopics: subjectItem.subtopics,
+    return FieldOfStudyItemLocalDB(
+      subjects: subjectItem.subjects,
       name: subjectItem.name,
     );
   }

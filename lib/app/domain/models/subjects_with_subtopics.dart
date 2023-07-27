@@ -1,9 +1,9 @@
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 
-class SubjectsWithSubtopicsModel {
-  final List<SubjectItemModel> subjects;
+class FieldsOfStudyWithSubtopicsModel {
+  final List<FieldOfStudyItemModel> fieldsOfStudy;
 
-  SubjectsWithSubtopicsModel({
-    required this.subjects,
+  FieldsOfStudyWithSubtopicsModel({
+    required this.fieldsOfStudy,
   });
 }
