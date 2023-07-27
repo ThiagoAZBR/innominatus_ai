@@ -58,7 +58,8 @@ void main() async {
     firebaseInstance,
   );
   test('remote db repository must return Right', () async {
-    final response = await remoteDBRepository.getSubjects(const NoParams());
+    final response =
+        await remoteDBRepository.getFieldsOfStudy(const NoParams());
 
     expect(response, isA<Right>());
   });

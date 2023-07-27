@@ -20,7 +20,7 @@ abstract class ChatRepository {
   Future<Either<Exception, List<String>>> getRoadmap(
     GetRoadmapParams params,
   );
-  Future<Either<Exception, List<String>>> getSubjects(
+  Future<Either<Exception, List<String>>> getFieldsOfStudy(
     NoParams params,
   );
 }
@@ -76,7 +76,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Exception, List<String>>> getSubjects(
+  Future<Either<Exception, List<String>>> getFieldsOfStudy(
     NoParams params,
   ) async {
     try {

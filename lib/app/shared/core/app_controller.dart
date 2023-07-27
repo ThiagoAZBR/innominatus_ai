@@ -3,7 +3,7 @@ import 'package:rx_notifier/rx_notifier.dart';
 import '../../domain/models/shared_field_of_study_item.dart';
 import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/usecases/chat/get_roadmap.dart';
-import '../../domain/usecases/remote_db/get_subjects_db.dart';
+import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/subjects_local_db.dart';
 import '../localDB/adapters/subjects_with_subtopics_local_db.dart';
@@ -12,43 +12,43 @@ import '../localDB/localdb_constants.dart';
 import '../localDB/localdb_instances.dart';
 
 class AppController {
-  final GetSubjectsDB _getSubjectsDB;
+  final GetFieldsOfStudyDB _getFieldsOfStudyDB;
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
-  final fieldsOfStudy$ = RxList<SharedFieldOfStudyModel>();
+  final fieldsOfStudy$ = RxList<SharedFieldOfStudyItemModel>();
 
   AppController({
     required GetRoadmap getRoadmap,
-    required GetSubjectsDB getSubjectsDB,
+    required GetFieldsOfStudyDB getFieldsOfStudyDB,
     required this.prefs,
-  })  : _getSubjectsDB = getSubjectsDB,
+  })  : _getFieldsOfStudyDB = getFieldsOfStudyDB,
         _getRoadmap = getRoadmap;
 
   Future<bool> getFieldsOfStudy() async {
-    final subjectsBox = HiveBoxInstances.sharedSubjects;
-    final SharedFieldsOfStudyModel? subjects =
-        subjectsBox.get(LocalDBConstants.sharedSubjects);
+    final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
+    final SharedFieldsOfStudyModel? fieldsOfStudy =
+        fieldsOfStudyBox.get(LocalDBConstants.sharedFieldsOfStudy);
 
-    if (subjects != null) {
-      fieldsOfStudy$.addAll(subjects.items);
+    if (fieldsOfStudy != null) {
+      fieldsOfStudy$.addAll(fieldsOfStudy.items);
       return true;
     }
 
-    final responseDB = await _getSubjectsDB(params: const NoParams());
+    final responseDB = await _getFieldsOfStudyDB(params: const NoParams());
     if (responseDB.isRight()) {
-      responseDB.map(getSubjectsOnSuccess);
+      responseDB.map(getFieldsOfStudyOnSuccess);
     }
 
     return responseDB.isRight();
   }
 
-  void getSubjectsOnSuccess(SharedFieldsOfStudyModel data) {
-    final subjectsBox = HiveBoxInstances.sharedSubjects;
+  void getFieldsOfStudyOnSuccess(SharedFieldsOfStudyModel data) {
+    final subjectsBox = HiveBoxInstances.sharedFieldsOfStudy;
     fieldsOfStudy$.addAll(data.items);
     subjectsBox.put(
-      LocalDBConstants.sharedSubjects,
-      SharedSubjectsLocalDB.fromSubjectsModel(data),
+      LocalDBConstants.sharedFieldsOfStudy,
+      SharedFieldsOfStudyLocalDB.fromFieldsOfStudyModel(data),
     );
   }
 

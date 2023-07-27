@@ -18,11 +18,11 @@ class StudyPlanLocalDB {
   ) {
     final hiveItems = subjectsModel.items
         .map((subjectItem) =>
-            SharedSubjectItemLocalDB.fromSubjectItem(subjectItem))
+            SharedFieldOfStudyItemLocalDB.fromFieldOfStudyItem(subjectItem))
         .toList();
 
     return StudyPlanLocalDB(
-      studyPlan: SharedSubjectsLocalDB(
+      studyPlan: SharedFieldsOfStudyLocalDB(
         items: hiveItems,
       ),
     );

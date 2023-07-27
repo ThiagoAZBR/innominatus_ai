@@ -7,7 +7,7 @@ import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
-import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/get_fields_of_study_db.dart';
 
 import '../localDB/localdb.dart';
 
@@ -51,7 +51,7 @@ class AppContainer implements Dependencies {
       ),
     );
     I.registerLazySingleton(
-      () => GetSubjectsDB(
+      () => GetFieldsOfStudyDB(
         I.get<RemoteDBRepository>(),
       ),
     );
@@ -62,7 +62,7 @@ class AppContainer implements Dependencies {
     );
     I.registerSingleton(
       AppController(
-        getSubjectsDB: I.get<GetSubjectsDB>(),
+        getFieldsOfStudyDB: I.get<GetFieldsOfStudyDB>(),
         getRoadmap: I.get<GetRoadmap>(),
         prefs: I.get<PrefsImpl>(),
       ),

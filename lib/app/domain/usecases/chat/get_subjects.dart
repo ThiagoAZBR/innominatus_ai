@@ -11,7 +11,7 @@ class GetSubjectsAI implements UseCase<List<String>, NoParams> {
   Future<Either<Exception, List<String>>> call({
     required NoParams params,
   }) async {
-    return await chatRepository.getSubjects(params);
+    return await chatRepository.getFieldsOfStudy(params);
   }
 }
 

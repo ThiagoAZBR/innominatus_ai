@@ -40,7 +40,7 @@ void main() async {
   Hive.registerAdapter(SubjectItemLocalDBAdapter());
   Hive.registerAdapter(StudyPlanLocalDBAdapter());
   // Hive Instances
-  await Hive.openBox(LocalDBConstants.sharedSubjects);
+  await Hive.openBox(LocalDBConstants.sharedFieldsOfStudy);
   await Hive.openBox(LocalDBConstants.subjectsWithSubtopics);
   await Hive.openBox(LocalDBConstants.studyPlan);
   // Shared Preferences

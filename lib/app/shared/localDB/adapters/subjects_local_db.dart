@@ -5,44 +5,44 @@ import '../../../domain/models/shared_fields_of_study.dart';
 
 part 'subjects_local_db.g.dart';
 
-// This class is made to recover the Subjects to show when creating or rearranging the Study Roadmap
-// The Subject when it's displayed, it has the name and description of it
+// This class is made to recover the Fields of Study to show when creating or rearranging the Study Roadmap
+// The Field of Study when it's displayed, it has the name and description of it
 @HiveType(typeId: 6)
-class SharedSubjectsLocalDB extends SharedFieldsOfStudyModel {
+class SharedFieldsOfStudyLocalDB extends SharedFieldsOfStudyModel {
   @HiveField(0)
-  final List<SharedFieldOfStudyModel> items;
+  final List<SharedFieldOfStudyItemModel> items;
 
-  SharedSubjectsLocalDB({
+  SharedFieldsOfStudyLocalDB({
     required this.items,
   }) : super(items: items);
 
-  factory SharedSubjectsLocalDB.fromSubjectsModel(
-      SharedFieldsOfStudyModel subjectsModel) {
-    final hiveItems = subjectsModel.items
-        .map((subjectItem) =>
-            SharedSubjectItemLocalDB.fromSubjectItem(subjectItem))
+  factory SharedFieldsOfStudyLocalDB.fromFieldsOfStudyModel(
+      SharedFieldsOfStudyModel fieldsOfStudyModel) {
+    final hiveItems = fieldsOfStudyModel.items
+        .map((fieldsOfStudyItem) =>
+            SharedFieldOfStudyItemLocalDB.fromFieldOfStudyItem(fieldsOfStudyItem))
         .toList();
-    return SharedSubjectsLocalDB(items: hiveItems);
+    return SharedFieldsOfStudyLocalDB(items: hiveItems);
   }
 }
 
 @HiveType(typeId: 7)
-class SharedSubjectItemLocalDB extends SharedFieldOfStudyModel {
+class SharedFieldOfStudyItemLocalDB extends SharedFieldOfStudyItemModel {
   @HiveField(0)
   final String name;
   @HiveField(1)
   final String description;
 
-  SharedSubjectItemLocalDB({
+  SharedFieldOfStudyItemLocalDB({
     required this.name,
     required this.description,
   }) : super(name: name, description: description);
 
-  factory SharedSubjectItemLocalDB.fromSubjectItem(
-      SharedFieldOfStudyModel subjectItem) {
-    return SharedSubjectItemLocalDB(
-      name: subjectItem.name,
-      description: subjectItem.description,
+  factory SharedFieldOfStudyItemLocalDB.fromFieldOfStudyItem(
+      SharedFieldOfStudyItemModel fieldOfStudyItem) {
+    return SharedFieldOfStudyItemLocalDB(
+      name: fieldOfStudyItem.name,
+      description: fieldOfStudyItem.description,
     );
   }
 }

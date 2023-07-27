@@ -1,5 +1,5 @@
 class LocalDBConstants {
-  static const String sharedSubjects = 'sharedSubjects';
+  static const String sharedFieldsOfStudy = 'sharedFieldsOfStudy';
   static const String subjectsWithSubtopics = 'subjectsWithSubtopics';
   static const String studyPlan = 'studyPlan';
   static const String subtopicsWithClasses = 'subtopicsWithClasses';

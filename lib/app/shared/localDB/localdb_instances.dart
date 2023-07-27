@@ -3,7 +3,8 @@ import 'package:hive/hive.dart';
 import 'localdb_constants.dart';
 
 class HiveBoxInstances {
-  static Box get sharedSubjects => Hive.box(LocalDBConstants.sharedSubjects);
+  static Box get sharedFieldsOfStudy =>
+      Hive.box(LocalDBConstants.sharedFieldsOfStudy);
   static Box get subjectsWithSubtopics => Hive.box(
         LocalDBConstants.subjectsWithSubtopics,
       );

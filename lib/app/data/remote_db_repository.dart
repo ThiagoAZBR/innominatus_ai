@@ -7,7 +7,7 @@ import '../domain/models/shared_fields_of_study.dart';
 import '../domain/usecases/usecase.dart';
 
 abstract class RemoteDBRepository {
-  Future<Either<Exception, SharedFieldsOfStudyModel>> getSubjects(
+  Future<Either<Exception, SharedFieldsOfStudyModel>> getFieldsOfStudy(
     NoParams params,
   );
 }
@@ -18,14 +18,14 @@ class FirebaseStoreRepository implements RemoteDBRepository {
   FirebaseStoreRepository(this.firebaseFirestore);
 
   @override
-  Future<Either<Exception, SharedFieldsOfStudyModel>> getSubjects(
+  Future<Either<Exception, SharedFieldsOfStudyModel>> getFieldsOfStudy(
       NoParams params) async {
     try {
       final response = await firebaseFirestore
           .collection(RemoteDBConstants.shared)
           .doc(RemoteDBConstants.subjects)
           .get();
-      return Right(await _handleGetSubjects(response));
+      return Right(await _handleGetFieldsOfStudy(response));
     } on FirebaseException catch (e) {
       return Left(e);
     } catch (e) {
@@ -34,7 +34,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
   }
 }
 
-Future<SharedFieldsOfStudyModel> _handleGetSubjects(
+Future<SharedFieldsOfStudyModel> _handleGetFieldsOfStudy(
   DocumentSnapshot<Map<String, dynamic>> json,
 ) async {
   return SharedFieldsOfStudyModel.fromJson(json.data()!);
