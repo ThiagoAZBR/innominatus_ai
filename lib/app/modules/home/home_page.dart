@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_action.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
-import 'package:innominatus_ai/app/shared/routes/args/subjects_page_args.dart';
+import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/themes/app_color.dart';

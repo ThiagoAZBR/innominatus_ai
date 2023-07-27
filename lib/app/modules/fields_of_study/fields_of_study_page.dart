@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
-import 'package:innominatus_ai/app/shared/routes/args/subtopics_page_args.dart';
+import 'package:innominatus_ai/app/shared/routes/args/subjects_page_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/containers/fields_of_study_container.dart';
-import '../../shared/routes/args/subjects_page_args.dart';
+import '../../shared/routes/args/fields_of_study_page_args.dart';
 import '../../shared/utils/route_utils.dart';
 import '../../shared/widgets/app_scaffold/app_scaffold.dart';
 import '../../shared/widgets/continue_floating_button.dart';

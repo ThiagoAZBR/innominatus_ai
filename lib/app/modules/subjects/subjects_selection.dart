@@ -7,7 +7,7 @@ import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:innominatus_ai/app/shared/widgets/shimmer_cards.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../shared/routes/args/subtopics_page_args.dart';
+import '../../shared/routes/args/subjects_page_args.dart';
 import '../../shared/themes/app_text_styles.dart';
 import '../../shared/utils/route_utils.dart';
 
