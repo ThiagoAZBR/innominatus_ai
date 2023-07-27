@@ -91,7 +91,7 @@ class AppController {
             fieldsOfStudy,
           );
         } else {
-          // First Time it's created SubjectsWithSubjects
+          // First Time it's created FieldsOfStudy cache
           fieldsOfStudyBox.put(
             LocalDBConstants.fieldsOfStudy,
             FieldsOfStudyLocalDB(

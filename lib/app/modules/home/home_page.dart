@@ -208,7 +208,7 @@ class SuggestionPlaceholders extends StatelessWidget {
             context,
             AppRoutes.fieldsOfStudyPage,
             arguments: FieldsOfStudyPageArgs(
-              canChooseMoreThanOneSubject: true,
+              canChooseMoreThanOneFieldOfStudy: true,
             ),
           ),
         ),

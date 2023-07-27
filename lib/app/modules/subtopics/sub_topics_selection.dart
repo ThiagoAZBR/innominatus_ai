@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
-import 'package:innominatus_ai/app/shared/containers/subtopics_container.dart';
+import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:innominatus_ai/app/shared/widgets/shimmer_cards.dart';
@@ -27,13 +27,13 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final args = RouteUtils.getArgs(context) as SubjectsPageArgs;
-    fetchSubTopics(args.subject);
+    fetchSubTopics(args.fieldOfStudy);
   }
 
   @override
   void dispose() {
     super.dispose();
-    SubTopicsContainer().dispose();
+    SubjectsContainer().dispose();
   }
 
   @override

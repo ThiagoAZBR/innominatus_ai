@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:innominatus_ai/app/shared/text_constants/app_constants.dart';
+import 'package:innominatus_ai/app/domain/usecases/chat/get_fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
-import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 import 'package:innominatus_ai/app/shared/network/app_urls.dart';
+import 'package:innominatus_ai/app/shared/text_constants/app_constants.dart';
 
 import '../domain/models/chat_completion.dart';
 import '../domain/usecases/chat/create_chat_completion.dart';
@@ -81,7 +81,7 @@ class ChatRepositoryImpl implements ChatRepository {
   ) async {
     try {
       final Map data = GetFieldsOfStudyParams(
-        content: AppConstants.getSubjects,
+        content: AppConstants.getFieldsOfStudy,
       ).toMap();
       final response = await dio.post(
         kDebugMode
@@ -89,7 +89,7 @@ class ChatRepositoryImpl implements ChatRepository {
             : AppUrls.createChatCompletionProduction,
         data: data,
       );
-      return Right(_handleGetSubjectsResponse(response));
+      return Right(_handleGetFieldsOfStudyResponse(response));
     } on DioError catch (e) {
       return Left(e);
     } on UnexpectedException catch (e) {
@@ -124,7 +124,7 @@ List<String> _handleGetRoadmapResponse(Response response) {
   throw UnexpectedException();
 }
 
-List<String> _handleGetSubjectsResponse(Response response) {
+List<String> _handleGetFieldsOfStudyResponse(Response response) {
   if (response.statusCode == 200) {
     ChatCompletionModel chatCompletionModel = ChatCompletionModel.fromJson(
       response.data,

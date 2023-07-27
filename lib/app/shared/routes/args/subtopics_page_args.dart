@@ -1,7 +1,7 @@
 class SubjectsPageArgs {
-  final String subject;
+  final String fieldOfStudy;
 
   SubjectsPageArgs({
-    required this.subject,
+    required this.fieldOfStudy,
   });
 }

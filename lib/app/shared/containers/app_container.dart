@@ -6,7 +6,7 @@ import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
-import 'package:innominatus_ai/app/domain/usecases/chat/get_subjects.dart';
+import 'package:innominatus_ai/app/domain/usecases/chat/get_fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/get_fields_of_study_db.dart';
 
 import '../localDB/localdb.dart';

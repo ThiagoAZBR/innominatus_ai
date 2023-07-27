@@ -9,7 +9,7 @@ void main() async {
   final firebaseInstance = FakeFirebaseFirestore();
   await firebaseInstance
       .collection(RemoteDBConstants.shared)
-      .doc(RemoteDBConstants.subjects)
+      .doc(RemoteDBConstants.fieldsOfStudy)
       .set({
     'items': [
       "Ciência de Dados",

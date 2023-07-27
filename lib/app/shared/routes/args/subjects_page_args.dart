@@ -1,7 +1,7 @@
 class FieldsOfStudyPageArgs {
-  final bool canChooseMoreThanOneSubject;
+  final bool canChooseMoreThanOneFieldOfStudy;
 
   FieldsOfStudyPageArgs({
-    this.canChooseMoreThanOneSubject = false,
+    this.canChooseMoreThanOneFieldOfStudy = false,
   });
 }

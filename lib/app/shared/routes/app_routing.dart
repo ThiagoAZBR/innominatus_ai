@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart';
-import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/controllers/fields_of_study_controller.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/fields_of_study_page.dart';
+import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/modules/subtopics/sub_topics_page.dart';
 import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
 import 'package:innominatus_ai/app/shared/containers/home_container.dart';
+import 'package:innominatus_ai/app/shared/containers/fields_of_study_container.dart';
 import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
-import 'package:innominatus_ai/app/shared/containers/subtopics_container.dart';
 
 import '../../modules/chat/chat_page.dart';
 import '../../modules/home/home_page.dart';
@@ -34,13 +34,13 @@ class AppRouting {
           );
         },
         AppRoutes.fieldsOfStudyPage: (_) {
-          _handleSubjectsPageDependencies();
+          _handleFieldsOfStudyPageDependencies();
           return FieldsOfStudyPage(
             fieldsOfStudyController: I.get<FieldsOfStudyController>(),
           );
         },
         AppRoutes.subjectsPage: (_) {
-          _handleSubTopicsPageDependencies();
+          _handleSubjectsPageDependencies();
           return SubTopicsPage(
             controller: I.get<SubTopicsController>(),
           );
@@ -60,15 +60,15 @@ class AppRouting {
     }
   }
 
-  void _handleSubjectsPageDependencies() {
+  void _handleFieldsOfStudyPageDependencies() {
     if (!I.isRegistered<FieldsOfStudyController>()) {
       FieldsOfStudyContainer().setup();
     }
   }
 
-  void _handleSubTopicsPageDependencies() {
+  void _handleSubjectsPageDependencies() {
     if (!I.isRegistered<SubTopicsController>()) {
-      SubTopicsContainer().setup();
+      SubjectsContainer().setup();
     }
   }
 }

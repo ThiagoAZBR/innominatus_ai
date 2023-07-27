@@ -4,7 +4,7 @@ import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/subtopics_page_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../shared/containers/subjects_container.dart';
+import '../../shared/containers/fields_of_study_container.dart';
 import '../../shared/routes/args/subjects_page_args.dart';
 import '../../shared/utils/route_utils.dart';
 import '../../shared/widgets/app_scaffold/app_scaffold.dart';
@@ -67,7 +67,7 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
                   context,
                   AppRoutes.subjectsPage,
                   arguments: SubjectsPageArgs(
-                    subject:
+                    fieldOfStudy:
                         appController.fieldsOfStudy$[fieldOfStudyIndex].name,
                   ),
                 );
