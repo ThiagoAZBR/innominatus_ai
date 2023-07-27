@@ -9,7 +9,7 @@ class SharedFieldOfStudyItemModel {
 
   factory SharedFieldOfStudyItemModel.fromJson(Map<String, dynamic> map) {
     return SharedFieldOfStudyItemModel(
-      name: map['name'] ?? '',
+      name: map['subject'] ?? map['name'] ?? '',
       description: map['description'] ?? '',
     );
   }
