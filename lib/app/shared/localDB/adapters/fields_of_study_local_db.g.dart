@@ -1,33 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'subjects_with_subtopics_local_db.dart';
+part of 'fields_of_study_local_db.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SubjectsWithSubtopicsLocalDBAdapter
-    extends TypeAdapter<FieldsOfStudyWithSubjectsLocalDB> {
+class FieldsOfStudyLocalDBAdapter extends TypeAdapter<FieldsOfStudyLocalDB> {
   @override
   final int typeId = 1;
 
   @override
-  FieldsOfStudyWithSubjectsLocalDB read(BinaryReader reader) {
+  FieldsOfStudyLocalDB read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FieldsOfStudyWithSubjectsLocalDB(
-      fieldsOfStudy: (fields[0] as List).cast<FieldOfStudyItemModel>(),
+    return FieldsOfStudyLocalDB(
+      items: (fields[0] as List).cast<FieldOfStudyItemModel>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, FieldsOfStudyWithSubjectsLocalDB obj) {
+  void write(BinaryWriter writer, FieldsOfStudyLocalDB obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.fieldsOfStudy);
+      ..write(obj.items);
   }
 
   @override
@@ -36,12 +35,13 @@ class SubjectsWithSubtopicsLocalDBAdapter
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SubjectsWithSubtopicsLocalDBAdapter &&
+      other is FieldsOfStudyLocalDBAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
-class SubjectItemLocalDBAdapter extends TypeAdapter<FieldOfStudyItemLocalDB> {
+class FieldOfStudyItemLocalDBAdapter
+    extends TypeAdapter<FieldOfStudyItemLocalDB> {
   @override
   final int typeId = 2;
 
@@ -73,7 +73,7 @@ class SubjectItemLocalDBAdapter extends TypeAdapter<FieldOfStudyItemLocalDB> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SubjectItemLocalDBAdapter &&
+      other is FieldOfStudyItemLocalDBAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

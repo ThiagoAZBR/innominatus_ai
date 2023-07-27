@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'subjects_local_db.dart';
+part of 'shared_fields_of_study_local_db.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SharedSubjectsLocalDBAdapter
+class SharedFieldsOfStudyLocalDBAdapter
     extends TypeAdapter<SharedFieldsOfStudyLocalDB> {
   @override
-  final int typeId = 6;
+  final int typeId = 3;
 
   @override
   SharedFieldsOfStudyLocalDB read(BinaryReader reader) {
@@ -36,15 +36,15 @@ class SharedSubjectsLocalDBAdapter
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SharedSubjectsLocalDBAdapter &&
+      other is SharedFieldsOfStudyLocalDBAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
-class SharedSubjectItemLocalDBAdapter
+class SharedFieldOfStudyItemLocalDBAdapter
     extends TypeAdapter<SharedFieldOfStudyItemLocalDB> {
   @override
-  final int typeId = 7;
+  final int typeId = 4;
 
   @override
   SharedFieldOfStudyItemLocalDB read(BinaryReader reader) {
@@ -74,7 +74,7 @@ class SharedSubjectItemLocalDBAdapter
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SharedSubjectItemLocalDBAdapter &&
+      other is SharedFieldOfStudyItemLocalDBAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

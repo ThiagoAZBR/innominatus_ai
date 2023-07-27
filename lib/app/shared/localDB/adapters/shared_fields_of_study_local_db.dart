@@ -3,11 +3,11 @@ import 'package:hive/hive.dart';
 import '../../../domain/models/shared_field_of_study_item.dart';
 import '../../../domain/models/shared_fields_of_study.dart';
 
-part 'subjects_local_db.g.dart';
+part 'shared_fields_of_study_local_db.g.dart';
 
 // This class is made to recover the Fields of Study to show when creating or rearranging the Study Roadmap
 // The Field of Study when it's displayed, it has the name and description of it
-@HiveType(typeId: 6)
+@HiveType(typeId: 3)
 class SharedFieldsOfStudyLocalDB extends SharedFieldsOfStudyModel {
   @HiveField(0)
   final List<SharedFieldOfStudyItemModel> items;
@@ -26,7 +26,7 @@ class SharedFieldsOfStudyLocalDB extends SharedFieldsOfStudyModel {
   }
 }
 
-@HiveType(typeId: 7)
+@HiveType(typeId: 4)
 class SharedFieldOfStudyItemLocalDB extends SharedFieldOfStudyItemModel {
   @HiveField(0)
   final String name;

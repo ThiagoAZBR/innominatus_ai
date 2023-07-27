@@ -5,8 +5,8 @@ import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/usecases/chat/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/usecase.dart';
-import '../localDB/adapters/subjects_local_db.dart';
-import '../localDB/adapters/subjects_with_subtopics_local_db.dart';
+import '../localDB/adapters/shared_fields_of_study_local_db.dart';
+import '../localDB/adapters/fields_of_study_local_db.dart';
 import '../localDB/localdb.dart';
 import '../localDB/localdb_constants.dart';
 import '../localDB/localdb_instances.dart';
@@ -55,24 +55,23 @@ class AppController {
   Future<List<String>?> getSubjectsFromFieldOfStudyRoadmap(
     GetRoadmapParams params,
   ) async {
-    final fieldsOfStudyWithSubjectsBox =
-        HiveBoxInstances.fieldsOfStudyWithSubjects;
-    final FieldsOfStudyWithSubjectsLocalDB? fieldsOfStudyWithSubjects =
+    final fieldsOfStudyWithSubjectsBox = HiveBoxInstances.fieldsOfStudy;
+    final FieldsOfStudyLocalDB? fieldsOfStudyWithSubjects =
         fieldsOfStudyWithSubjectsBox.get(
-      LocalDBConstants.fieldsOfStudyWithSubjects,
+      LocalDBConstants.fieldsOfStudy,
     );
 
     if (fieldsOfStudyWithSubjects != null) {
       final selectedFieldOfStudy = params.topic.toLowerCase();
 
       final hasSubjectsFromSelectedFieldOfStudy =
-          fieldsOfStudyWithSubjects.fieldsOfStudy.any(
+          fieldsOfStudyWithSubjects.items.any(
         (fieldOfStudy) =>
             fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
       );
 
       if (hasSubjectsFromSelectedFieldOfStudy) {
-        return fieldsOfStudyWithSubjects.fieldsOfStudy
+        return fieldsOfStudyWithSubjects.items
             .firstWhere(
               (fieldOfStudy) =>
                   fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
@@ -85,19 +84,19 @@ class AppController {
       (failure) => null,
       (data) {
         if (fieldsOfStudyWithSubjects != null) {
-          fieldsOfStudyWithSubjects.fieldsOfStudy.add(
+          fieldsOfStudyWithSubjects.items.add(
             FieldOfStudyItemLocalDB(subjects: data, name: params.topic),
           );
           fieldsOfStudyWithSubjectsBox.put(
-            LocalDBConstants.fieldsOfStudyWithSubjects,
+            LocalDBConstants.fieldsOfStudy,
             fieldsOfStudyWithSubjects,
           );
         } else {
           // First Time it's created SubjectsWithSubjects
           fieldsOfStudyWithSubjectsBox.put(
-            LocalDBConstants.fieldsOfStudyWithSubjects,
-            FieldsOfStudyWithSubjectsLocalDB(
-              fieldsOfStudy: [
+            LocalDBConstants.fieldsOfStudy,
+            FieldsOfStudyLocalDB(
+              items: [
                 FieldOfStudyItemLocalDB(subjects: data, name: params.topic)
               ],
             ),
