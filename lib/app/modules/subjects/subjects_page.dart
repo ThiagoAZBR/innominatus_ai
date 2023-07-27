@@ -27,20 +27,20 @@ class SubjectsPage extends StatefulWidget {
 }
 
 class _SubjectsPageState extends State<SubjectsPage> {
-  late final SubjectsPageArgs args;
+  late final FieldsOfStudyPageArgs args;
 
   @override
   void dispose() {
     super.dispose();
     controller.resetSelectedCarts();
-    controller.appController.subjects$.clear();
+    controller.appController.fieldsOfStudy$.clear();
     SubjectsContainer().dispose();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    args = RouteUtils.getArgs(context) as SubjectsPageArgs;
+    args = RouteUtils.getArgs(context) as FieldsOfStudyPageArgs;
 
     controller.setToSubjectsSelectionState();
   }
@@ -64,9 +64,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
               if (controller.state$ is SubjectsSelectionState) {
                 Navigator.pushNamed(
                   context,
-                  AppRoutes.subtopicsPage,
+                  AppRoutes.subjectsPage,
                   arguments: SubTopicsPageArgs(
-                    subject: appController.subjects$[subjectItemIndex].subject,
+                    subject:
+                        appController.fieldsOfStudy$[fieldOfStudyIndex].name,
                   ),
                 );
               }
@@ -82,5 +83,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
 
   SubjectsController get controller => widget.subjectsController;
   AppController get appController => controller.appController;
-  int get subjectItemIndex => controller.isSubjectSelectedList.indexOf(true);
+  int get fieldOfStudyIndex =>
+      controller.isFieldOfStudySelectedList.indexOf(true);
 }

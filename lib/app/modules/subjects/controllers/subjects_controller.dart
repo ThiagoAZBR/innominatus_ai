@@ -7,31 +7,31 @@ class SubjectsController {
 
   final _isSubjectLoading$ = RxNotifier(false);
   final _state = RxNotifier<SubjectsStates>(const SubjectsPageLoadingState());
-  List<bool> isSubjectSelectedList = <bool>[];
+  List<bool> isFieldOfStudySelectedList = <bool>[];
   final RxNotifier _hasAnySubjectSelected = RxNotifier(false);
 
   SubjectsController(this.appController);
 
   Future<void> getSubjects() async {
     startLoading();
-    if (appController.subjects$.isEmpty) {
+    if (appController.fieldsOfStudy$.isEmpty) {
       await appController.getSubjects();
     }
-    for (var i = 0; i < appController.subjects$.length; i++) {
-      isSubjectSelectedList.add(false);
+    for (var i = 0; i < appController.fieldsOfStudy$.length; i++) {
+      isFieldOfStudySelectedList.add(false);
     }
     endLoading();
   }
 
   void changeSubjectSelectedCard(int i) {
     final int indexOfPreviousSelectedSubject =
-        isSubjectSelectedList.indexOf(true);
+        isFieldOfStudySelectedList.indexOf(true);
     resetSelectedCarts();
     if (i == indexOfPreviousSelectedSubject) {
       hasAnySubjectSelected = false;
       return;
     }
-    isSubjectSelectedList[i] = !isSubjectSelectedList[i];
+    isFieldOfStudySelectedList[i] = !isFieldOfStudySelectedList[i];
     hasAnySubjectSelected = true;
   }
 
@@ -40,8 +40,8 @@ class SubjectsController {
   }
 
   void resetSelectedCarts() {
-    isSubjectSelectedList =
-        List.of(isSubjectSelectedList).map((e) => false).toList();
+    isFieldOfStudySelectedList =
+        List.of(isFieldOfStudySelectedList).map((e) => false).toList();
   }
 
   RxNotifier isFloatingButtonVisible(SubjectsStates state) {

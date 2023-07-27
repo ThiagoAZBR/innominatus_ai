@@ -33,13 +33,13 @@ class AppRouting {
             chatController: I.get(),
           );
         },
-        AppRoutes.subjectsPage: (_) {
+        AppRoutes.fieldsOfStudyPage: (_) {
           _handleSubjectsPageDependencies();
           return SubjectsPage(
             subjectsController: I.get<SubjectsController>(),
           );
         },
-        AppRoutes.subtopicsPage: (_) {
+        AppRoutes.subjectsPage: (_) {
           _handleSubTopicsPageDependencies();
           return SubTopicsPage(
             controller: I.get<SubTopicsController>(),

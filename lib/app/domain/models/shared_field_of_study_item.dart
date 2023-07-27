@@ -1,15 +1,15 @@
-class SharedFieldOfStudyItemModel {
-  final String subject;
+class SharedFieldOfStudyModel {
+  final String name;
   final String description;
 
-  SharedFieldOfStudyItemModel({
-    required this.subject,
+  SharedFieldOfStudyModel({
+    required this.name,
     required this.description,
   });
 
-  factory SharedFieldOfStudyItemModel.fromJson(Map<String, dynamic> map) {
-    return SharedFieldOfStudyItemModel(
-      subject: map['subject'] ?? '',
+  factory SharedFieldOfStudyModel.fromJson(Map<String, dynamic> map) {
+    return SharedFieldOfStudyModel(
+      name: map['name'] ?? '',
       description: map['description'] ?? '',
     );
   }

@@ -17,7 +17,7 @@ class SharedSubjectsLocalDBAdapter extends TypeAdapter<SharedSubjectsLocalDB> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SharedSubjectsLocalDB(
-      items: (fields[0] as List).cast<SharedFieldOfStudyItemModel>(),
+      items: (fields[0] as List).cast<SharedFieldOfStudyModel>(),
     );
   }
 
@@ -52,7 +52,7 @@ class SharedSubjectItemLocalDBAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SharedSubjectItemLocalDB(
-      subject: fields[0] as String,
+      name: fields[0] as String,
       description: fields[1] as String,
     );
   }
@@ -62,7 +62,7 @@ class SharedSubjectItemLocalDBAdapter
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.subject)
+      ..write(obj.name)
       ..writeByte(1)
       ..write(obj.description);
   }

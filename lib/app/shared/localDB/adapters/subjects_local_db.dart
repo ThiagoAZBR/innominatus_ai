@@ -10,7 +10,7 @@ part 'subjects_local_db.g.dart';
 @HiveType(typeId: 6)
 class SharedSubjectsLocalDB extends SharedFieldsOfStudyModel {
   @HiveField(0)
-  final List<SharedFieldOfStudyItemModel> items;
+  final List<SharedFieldOfStudyModel> items;
 
   SharedSubjectsLocalDB({
     required this.items,
@@ -27,21 +27,21 @@ class SharedSubjectsLocalDB extends SharedFieldsOfStudyModel {
 }
 
 @HiveType(typeId: 7)
-class SharedSubjectItemLocalDB extends SharedFieldOfStudyItemModel {
+class SharedSubjectItemLocalDB extends SharedFieldOfStudyModel {
   @HiveField(0)
-  final String subject;
+  final String name;
   @HiveField(1)
   final String description;
 
   SharedSubjectItemLocalDB({
-    required this.subject,
+    required this.name,
     required this.description,
-  }) : super(subject: subject, description: description);
+  }) : super(name: name, description: description);
 
   factory SharedSubjectItemLocalDB.fromSubjectItem(
-      SharedFieldOfStudyItemModel subjectItem) {
+      SharedFieldOfStudyModel subjectItem) {
     return SharedSubjectItemLocalDB(
-      subject: subjectItem.subject,
+      name: subjectItem.name,
       description: subjectItem.description,
     );
   }

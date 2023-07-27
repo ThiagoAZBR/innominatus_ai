@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
-import 'package:innominatus_ai/app/shared/widgets/shimmer_cards.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
+import 'package:innominatus_ai/app/shared/widgets/shimmer_cards.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../../shared/themes/app_text_styles.dart';
@@ -58,7 +58,9 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                   ? const ShimmerCards()
                   : Column(
                       children: [
-                        for (int i = 0; i < appController.subjects$.length; i++)
+                        for (int i = 0;
+                            i < appController.fieldsOfStudy$.length;
+                            i++)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 32),
                             child: InkWell(
@@ -67,11 +69,11 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                                     .changeSubjectSelectedCard(i),
                               ),
                               child: SelectionCard(
-                                title: appController.subjects$[i].subject,
+                                title: appController.fieldsOfStudy$[i].name,
                                 description:
-                                    appController.subjects$[i].description,
-                                isCardSelected:
-                                    subjectsController.isSubjectSelectedList[i],
+                                    appController.fieldsOfStudy$[i].description,
+                                isCardSelected: subjectsController
+                                    .isFieldOfStudySelectedList[i],
                               ),
                             ),
                           ),

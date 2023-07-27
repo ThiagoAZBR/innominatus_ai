@@ -206,9 +206,9 @@ class SuggestionPlaceholders extends StatelessWidget {
               'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',
           onTap: () => Navigator.pushNamed(
             context,
-            AppRoutes.subjectsPage,
-            arguments: SubjectsPageArgs(
-              canChooseMoreThanOneSubTopic: true,
+            AppRoutes.fieldsOfStudyPage,
+            arguments: FieldsOfStudyPageArgs(
+              canChooseMoreThanOneSubject: true,
             ),
           ),
         ),

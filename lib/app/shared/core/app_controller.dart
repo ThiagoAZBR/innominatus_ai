@@ -16,7 +16,7 @@ class AppController {
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
-  final subjects$ = RxList<SharedFieldOfStudyItemModel>();
+  final fieldsOfStudy$ = RxList<SharedFieldOfStudyModel>();
 
   AppController({
     required GetRoadmap getRoadmap,
@@ -31,7 +31,7 @@ class AppController {
         subjectsBox.get(LocalDBConstants.sharedSubjects);
 
     if (subjects != null) {
-      subjects$.addAll(subjects.items);
+      fieldsOfStudy$.addAll(subjects.items);
       return true;
     }
 
@@ -45,7 +45,7 @@ class AppController {
 
   void getSubjectsOnSuccess(SharedFieldsOfStudyModel data) {
     final subjectsBox = HiveBoxInstances.sharedSubjects;
-    subjects$.addAll(data.items);
+    fieldsOfStudy$.addAll(data.items);
     subjectsBox.put(
       LocalDBConstants.sharedSubjects,
       SharedSubjectsLocalDB.fromSubjectsModel(data),
