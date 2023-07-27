@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SubjectsError extends StatelessWidget {
-  const SubjectsError({super.key});
+class FieldsOfStudyError extends StatelessWidget {
+  const FieldsOfStudyError({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -4,17 +4,17 @@ import '../../modules/subjects/controllers/subjects_controller.dart';
 import '../core/app_controller.dart';
 import 'app_container.dart';
 
-class SubjectsContainer implements Dependencies {
+class FieldsOfStudyContainer implements Dependencies {
   final I = GetIt.instance;
   @override
   void dispose() {
-    I.unregister<SubjectsController>();
+    I.unregister<FieldsOfStudyController>();
   }
 
   @override
   void setup() {
     I.registerLazySingleton(
-      () => SubjectsController(
+      () => FieldsOfStudyController(
         I.get<AppController>(),
       ),
     );

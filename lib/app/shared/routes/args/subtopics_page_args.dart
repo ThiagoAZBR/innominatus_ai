@@ -1,7 +1,7 @@
-class SubTopicsPageArgs {
+class SubjectsPageArgs {
   final String subject;
 
-  SubTopicsPageArgs({
+  SubjectsPageArgs({
     required this.subject,
   });
 }

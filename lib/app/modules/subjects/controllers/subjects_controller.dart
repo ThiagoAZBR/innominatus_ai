@@ -2,15 +2,15 @@ import 'package:innominatus_ai/app/modules/subjects/controllers/states/subjects_
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-class SubjectsController {
+class FieldsOfStudyController {
   final AppController appController;
 
   final _isSubjectLoading$ = RxNotifier(false);
-  final _state = RxNotifier<SubjectsStates>(const SubjectsPageLoadingState());
+  final _state = RxNotifier<SubjectsStates>(const FieldsOfStudyLoadingState());
   List<bool> isFieldOfStudySelectedList = <bool>[];
   final RxNotifier _hasAnySubjectSelected = RxNotifier(false);
 
-  SubjectsController(this.appController);
+  FieldsOfStudyController(this.appController);
 
   Future<void> getSubjects() async {
     startLoading();
@@ -35,8 +35,8 @@ class SubjectsController {
     hasAnySubjectSelected = true;
   }
 
-  void setToSubjectsSelectionState() {
-    _state.value = const SubjectsSelectionState();
+  void setToFieldsOfStudySelectionState() {
+    _state.value = const FieldsOfStudySelectionState();
   }
 
   void resetSelectedCarts() {

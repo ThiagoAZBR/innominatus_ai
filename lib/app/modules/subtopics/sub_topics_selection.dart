@@ -26,7 +26,7 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final args = RouteUtils.getArgs(context) as SubTopicsPageArgs;
+    final args = RouteUtils.getArgs(context) as SubjectsPageArgs;
     fetchSubTopics(args.subject);
   }
 

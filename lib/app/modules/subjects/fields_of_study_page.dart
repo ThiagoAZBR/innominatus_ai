@@ -15,18 +15,18 @@ import 'widgets/state_widgets/subjects_error.dart';
 import 'widgets/state_widgets/subjects_loading.dart';
 import 'widgets/state_widgets/subjects_selection.dart';
 
-class SubjectsPage extends StatefulWidget {
-  final SubjectsController subjectsController;
-  const SubjectsPage({
+class FieldsOfStudyPage extends StatefulWidget {
+  final FieldsOfStudyController fieldsOfStudyController;
+  const FieldsOfStudyPage({
     Key? key,
-    required this.subjectsController,
+    required this.fieldsOfStudyController,
   }) : super(key: key);
 
   @override
-  State<SubjectsPage> createState() => _SubjectsPageState();
+  State<FieldsOfStudyPage> createState() => _FieldsOfStudyPageState();
 }
 
-class _SubjectsPageState extends State<SubjectsPage> {
+class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
   late final FieldsOfStudyPageArgs args;
 
   @override
@@ -34,7 +34,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
     super.dispose();
     controller.resetSelectedCarts();
     controller.appController.fieldsOfStudy$.clear();
-    SubjectsContainer().dispose();
+    FieldsOfStudyContainer().dispose();
   }
 
   @override
@@ -42,17 +42,18 @@ class _SubjectsPageState extends State<SubjectsPage> {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as FieldsOfStudyPageArgs;
 
-    controller.setToSubjectsSelectionState();
+    controller.setToFieldsOfStudySelectionState();
   }
 
   @override
   Widget build(BuildContext context) {
     final Map mapBuilder = {
-      const SubjectsSelectionState().toString(): SubjectsSelection(
-        subjectsController: controller,
+      const FieldsOfStudySelectionState().toString(): FieldsOfStudySelection(
+        fieldsOfStudyController: controller,
       ),
-      const SubjectsPageLoadingState().toString(): const SubjectsLoading(),
-      const SubjectsPageErrorState().toString(): const SubjectsError()
+      const FieldsOfStudyLoadingState().toString():
+          const FieldsOfStudyLoading(),
+      const FieldsOfStudyErrorState().toString(): const FieldsOfStudyError()
     };
 
     return RxBuilder(
@@ -61,11 +62,11 @@ class _SubjectsPageState extends State<SubjectsPage> {
           visible: controller.isFloatingButtonVisible(controller.state$).value,
           child: ContinueFloatingButton(
             onTap: () {
-              if (controller.state$ is SubjectsSelectionState) {
+              if (controller.state$ is FieldsOfStudySelectionState) {
                 Navigator.pushNamed(
                   context,
                   AppRoutes.subjectsPage,
-                  arguments: SubTopicsPageArgs(
+                  arguments: SubjectsPageArgs(
                     subject:
                         appController.fieldsOfStudy$[fieldOfStudyIndex].name,
                   ),
@@ -81,7 +82,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
     );
   }
 
-  SubjectsController get controller => widget.subjectsController;
+  FieldsOfStudyController get controller => widget.fieldsOfStudyController;
   AppController get appController => controller.appController;
   int get fieldOfStudyIndex =>
       controller.isFieldOfStudySelectedList.indexOf(true);

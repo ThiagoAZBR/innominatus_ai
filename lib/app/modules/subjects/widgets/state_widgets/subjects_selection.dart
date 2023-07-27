@@ -7,24 +7,24 @@ import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../../shared/themes/app_text_styles.dart';
 
-class SubjectsSelection extends StatefulWidget {
-  final SubjectsController subjectsController;
-  const SubjectsSelection({
+class FieldsOfStudySelection extends StatefulWidget {
+  final FieldsOfStudyController fieldsOfStudyController;
+  const FieldsOfStudySelection({
     Key? key,
-    required this.subjectsController,
+    required this.fieldsOfStudyController,
   }) : super(key: key);
 
   @override
-  State<SubjectsSelection> createState() => _SubjectsSelectionState();
+  State<FieldsOfStudySelection> createState() => _FieldsOfStudySelectionState();
 }
 
-class _SubjectsSelectionState extends State<SubjectsSelection> {
+class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
   bool isCardSelected = false;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) async => await widget.subjectsController.getSubjects(),
+      (_) async => await widget.fieldsOfStudyController.getSubjects(),
     );
   }
 
@@ -86,6 +86,8 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
     );
   }
 
-  SubjectsController get subjectsController => widget.subjectsController;
-  AppController get appController => widget.subjectsController.appController;
+  FieldsOfStudyController get subjectsController =>
+      widget.fieldsOfStudyController;
+  AppController get appController =>
+      widget.fieldsOfStudyController.appController;
 }

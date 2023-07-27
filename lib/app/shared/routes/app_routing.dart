@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
-import 'package:innominatus_ai/app/modules/subjects/subjects_page.dart';
+import 'package:innominatus_ai/app/modules/subjects/fields_of_study_page.dart';
 import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/modules/subtopics/sub_topics_page.dart';
 import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
@@ -35,8 +35,8 @@ class AppRouting {
         },
         AppRoutes.fieldsOfStudyPage: (_) {
           _handleSubjectsPageDependencies();
-          return SubjectsPage(
-            subjectsController: I.get<SubjectsController>(),
+          return FieldsOfStudyPage(
+            fieldsOfStudyController: I.get<FieldsOfStudyController>(),
           );
         },
         AppRoutes.subjectsPage: (_) {
@@ -61,8 +61,8 @@ class AppRouting {
   }
 
   void _handleSubjectsPageDependencies() {
-    if (!I.isRegistered<SubjectsController>()) {
-      SubjectsContainer().setup();
+    if (!I.isRegistered<FieldsOfStudyController>()) {
+      FieldsOfStudyContainer().setup();
     }
   }
 

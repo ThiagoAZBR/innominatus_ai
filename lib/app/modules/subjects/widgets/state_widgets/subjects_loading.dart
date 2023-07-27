@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/themes/app_color.dart';
 
-class SubjectsLoading extends StatelessWidget {
-  const SubjectsLoading({super.key});
+class FieldsOfStudyLoading extends StatelessWidget {
+  const FieldsOfStudyLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Column(
       children: <Widget>[
-         LoadingPlaceholder(),
-         SizedBox(height: 32),
+        LoadingPlaceholder(),
+        SizedBox(height: 32),
         Column(
           children: <Widget>[
             LoadingPlaceholder(),
