@@ -5,8 +5,8 @@ import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/usecases/chat/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/usecase.dart';
-import '../localDB/adapters/shared_fields_of_study_local_db.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
+import '../localDB/adapters/shared_fields_of_study_local_db.dart';
 import '../localDB/localdb.dart';
 import '../localDB/localdb_constants.dart';
 import '../localDB/localdb_instances.dart';
@@ -44,9 +44,9 @@ class AppController {
   }
 
   void getFieldsOfStudyOnSuccess(SharedFieldsOfStudyModel data) {
-    final subjectsBox = HiveBoxInstances.sharedFieldsOfStudy;
+    final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
     fieldsOfStudy$.addAll(data.items);
-    subjectsBox.put(
+    fieldsOfStudyBox.put(
       LocalDBConstants.sharedFieldsOfStudy,
       SharedFieldsOfStudyLocalDB.fromFieldsOfStudyModel(data),
     );
@@ -55,23 +55,21 @@ class AppController {
   Future<List<String>?> getSubjectsFromFieldOfStudyRoadmap(
     GetRoadmapParams params,
   ) async {
-    final fieldsOfStudyWithSubjectsBox = HiveBoxInstances.fieldsOfStudy;
-    final FieldsOfStudyLocalDB? fieldsOfStudyWithSubjects =
-        fieldsOfStudyWithSubjectsBox.get(
+    final fieldsOfStudyBox = HiveBoxInstances.fieldsOfStudy;
+    final FieldsOfStudyLocalDB? fieldsOfStudy = fieldsOfStudyBox.get(
       LocalDBConstants.fieldsOfStudy,
     );
 
-    if (fieldsOfStudyWithSubjects != null) {
+    if (fieldsOfStudy != null) {
       final selectedFieldOfStudy = params.topic.toLowerCase();
 
-      final hasSubjectsFromSelectedFieldOfStudy =
-          fieldsOfStudyWithSubjects.items.any(
+      final hasSubjectsInSelectedFieldOfStudy = fieldsOfStudy.items.any(
         (fieldOfStudy) =>
             fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
       );
 
-      if (hasSubjectsFromSelectedFieldOfStudy) {
-        return fieldsOfStudyWithSubjects.items
+      if (hasSubjectsInSelectedFieldOfStudy) {
+        return fieldsOfStudy.items
             .firstWhere(
               (fieldOfStudy) =>
                   fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
@@ -79,30 +77,31 @@ class AppController {
             .subjects;
       }
     }
+
     final response = await _getRoadmap(params: params);
     return response.fold(
       (failure) => null,
-      (data) {
-        if (fieldsOfStudyWithSubjects != null) {
-          fieldsOfStudyWithSubjects.items.add(
-            FieldOfStudyItemLocalDB(subjects: data, name: params.topic),
+      (subjects) {
+        if (fieldsOfStudy != null) {
+          fieldsOfStudy.items.add(
+            FieldOfStudyItemLocalDB(subjects: subjects, name: params.topic),
           );
-          fieldsOfStudyWithSubjectsBox.put(
+          fieldsOfStudyBox.put(
             LocalDBConstants.fieldsOfStudy,
-            fieldsOfStudyWithSubjects,
+            fieldsOfStudy,
           );
         } else {
           // First Time it's created SubjectsWithSubjects
-          fieldsOfStudyWithSubjectsBox.put(
+          fieldsOfStudyBox.put(
             LocalDBConstants.fieldsOfStudy,
             FieldsOfStudyLocalDB(
               items: [
-                FieldOfStudyItemLocalDB(subjects: data, name: params.topic)
+                FieldOfStudyItemLocalDB(subjects: subjects, name: params.topic)
               ],
             ),
           );
         }
-        return data;
+        return subjects;
       },
     );
   }
