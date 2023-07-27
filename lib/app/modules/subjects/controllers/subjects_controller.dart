@@ -5,17 +5,18 @@ import 'package:rx_notifier/rx_notifier.dart';
 class FieldsOfStudyController {
   final AppController appController;
 
-  final _isSubjectLoading$ = RxNotifier(false);
-  final _state = RxNotifier<SubjectsStates>(const FieldsOfStudyLoadingState());
+  final _isFieldOfStudyLoading$ = RxNotifier(false);
+  final _state =
+      RxNotifier<FieldOfStudyStates>(const FieldsOfStudyLoadingState());
   List<bool> isFieldOfStudySelectedList = <bool>[];
-  final RxNotifier _hasAnySubjectSelected = RxNotifier(false);
+  final RxNotifier _hasAnyFieldOfStudySelected = RxNotifier(false);
 
   FieldsOfStudyController(this.appController);
 
-  Future<void> getSubjects() async {
+  Future<void> getFieldsOfStudy() async {
     startLoading();
     if (appController.fieldsOfStudy$.isEmpty) {
-      await appController.getSubjects();
+      await appController.getFieldsOfStudy();
     }
     for (var i = 0; i < appController.fieldsOfStudy$.length; i++) {
       isFieldOfStudySelectedList.add(false);
@@ -23,16 +24,16 @@ class FieldsOfStudyController {
     endLoading();
   }
 
-  void changeSubjectSelectedCard(int i) {
-    final int indexOfPreviousSelectedSubject =
+  void changeFieldOfStudySelectedCard(int i) {
+    final int indexOfPreviousSelectedFieldOfStudy =
         isFieldOfStudySelectedList.indexOf(true);
     resetSelectedCarts();
-    if (i == indexOfPreviousSelectedSubject) {
-      hasAnySubjectSelected = false;
+    if (i == indexOfPreviousSelectedFieldOfStudy) {
+      hasAnyFieldOfStudySelected = false;
       return;
     }
     isFieldOfStudySelectedList[i] = !isFieldOfStudySelectedList[i];
-    hasAnySubjectSelected = true;
+    hasAnyFieldOfStudySelected = true;
   }
 
   void setToFieldsOfStudySelectionState() {
@@ -44,16 +45,17 @@ class FieldsOfStudyController {
         List.of(isFieldOfStudySelectedList).map((e) => false).toList();
   }
 
-  RxNotifier isFloatingButtonVisible(SubjectsStates state) {
-    return _hasAnySubjectSelected;
+  RxNotifier isFloatingButtonVisible(FieldOfStudyStates state) {
+    return _hasAnyFieldOfStudySelected;
   }
 
   // Getters and Setters
-  SubjectsStates get state$ => _state.value;
-  bool get isSubjectLoading$ => _isSubjectLoading$.value;
-  startLoading() => _isSubjectLoading$.value = true;
-  endLoading() => _isSubjectLoading$.value = false;
+  FieldOfStudyStates get state$ => _state.value;
+  bool get isFieldOfStudyPageLoading$ => _isFieldOfStudyLoading$.value;
+  startLoading() => _isFieldOfStudyLoading$.value = true;
+  endLoading() => _isFieldOfStudyLoading$.value = false;
 
-  bool get hasAnySubjectSelected => _hasAnySubjectSelected.value;
-  set hasAnySubjectSelected(bool value) => _hasAnySubjectSelected.value = value;
+  bool get hasAnyFieldOfStudySelected => _hasAnyFieldOfStudySelected.value;
+  set hasAnyFieldOfStudySelected(bool value) =>
+      _hasAnyFieldOfStudySelected.value = value;
 }

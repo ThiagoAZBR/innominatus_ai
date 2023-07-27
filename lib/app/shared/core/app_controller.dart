@@ -25,7 +25,7 @@ class AppController {
   })  : _getSubjectsDB = getSubjectsDB,
         _getRoadmap = getRoadmap;
 
-  Future<bool> getSubjects() async {
+  Future<bool> getFieldsOfStudy() async {
     final subjectsBox = HiveBoxInstances.sharedSubjects;
     final SharedFieldsOfStudyModel? subjects =
         subjectsBox.get(LocalDBConstants.sharedSubjects);

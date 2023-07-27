@@ -24,7 +24,7 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) async => await widget.fieldsOfStudyController.getSubjects(),
+      (_) async => await widget.fieldsOfStudyController.getFieldsOfStudy(),
     );
   }
 
@@ -54,31 +54,32 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
 
             // Cards with Subjects
             RxBuilder(
-              builder: (context) => subjectsController.isSubjectLoading$
-                  ? const ShimmerCards()
-                  : Column(
-                      children: [
-                        for (int i = 0;
-                            i < appController.fieldsOfStudy$.length;
-                            i++)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 32),
-                            child: InkWell(
-                              onTap: () => setState(
-                                () => subjectsController
-                                    .changeSubjectSelectedCard(i),
+              builder: (context) =>
+                  subjectsController.isFieldOfStudyPageLoading$
+                      ? const ShimmerCards()
+                      : Column(
+                          children: [
+                            for (int i = 0;
+                                i < appController.fieldsOfStudy$.length;
+                                i++)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 32),
+                                child: InkWell(
+                                  onTap: () => setState(
+                                    () => subjectsController
+                                        .changeFieldOfStudySelectedCard(i),
+                                  ),
+                                  child: SelectionCard(
+                                    title: appController.fieldsOfStudy$[i].name,
+                                    description: appController
+                                        .fieldsOfStudy$[i].description,
+                                    isCardSelected: subjectsController
+                                        .isFieldOfStudySelectedList[i],
+                                  ),
+                                ),
                               ),
-                              child: SelectionCard(
-                                title: appController.fieldsOfStudy$[i].name,
-                                description:
-                                    appController.fieldsOfStudy$[i].description,
-                                isCardSelected: subjectsController
-                                    .isFieldOfStudySelectedList[i],
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
+                          ],
+                        ),
             ),
           ],
         ),

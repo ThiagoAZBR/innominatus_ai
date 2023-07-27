@@ -1,15 +1,15 @@
-abstract class SubjectsStates {
-  const SubjectsStates();
+abstract class FieldOfStudyStates {
+  const FieldOfStudyStates();
 }
 
-class FieldsOfStudySelectionState implements SubjectsStates {
+class FieldsOfStudySelectionState implements FieldOfStudyStates {
   const FieldsOfStudySelectionState();
 }
 
-class FieldsOfStudyLoadingState implements SubjectsStates {
+class FieldsOfStudyLoadingState implements FieldOfStudyStates {
   const FieldsOfStudyLoadingState();
 }
 
-class FieldsOfStudyErrorState implements SubjectsStates {
+class FieldsOfStudyErrorState implements FieldOfStudyStates {
   const FieldsOfStudyErrorState();
 }
