@@ -1,4 +1,4 @@
-import 'package:innominatus_ai/app/modules/subjects/controllers/states/fields_of_study_states.dart';
+import 'package:innominatus_ai/app/modules/fields_of_study/controllers/states/fields_of_study_states.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
