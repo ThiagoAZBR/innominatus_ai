@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
-import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
+import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
@@ -11,23 +11,23 @@ import '../../shared/routes/args/subtopics_page_args.dart';
 import '../../shared/themes/app_text_styles.dart';
 import '../../shared/utils/route_utils.dart';
 
-class SubTopicsSelection extends StatefulWidget {
-  final SubTopicsController subTopicsController;
-  const SubTopicsSelection({
+class SubjectsSelection extends StatefulWidget {
+  final SubjectsController subjectsController;
+  const SubjectsSelection({
     Key? key,
-    required this.subTopicsController,
+    required this.subjectsController,
   }) : super(key: key);
 
   @override
-  State<SubTopicsSelection> createState() => _SubTopicsSelectionState();
+  State<SubjectsSelection> createState() => _SubjectsSelectionState();
 }
 
-class _SubTopicsSelectionState extends State<SubTopicsSelection> {
+class _SubjectsSelectionState extends State<SubjectsSelection> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final args = RouteUtils.getArgs(context) as SubjectsPageArgs;
-    fetchSubTopics(args.fieldOfStudy);
+    fetchSubjects(args.fieldOfStudy);
   }
 
   @override
@@ -44,7 +44,7 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Escolha um tópico",
+            "Escolha até 3 Disciplinas",
             style: AppTextStyles.interVeryBig(
               fontWeight: FontWeight.w500,
             ),
@@ -52,31 +52,31 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
           Padding(
             padding: const EdgeInsets.only(right: 16, top: 8),
             child: Text(
-              'Você consegue selecionar um tópico ao tocar em cima dele',
+              'Você consegue selecionar uma disciplina ao tocar em cima dela',
               style: AppTextStyles.interSmall(),
             ),
           ),
           const SizedBox(height: 32),
           RxBuilder(
-            builder: (context) => subTopicsController.isLoading$
+            builder: (_) => subjectsController.isLoading$
                 ? const ShimmerCards()
                 : Column(
                     children: <Widget>[
                       for (int i = 0;
-                          i < subTopicsController.subTopics$.length;
+                          i < subjectsController.subjects$.length;
                           i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 32),
                           child: InkWell(
                             onTap: () => setState(
-                              () => subTopicsController
-                                  .changeSubTopicsSelectedCard(i),
+                              () => subjectsController
+                                  .changeSubjectsSelectedCard(i),
                             ),
                             child: SelectionCard(
                               isSemiBold: false,
-                              title: subTopicsController.subTopics$[i],
+                              title: subjectsController.subjects$[i],
                               isCardSelected:
-                                  subTopicsController.isSubtopicSelectedList[i],
+                                  subjectsController.isSubjectsSelectedList[i],
                             ),
                           ),
                         )
@@ -88,19 +88,19 @@ class _SubTopicsSelectionState extends State<SubTopicsSelection> {
     );
   }
 
-  SubTopicsController get subTopicsController => widget.subTopicsController;
-  AppController get appController => subTopicsController.appController;
+  SubjectsController get subjectsController => widget.subjectsController;
+  AppController get appController => subjectsController.appController;
 
   // UI Functions
-  Future<void> fetchSubTopics(String subject) async {
+  Future<void> fetchSubjects(String subject) async {
     final subjects = await appController
         .getSubjectsFromFieldOfStudyRoadmap(GetRoadmapParams(subject));
     if (subjects != null) {
-      subTopicsController.subTopics$.addAll(subjects);
-      for (var i = 0; i < subTopicsController.subTopics$.length; i++) {
-        subTopicsController.isSubtopicSelectedList.add(false);
+      subjectsController.subjects$.addAll(subjects);
+      for (var i = 0; i < subjectsController.subjects$.length; i++) {
+        subjectsController.isSubjectsSelectedList.add(false);
       }
-      subTopicsController.endLoading();
+      subjectsController.endLoading();
     }
   }
 }

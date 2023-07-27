@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
-import 'package:innominatus_ai/app/modules/subtopics/sub_topics_selection.dart';
+import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
+import 'package:innominatus_ai/app/modules/subjects/subjects_selection.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
 import 'package:innominatus_ai/app/shared/widgets/continue_floating_button.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-class SubTopicsPage extends StatelessWidget {
-  final SubTopicsController controller;
+class SubjectsPage extends StatelessWidget {
+  final SubjectsController controller;
 
-  const SubTopicsPage({
+  const SubjectsPage({
     Key? key,
     required this.controller,
   }) : super(key: key);
@@ -18,13 +18,13 @@ class SubTopicsPage extends StatelessWidget {
     return AppScaffold(
       floatingButton: RxBuilder(
         builder: (_) => Visibility(
-          visible: controller.hasAnySubtopicSelected,
+          visible: controller.hasAnySubjectsSelected,
           child: ContinueFloatingButton(onTap: () {}),
         ),
       ),
       child: SingleChildScrollView(
-        child: SubTopicsSelection(
-          subTopicsController: controller,
+        child: SubjectsSelection(
+          subjectsController: controller,
         ),
       ),
     );
