@@ -80,7 +80,7 @@ class ChatRepositoryImpl implements ChatRepository {
     NoParams params,
   ) async {
     try {
-      final Map data = GetSubjectsParams(
+      final Map data = GetFieldsOfStudyParams(
         content: AppConstants.getSubjects,
       ).toMap();
       final response = await dio.post(

@@ -2,10 +2,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
-class GetSubjectsAI implements UseCase<List<String>, NoParams> {
+class GetFieldsOfStudyAI implements UseCase<List<String>, NoParams> {
   final ChatRepository chatRepository;
 
-  GetSubjectsAI(this.chatRepository);
+  GetFieldsOfStudyAI(this.chatRepository);
 
   @override
   Future<Either<Exception, List<String>>> call({
@@ -15,10 +15,10 @@ class GetSubjectsAI implements UseCase<List<String>, NoParams> {
   }
 }
 
-class GetSubjectsParams {
+class GetFieldsOfStudyParams {
   final String content;
 
-  GetSubjectsParams({
+  GetFieldsOfStudyParams({
     required this.content,
   });
 

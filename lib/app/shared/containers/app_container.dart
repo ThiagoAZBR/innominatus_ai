@@ -46,7 +46,7 @@ class AppContainer implements Dependencies {
       ),
     );
     I.registerLazySingleton(
-      () => GetSubjectsAI(
+      () => GetFieldsOfStudyAI(
         I.get<ChatRepository>(),
       ),
     );
