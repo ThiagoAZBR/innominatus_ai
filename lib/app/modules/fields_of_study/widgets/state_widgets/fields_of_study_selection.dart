@@ -38,7 +38,7 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Escolha um tema',
+              'Escolha uma área de estudo',
               style: AppTextStyles.interVeryBig(
                 fontWeight: FontWeight.w500,
               ),
@@ -46,16 +46,16 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
             Padding(
               padding: const EdgeInsets.only(right: 16, top: 8),
               child: Text(
-                'Você consegue selecionar tema ao tocar em cima dele',
+                'Você consegue selecionar uma área de estudo ao tocar em cima dela.',
                 style: AppTextStyles.interSmall(),
               ),
             ),
             const SizedBox(height: 32),
 
-            // Cards with Subjects
+            // Cards with Fields Of Study
             RxBuilder(
               builder: (context) =>
-                  subjectsController.isFieldOfStudyPageLoading$
+                  fieldsOfStudyController.isFieldOfStudyPageLoading$
                       ? const ShimmerCards()
                       : Column(
                           children: [
@@ -66,14 +66,14 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                                 padding: const EdgeInsets.only(bottom: 32),
                                 child: InkWell(
                                   onTap: () => setState(
-                                    () => subjectsController
+                                    () => fieldsOfStudyController
                                         .changeFieldOfStudySelectedCard(i),
                                   ),
                                   child: SelectionCard(
                                     title: appController.fieldsOfStudy$[i].name,
                                     description: appController
                                         .fieldsOfStudy$[i].description,
-                                    isCardSelected: subjectsController
+                                    isCardSelected: fieldsOfStudyController
                                         .isFieldOfStudySelectedList[i],
                                   ),
                                 ),
@@ -87,7 +87,7 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
     );
   }
 
-  FieldsOfStudyController get subjectsController =>
+  FieldsOfStudyController get fieldsOfStudyController =>
       widget.fieldsOfStudyController;
   AppController get appController =>
       widget.fieldsOfStudyController.appController;
