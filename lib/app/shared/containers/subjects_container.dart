@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 
-import '../../modules/subjects/controllers/subjects_controller.dart';
+import '../../modules/subjects/controllers/fields_of_study_controller.dart';
 import '../core/app_controller.dart';
 import 'app_container.dart';
 

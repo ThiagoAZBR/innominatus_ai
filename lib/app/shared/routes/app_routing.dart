@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
-import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
+import 'package:innominatus_ai/app/modules/subjects/controllers/fields_of_study_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/fields_of_study_page.dart';
 import 'package:innominatus_ai/app/modules/subtopics/controllers/sub_topics_controller.dart';
 import 'package:innominatus_ai/app/modules/subtopics/sub_topics_page.dart';

@@ -9,11 +9,11 @@ import '../../shared/routes/args/subjects_page_args.dart';
 import '../../shared/utils/route_utils.dart';
 import '../../shared/widgets/app_scaffold/app_scaffold.dart';
 import '../../shared/widgets/continue_floating_button.dart';
-import 'controllers/states/subjects_states.dart';
-import 'controllers/subjects_controller.dart';
-import 'widgets/state_widgets/subjects_error.dart';
-import 'widgets/state_widgets/subjects_loading.dart';
-import 'widgets/state_widgets/subjects_selection.dart';
+import 'controllers/states/fields_of_study_states.dart';
+import 'controllers/fields_of_study_controller.dart';
+import 'widgets/state_widgets/fields_of_study_error.dart';
+import 'widgets/state_widgets/fields_of_study_loading.dart';
+import 'widgets/state_widgets/fields_of_study_selection.dart';
 
 class FieldsOfStudyPage extends StatefulWidget {
   final FieldsOfStudyController fieldsOfStudyController;
