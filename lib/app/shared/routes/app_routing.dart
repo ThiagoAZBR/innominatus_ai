@@ -27,7 +27,7 @@ class AppRouting {
         AppRoutes.homePage: (_) {
           _handleHomePageDependencies();
           return HomePage(
-            appController: I.get(),
+            controller: I.get(),
           );
         },
         AppRoutes.chatPage: (_) {
@@ -78,6 +78,7 @@ class AppRouting {
       SubjectsContainer().setup();
     }
   }
+
   void _handleStudyPlanPageDependencies() {
     if (!I.isRegistered<StudyPlanController>()) {
       StudyPlanContainer().setup();

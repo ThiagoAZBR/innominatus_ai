@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class HomeController {
   final PageController pageController = PageController();
-  final _pageCounter$ = RxNotifier(0);
+  final _slideBannerCounter$ = RxNotifier(0);
+  final _hasStudyPlan = RxNotifier(false);
 
-  int get pageCounter => _pageCounter$.value;
-  setPageCounter(int newValue) => _pageCounter$.value = newValue;
+  bool fetchHasStudyPlan() {
+    final studyPlanBox = HiveBoxInstances.studyPlan;
+    final studyPlan = studyPlanBox.get(LocalDBConstants.studyPlan);
+    return studyPlan != null;
+  }
+
+  // Getters and Setters
+  bool get hasStudyPlan => _hasStudyPlan.value;
+  set hasStudyPlan(bool value) => _hasStudyPlan.value = value;
+
+  int get slideBannerCounter => _slideBannerCounter$.value;
+  setPageCounter(int newValue) => _slideBannerCounter$.value = newValue;
 }

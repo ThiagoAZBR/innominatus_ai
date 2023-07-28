@@ -24,10 +24,10 @@ final List<Widget> pageViewChildren = [
 ];
 
 class HomePage extends StatelessWidget {
-  final HomeController appController;
+  final HomeController controller;
   const HomePage({
     Key? key,
-    required this.appController,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -82,10 +82,10 @@ class HomePage extends StatelessWidget {
                         builder: (_) => Stack(
                           children: [
                             PageView.builder(
-                              controller: appController.pageController,
+                              controller: controller.pageController,
                               itemCount: pageViewChildren.length,
                               onPageChanged: (int index) =>
-                                  appController.setPageCounter(index),
+                                  controller.setPageCounter(index),
                               itemBuilder: (context, index) =>
                                   pageViewChildren[index],
                             ),
@@ -94,26 +94,28 @@ class HomePage extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: pageViewChildren
-                                    .map((page) => Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 4,
-                                            bottom: 24,
+                                    .map(
+                                      (page) => Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 4,
+                                          bottom: 24,
+                                        ),
+                                        child: Container(
+                                          height: 10,
+                                          width: 10,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(1000),
+                                            color:
+                                                controller.slideBannerCounter ==
+                                                        pageViewChildren
+                                                            .indexOf(page)
+                                                    ? AppColors.lightBlack
+                                                    : AppColors.lightWhite,
                                           ),
-                                          child: Container(
-                                            height: 10,
-                                            width: 10,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(1000),
-                                              color:
-                                                  appController.pageCounter ==
-                                                          pageViewChildren
-                                                              .indexOf(page)
-                                                      ? AppColors.lightBlack
-                                                      : AppColors.lightWhite,
-                                            ),
-                                          ),
-                                        ))
+                                        ),
+                                      ),
+                                    )
                                     .toList(),
                               ),
                             )
@@ -129,7 +131,9 @@ class HomePage extends StatelessWidget {
                   style: AppTextStyles.interVeryBig(),
                 ),
                 const SizedBox(height: 16),
-                const SuggestionPlaceholders(),
+                SuggestionPlaceholders(
+                  controller: controller,
+                ),
               ],
             ),
           ),
@@ -192,27 +196,59 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class SuggestionPlaceholders extends StatelessWidget {
-  const SuggestionPlaceholders({super.key});
+class SuggestionPlaceholders extends StatefulWidget {
+  final HomeController controller;
+
+  const SuggestionPlaceholders({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  State<SuggestionPlaceholders> createState() => _SuggestionPlaceholdersState();
+}
+
+class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
+  @override
+  void initState() {
+    super.initState();
+    controller.hasStudyPlan = controller.fetchHasStudyPlan();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        CardAction(
-          title: 'Iniciar estudos',
-          subtitle:
-              'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',
-          onTap: () => Navigator.pushNamed(
-            context,
-            AppRoutes.fieldsOfStudyPage,
-            arguments: FieldsOfStudyPageArgs(
-              canChooseMoreThanOneFieldOfStudy: true,
+        RxBuilder(
+          builder: (_) => Visibility(
+            visible: !controller.hasStudyPlan,
+            replacement: CardAction(
+              title: 'Ver Plano de Estudos',
+              subtitle:
+                  'Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.',
+              onTap: () => Navigator.pushNamed(
+                context,
+                AppRoutes.studyPlan,
+              ),
+            ),
+            child: CardAction(
+              title: 'Iniciar estudos',
+              subtitle:
+                  'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',
+              onTap: () => Navigator.pushNamed(
+                context,
+                AppRoutes.fieldsOfStudyPage,
+                arguments: FieldsOfStudyPageArgs(
+                  canChooseMoreThanOneFieldOfStudy: true,
+                ),
+              ),
             ),
           ),
         ),
       ],
     );
   }
+
+  HomeController get controller => widget.controller;
 }
