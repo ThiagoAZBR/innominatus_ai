@@ -27,7 +27,7 @@ class FieldsOfStudyPage extends StatefulWidget {
 }
 
 class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
-  late final FieldsOfStudyPageArgs args;
+  FieldsOfStudyPageArgs? args;
 
   @override
   void dispose() {

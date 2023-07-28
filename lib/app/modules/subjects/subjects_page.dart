@@ -26,13 +26,13 @@ class SubjectsPage extends StatefulWidget {
 }
 
 class _SubjectsPageState extends State<SubjectsPage> {
-  late final SubjectsPageArgs args;
+  SubjectsPageArgs? args;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final args = RouteUtils.getArgs(context) as SubjectsPageArgs;
-    fetchSubjects(args.fieldOfStudy);
+    args = RouteUtils.getArgs(context) as SubjectsPageArgs;
+    fetchSubjects(args!.fieldOfStudy);
   }
 
   @override
@@ -53,7 +53,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
                 context,
                 AppRoutes.studyPlan,
                 arguments: StudyPlanPageArgs(
-                  fieldOfStudy: args.fieldOfStudy,
+                  fieldOfStudy: args?.fieldOfStudy ?? '',
                   subjects: subjectsController.getChosenSubjects(
                     subjects: subjectsController.subjects$,
                     isChosenList: subjectsController.isSubjectsSelectedList,

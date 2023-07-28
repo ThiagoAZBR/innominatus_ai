@@ -29,7 +29,7 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-    args = RouteUtils.getArgs(context) as StudyPlanPageArgs;
+    args = RouteUtils.getArgs(context) as StudyPlanPageArgs?;
 
     if (args == null) {
       final fieldsOfStudy = controller.recoverStudyPlan();
@@ -61,17 +61,17 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
       ),
     };
 
-    return AppScaffold(
-      floatingButton: RxBuilder(
-        builder: (_) => Visibility(
-          visible: controller.hasAnySelectedCard(),
+    return RxBuilder(
+      builder: (_) => AppScaffold(
+        floatingButton: Visibility(
+          visible: controller.hasAnySelectedCard,
           child: ContinueFloatingButton(
             onTap: () {},
           ),
         ),
-      ),
-      child: SingleChildScrollView(
-        child: mapBuilder[controller.state$.toString()],
+        child: SingleChildScrollView(
+          child: mapBuilder[controller.state$.toString()],
+        ),
       ),
     );
   }

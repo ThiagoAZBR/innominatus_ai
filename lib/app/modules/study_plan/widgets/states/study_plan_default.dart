@@ -19,13 +19,23 @@ class StudyPlanDefault extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: state.fieldsOfStudyLocalDB!.items
-              .map((e) => FieldOfStudyWidget(
-                    fieldOfStudyItemModel: e,
-                    controller: controller,
-                  ))
-              .toList(),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Selecione a primeira disciplina a ser estudada',
+              style: AppTextStyles.interVeryBig(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Você consegue selecionar uma disciplina ao tocar em cima dela',
+              style: AppTextStyles.interSmall(),
+            ),
+            const SizedBox(height: 32),
+            ...state.fieldsOfStudyLocalDB!.items.map((e) => FieldOfStudyWidget(
+                  fieldOfStudyItemModel: e,
+                  controller: controller,
+                ))
+          ],
         ),
       ),
     );
@@ -58,11 +68,13 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
           widget.fieldOfStudyItemModel.name,
           style: AppTextStyles.interVeryBig(fontWeight: FontWeight.w500),
         ),
+        const SizedBox(height: 16),
         for (int i = 0; i < widget.fieldOfStudyItemModel.subjects.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 32),

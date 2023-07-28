@@ -10,6 +10,7 @@ class StudyPlanController {
   final _state = RxNotifier<StudyPlanState>(
     const StudyPlanIsLoadingState(),
   );
+  final _hasAnySelectedCard = RxNotifier(false);
 
   List<bool> isSubjectSelectedList = <bool>[];
 
@@ -20,7 +21,7 @@ class StudyPlanController {
   }
 
   Future<FieldsOfStudyLocalDB> saveStudyPlan(StudyPlanPageArgs args) async {
-    final fieldOfStudyItem = FieldOfStudyItemModel(
+    final fieldOfStudyItem = FieldOfStudyItemLocalDB(
       name: args.fieldOfStudy,
       subjects: args.subjects,
     );
@@ -76,13 +77,20 @@ class StudyPlanController {
   }
 
   void updateSelectionCard(int index) {
+    final lastSelectedIndex = isSubjectSelectedList.indexOf(true);
+
     for (var i = 0; i < isSubjectSelectedList.length; i++) {
       isSubjectSelectedList[i] = false;
     }
-    isSubjectSelectedList[index] = !isSubjectSelectedList[index];
+
+    if (index != lastSelectedIndex) {
+      isSubjectSelectedList[index] = !isSubjectSelectedList[index];
+    }
+    searchForAnySelectedCard();
   }
 
-  bool hasAnySelectedCard() => isSubjectSelectedList.any((e) => e == true);
+  void searchForAnySelectedCard() =>
+      hasAnySelectedCard = isSubjectSelectedList.any((e) => e == true);
 
   // Getters and Setters
   StudyPlanState get state$ => _state.value;
@@ -96,4 +104,7 @@ class StudyPlanController {
       );
 
   void setErrorState() => state$ = const StudyPlanWithErrorState();
+
+  bool get hasAnySelectedCard => _hasAnySelectedCard.value;
+  set hasAnySelectedCard(bool value) => _hasAnySelectedCard.value = value;
 }
