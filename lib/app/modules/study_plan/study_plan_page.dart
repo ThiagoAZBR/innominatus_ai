@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innominatus_ai/app/shared/containers/study_plan_container.dart';
 import 'package:innominatus_ai/app/shared/routes/args/study_plan_args.dart';
 import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
 
@@ -21,12 +22,30 @@ class StudyPlanPage extends StatefulWidget {
 }
 
 class _StudyPlanPageState extends State<StudyPlanPage> {
-  late final StudyPlanPageArgs args;
-  
+  late final StudyPlanPageArgs? args;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as StudyPlanPageArgs;
+
+    if (args == null) {
+      final fieldsOfStudy = controller.recoverStudyPlan();
+
+      if (fieldsOfStudy != null) {
+        return controller.setDefaultState();
+      }
+
+      controller.setErrorState();
+    }
+
+    controller.saveStudyPlan(args!);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    StudyPlanContainer().dispose();
   }
 
   @override
@@ -39,8 +58,10 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
 
     return AppScaffold(
       child: SingleChildScrollView(
-        child: mapBuilder[widget.controller.state$.toString()],
+        child: mapBuilder[controller.state$.toString()],
       ),
     );
   }
+
+  StudyPlanController get controller => widget.controller;
 }
