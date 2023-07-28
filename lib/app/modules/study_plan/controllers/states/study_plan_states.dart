@@ -1,3 +1,5 @@
+import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
+
 abstract class StudyPlanState {}
 
 class StudyPlanIsLoadingState implements StudyPlanState {
@@ -5,7 +7,10 @@ class StudyPlanIsLoadingState implements StudyPlanState {
 }
 
 class StudyPlanDefaultState implements StudyPlanState {
-  const StudyPlanDefaultState();
+  final FieldsOfStudyLocalDB? fieldsOfStudyLocalDB;
+  const StudyPlanDefaultState({
+    this.fieldsOfStudyLocalDB,
+  });
 }
 
 class StudyPlanWithErrorState implements StudyPlanState {

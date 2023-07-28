@@ -11,13 +11,15 @@ class StudyPlanController {
     const StudyPlanIsLoadingState(),
   );
 
+  List<bool> isSubjectSelectedList = <bool>[];
+
   FieldsOfStudyLocalDB? recoverStudyPlan() {
     final studyPlanBox = HiveBoxInstances.studyPlan;
 
     return studyPlanBox.get(LocalDBConstants.studyPlan);
   }
 
-  Future<void> saveStudyPlan(StudyPlanPageArgs args) async {
+  Future<FieldsOfStudyLocalDB> saveStudyPlan(StudyPlanPageArgs args) async {
     final fieldOfStudyItem = FieldOfStudyItemModel(
       name: args.fieldOfStudy,
       subjects: args.subjects,
@@ -36,21 +38,25 @@ class StudyPlanController {
         fieldOfStudy: args.fieldOfStudy,
       );
       if (hasAlreadySavedFieldOfStudy) {
-        return;
+        return studyPlan;
       }
       studyPlan.items.add(fieldOfStudyItem);
 
-      return await studyPlanBox.put(
+      await studyPlanBox.put(
         LocalDBConstants.studyPlan,
         studyPlan,
       );
+
+      return studyPlan;
     }
 
+    final newStudyPlan = FieldsOfStudyLocalDB(items: [fieldOfStudyItem]);
     // First time it's created
     studyPlanBox.put(
       LocalDBConstants.studyPlan,
-      FieldsOfStudyLocalDB(items: [fieldOfStudyItem]),
+      newStudyPlan,
     );
+    return newStudyPlan;
   }
 
   bool hasFieldOfStudy({
@@ -63,10 +69,31 @@ class StudyPlanController {
     );
   }
 
+  void fillHasSubjectSelected(List<String> subjects) {
+    for (var i = 0; i < subjects.length; i++) {
+      isSubjectSelectedList.add(false);
+    }
+  }
+
+  void updateSelectionCard(int index) {
+    for (var i = 0; i < isSubjectSelectedList.length; i++) {
+      isSubjectSelectedList[i] = false;
+    }
+    isSubjectSelectedList[index] = !isSubjectSelectedList[index];
+  }
+
+  bool hasAnySelectedCard() => isSubjectSelectedList.any((e) => e == true);
+
   // Getters and Setters
   StudyPlanState get state$ => _state.value;
   set state$(StudyPlanState value) => _state.value = value;
 
-  void setDefaultState() => state$ = const StudyPlanDefaultState();
+  void setDefaultState([
+    FieldsOfStudyLocalDB? fieldsOfStudyLocalDB,
+  ]) =>
+      state$ = StudyPlanDefaultState(
+        fieldsOfStudyLocalDB: fieldsOfStudyLocalDB,
+      );
+
   void setErrorState() => state$ = const StudyPlanWithErrorState();
 }
