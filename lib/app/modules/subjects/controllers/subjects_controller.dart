@@ -38,6 +38,19 @@ class SubjectsController {
         List.of(isSubjectsSelectedList).map((e) => false).toList();
   }
 
+  List<String> getChosenSubjects({
+    required List<String> subjects,
+    required List<bool> isChosenList,
+  }) {
+    List<String> chosenSubjects = [];
+    for (var i = 0; i < isChosenList.length; i++) {
+      if (isChosenList[i]) {
+        chosenSubjects.add(subjects[i]);
+      }
+    }
+    return chosenSubjects;
+  }
+
   // Getters and Setters
   bool get isLoading$ => _isLoading.value;
   void startLoading() => _isLoading.value = true;
