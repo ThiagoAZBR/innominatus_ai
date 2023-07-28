@@ -49,6 +49,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
           visible: subjectsController.hasAnySubjectsSelected,
           child: ContinueFloatingButton(
             onTap: () {
+              Navigator.popUntil(
+                context,
+                (route) => route.settings.name == AppRoutes.homePage,
+              );
               Navigator.pushNamed(
                 context,
                 AppRoutes.studyPlan,

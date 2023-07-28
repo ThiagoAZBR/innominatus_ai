@@ -16,6 +16,7 @@ class AppController {
   final GetRoadmap _getRoadmap;
   final LocalDB prefs;
 
+  final _hasStudyPlan = RxNotifier(false);
   final fieldsOfStudy$ = RxList<SharedFieldOfStudyItemModel>();
 
   AppController({
@@ -105,4 +106,8 @@ class AppController {
       },
     );
   }
+
+  // Getters and Setters
+    bool get hasStudyPlan => _hasStudyPlan.value;
+  set hasStudyPlan(bool value) => _hasStudyPlan.value = value;
 }

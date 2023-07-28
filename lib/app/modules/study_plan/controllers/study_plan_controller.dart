@@ -1,5 +1,6 @@
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 import 'package:innominatus_ai/app/modules/study_plan/controllers/states/study_plan_states.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
@@ -7,12 +8,15 @@ import 'package:innominatus_ai/app/shared/routes/args/study_plan_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class StudyPlanController {
+  final AppController appController;
   final _state = RxNotifier<StudyPlanState>(
     const StudyPlanIsLoadingState(),
   );
   final _hasAnySelectedCard = RxNotifier(false);
 
   List<bool> isSubjectSelectedList = <bool>[];
+
+  StudyPlanController(this.appController);
 
   FieldsOfStudyLocalDB? recoverStudyPlan() {
     final studyPlanBox = HiveBoxInstances.studyPlan;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_action.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -212,7 +213,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
   @override
   void initState() {
     super.initState();
-    controller.hasStudyPlan = controller.fetchHasStudyPlan();
+    appController.hasStudyPlan = homeController.fetchHasStudyPlan();
   }
 
   @override
@@ -222,7 +223,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
       children: <Widget>[
         RxBuilder(
           builder: (_) => Visibility(
-            visible: !controller.hasStudyPlan,
+            visible: !appController.hasStudyPlan,
             replacement: CardAction(
               title: 'Ver Plano de Estudos',
               subtitle:
@@ -250,5 +251,6 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
     );
   }
 
-  HomeController get controller => widget.controller;
+  HomeController get homeController => widget.controller;
+  AppController get appController => widget.controller.appController;
 }

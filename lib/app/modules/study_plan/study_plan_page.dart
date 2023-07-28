@@ -61,16 +61,22 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
       ),
     };
 
-    return RxBuilder(
-      builder: (_) => AppScaffold(
-        floatingButton: Visibility(
-          visible: controller.hasAnySelectedCard,
-          child: ContinueFloatingButton(
-            onTap: () {},
+    return WillPopScope(
+      onWillPop: () async {
+        controller.appController.hasStudyPlan = true;
+        return true;
+      },
+      child: RxBuilder(
+        builder: (_) => AppScaffold(
+          floatingButton: Visibility(
+            visible: controller.hasAnySelectedCard,
+            child: ContinueFloatingButton(
+              onTap: () {},
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: mapBuilder[controller.state$.toString()],
+          child: SingleChildScrollView(
+            child: mapBuilder[controller.state$.toString()],
+          ),
         ),
       ),
     );
