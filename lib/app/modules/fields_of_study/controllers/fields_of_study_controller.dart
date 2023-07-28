@@ -6,8 +6,9 @@ class FieldsOfStudyController {
   final AppController appController;
 
   final _isFieldOfStudyLoading$ = RxNotifier(false);
-  final _state =
-      RxNotifier<FieldOfStudyStates>(const FieldsOfStudyLoadingState());
+  final _state = RxNotifier<FieldOfStudyStates>(
+    const FieldsOfStudyLoadingState(),
+  );
   List<bool> isFieldOfStudySelectedList = <bool>[];
   final RxNotifier _hasAnyFieldOfStudySelected = RxNotifier(false);
 

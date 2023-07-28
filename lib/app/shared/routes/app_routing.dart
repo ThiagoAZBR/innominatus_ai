@@ -4,11 +4,14 @@ import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart
 import 'package:innominatus_ai/app/modules/fields_of_study/controllers/fields_of_study_controller.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/fields_of_study_page.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
+import 'package:innominatus_ai/app/modules/study_plan/controllers/study_plan_controller.dart';
+import 'package:innominatus_ai/app/modules/study_plan/study_plan_page.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/subjects_page.dart';
 import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
 import 'package:innominatus_ai/app/shared/containers/fields_of_study_container.dart';
 import 'package:innominatus_ai/app/shared/containers/home_container.dart';
+import 'package:innominatus_ai/app/shared/containers/study_plan_container.dart';
 import 'package:innominatus_ai/app/shared/containers/subjects_container.dart';
 
 import '../../modules/chat/chat_page.dart';
@@ -44,6 +47,10 @@ class AppRouting {
           return SubjectsPage(
             controller: I.get<SubjectsController>(),
           );
+        },
+        AppRoutes.studyPlan: (_) {
+          _handleStudyPlanPageDependencies();
+          return StudyPlanPage(controller: I.get<StudyPlanController>());
         }
       };
 
@@ -69,6 +76,11 @@ class AppRouting {
   void _handleSubjectsPageDependencies() {
     if (!I.isRegistered<SubjectsController>()) {
       SubjectsContainer().setup();
+    }
+  }
+  void _handleStudyPlanPageDependencies() {
+    if (!I.isRegistered<StudyPlanController>()) {
+      StudyPlanContainer().setup();
     }
   }
 }
