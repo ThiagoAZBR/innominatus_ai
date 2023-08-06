@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
-import 'package:innominatus_ai/app/shared/text_constants/remote_db_constants.dart';
+import 'package:innominatus_ai/app/shared/app_constants/remote_db_constants.dart';
 
 import '../domain/models/shared_fields_of_study.dart';
 import '../domain/usecases/usecase.dart';

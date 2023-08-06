@@ -1,7 +1,7 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:innominatus_ai/app/shared/text_constants/remote_db_constants.dart';
+import 'package:innominatus_ai/app/shared/app_constants/remote_db_constants.dart';
 import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 

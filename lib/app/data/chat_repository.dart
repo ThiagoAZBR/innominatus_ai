@@ -7,7 +7,7 @@ import 'package:innominatus_ai/app/domain/usecases/chat/get_fields_of_study.dart
 import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 import 'package:innominatus_ai/app/shared/network/app_urls.dart';
-import 'package:innominatus_ai/app/shared/text_constants/app_constants.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 
 import '../domain/models/chat_completion.dart';
 import '../domain/usecases/chat/create_chat_completion.dart';
