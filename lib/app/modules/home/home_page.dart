@@ -230,7 +230,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
                   'Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.',
               onTap: () => Navigator.pushNamed(
                 context,
-                AppRoutes.studyPlan,
+                AppRoutes.studyPlanPage,
               ),
             ),
             child: CardAction(

@@ -3,7 +3,7 @@ import 'package:innominatus_ai/app/modules/classes/controllers/classes_controlle
 import 'package:innominatus_ai/app/shared/widgets/loading/shimmer_cards.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../shared/themes/app_text_styles.dart';
+import '../../../shared/themes/app_text_styles.dart';
 
 class ClassesSelection extends StatelessWidget {
   final ClassesController classesController;
@@ -29,7 +29,7 @@ class ClassesSelection extends StatelessWidget {
         ),
         const SizedBox(height: 32),
         RxBuilder(
-          builder: (_) => classesController.isClassesLoading
+          builder: (_) => classesController.isClassesLoading$
               ? const ShimmerCards()
               : const Text('text'),
         )

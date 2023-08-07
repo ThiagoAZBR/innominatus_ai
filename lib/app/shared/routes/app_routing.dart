@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/chat_controller.dart';
+import 'package:innominatus_ai/app/modules/classes/classes_page.dart';
+import 'package:innominatus_ai/app/modules/classes/controllers/classes_controller.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/controllers/fields_of_study_controller.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/fields_of_study_page.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
@@ -9,6 +11,7 @@ import 'package:innominatus_ai/app/modules/study_plan/study_plan_page.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/modules/subjects/subjects_page.dart';
 import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
+import 'package:innominatus_ai/app/shared/containers/classes_container.dart';
 import 'package:innominatus_ai/app/shared/containers/fields_of_study_container.dart';
 import 'package:innominatus_ai/app/shared/containers/home_container.dart';
 import 'package:innominatus_ai/app/shared/containers/study_plan_container.dart';
@@ -48,9 +51,13 @@ class AppRouting {
             controller: I.get<SubjectsController>(),
           );
         },
-        AppRoutes.studyPlan: (_) {
+        AppRoutes.studyPlanPage: (_) {
           _handleStudyPlanPageDependencies();
           return StudyPlanPage(controller: I.get<StudyPlanController>());
+        },
+        AppRoutes.classesPage: (_) {
+          _handleClassesPageDependencies();
+          return ClassesPage(controller: I.get<ClassesController>());
         }
       };
 
@@ -82,6 +89,12 @@ class AppRouting {
   void _handleStudyPlanPageDependencies() {
     if (!I.isRegistered<StudyPlanController>()) {
       StudyPlanContainer().setup();
+    }
+  }
+
+  void _handleClassesPageDependencies() {
+    if (!I.isRegistered<ClassesController>()) {
+      ClassesContainer().setup();
     }
   }
 }

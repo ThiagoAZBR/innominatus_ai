@@ -55,7 +55,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
               );
               Navigator.pushNamed(
                 context,
-                AppRoutes.studyPlan,
+                AppRoutes.studyPlanPage,
                 arguments: StudyPlanPageArgs(
                   fieldOfStudy: args?.fieldOfStudy ?? '',
                   subjects: subjectsController.getChosenSubjects(
