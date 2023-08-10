@@ -2,10 +2,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
-class GetRoadmap implements UseCase<List<String>, GetRoadmapParams> {
+class GetRoadmapUseCase implements UseCase<List<String>, GetRoadmapParams> {
   final ChatRepository chatRepository;
 
-  GetRoadmap(this.chatRepository);
+  GetRoadmapUseCase(this.chatRepository);
 
   @override
   Future<Either<Exception, List<String>>> call({

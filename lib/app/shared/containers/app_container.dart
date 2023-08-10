@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
-import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/get_fields_of_study.dart';
+import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/get_fields_of_study_db.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 
 import '../localDB/localdb.dart';
 
@@ -56,14 +56,14 @@ class AppContainer implements Dependencies {
       ),
     );
     I.registerLazySingleton(
-      () => GetRoadmap(
+      () => GetRoadmapUseCase(
         I.get<ChatRepository>(),
       ),
     );
     I.registerSingleton(
       AppController(
         getFieldsOfStudyDB: I.get<GetFieldsOfStudyDB>(),
-        getRoadmap: I.get<GetRoadmap>(),
+        getRoadmap: I.get<GetRoadmapUseCase>(),
         prefs: I.get<PrefsImpl>(),
       ),
     );

@@ -13,14 +13,14 @@ import '../localDB/localdb_instances.dart';
 
 class AppController {
   final GetFieldsOfStudyDB _getFieldsOfStudyDB;
-  final GetRoadmap _getRoadmap;
+  final GetRoadmapUseCase _getRoadmap;
   final LocalDB prefs;
 
   final _hasStudyPlan = RxNotifier(false);
   final fieldsOfStudy$ = RxList<SharedFieldOfStudyItemModel>();
 
   AppController({
-    required GetRoadmap getRoadmap,
+    required GetRoadmapUseCase getRoadmap,
     required GetFieldsOfStudyDB getFieldsOfStudyDB,
     required this.prefs,
   })  : _getFieldsOfStudyDB = getFieldsOfStudyDB,
@@ -108,6 +108,6 @@ class AppController {
   }
 
   // Getters and Setters
-    bool get hasStudyPlan => _hasStudyPlan.value;
+  bool get hasStudyPlan => _hasStudyPlan.value;
   set hasStudyPlan(bool value) => _hasStudyPlan.value = value;
 }
