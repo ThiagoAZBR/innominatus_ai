@@ -7,7 +7,7 @@ part 'shared_fields_of_study_local_db.g.dart';
 
 // This class is made to recover the Fields of Study to show when creating or rearranging the Study Roadmap
 // The Field of Study when it's displayed, it has the name and description of it
-@HiveType(typeId: 3)
+@HiveType(typeId: 1)
 class SharedFieldsOfStudyLocalDB extends SharedFieldsOfStudyModel {
   @HiveField(0)
   final List<SharedFieldOfStudyItemModel> items;
@@ -26,7 +26,7 @@ class SharedFieldsOfStudyLocalDB extends SharedFieldsOfStudyModel {
   }
 }
 
-@HiveType(typeId: 4)
+@HiveType(typeId: 2)
 class SharedFieldOfStudyItemLocalDB extends SharedFieldOfStudyItemModel {
   @HiveField(0)
   final String name;

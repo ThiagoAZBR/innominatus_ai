@@ -1,4 +1,4 @@
-import 'package:innominatus_ai/app/domain/models/shared_field_of_study_item.dart';
+import 'shared_field_of_study_item.dart';
 
 class SharedFieldsOfStudyModel {
   final List<SharedFieldOfStudyItemModel> items;

@@ -62,7 +62,9 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
   @override
   void initState() {
     super.initState();
-    controller.fillHasSubjectSelected(fieldOfStudyItemModel.subjects);
+    controller.fillHasSubjectSelected(
+      fieldOfStudyItemModel.subjects.map((e) => e.name).toList(),
+    );
   }
 
   @override
@@ -82,7 +84,7 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
               onTap: () => setState(() => controller.updateSelectionCard(i)),
               child: SelectionCard(
                 isCardSelected: widget.controller.isSubjectSelectedList[i],
-                title: widget.fieldOfStudyItemModel.subjects[i],
+                title: widget.fieldOfStudyItemModel.subjects[i].name,
                 isSemiBold: false,
               ),
             ),

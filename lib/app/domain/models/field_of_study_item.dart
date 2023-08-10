@@ -1,5 +1,7 @@
+import './subject_item.dart';
+
 class FieldOfStudyItemModel {
-  final List<String> subjects;
+  final List<SubjectItemModel> subjects;
   final String name;
 
   FieldOfStudyItemModel({

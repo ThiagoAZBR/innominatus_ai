@@ -7,6 +7,8 @@ import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
 import 'package:innominatus_ai/app/shared/routes/args/study_plan_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
+import '../../../domain/models/subject_item.dart';
+
 class StudyPlanController {
   final AppController appController;
   final _state = RxNotifier<StudyPlanState>(
@@ -25,9 +27,15 @@ class StudyPlanController {
   }
 
   Future<FieldsOfStudyLocalDB> saveStudyPlan(StudyPlanPageArgs args) async {
+    List<SubjectItemModel> subjectsItem = [];
+
+    for (var i = 0; i < args.subjects.length; i++) {
+      subjectsItem.add(SubjectItemLocalDB(name: args.subjects[i]));
+    }
+    
     final fieldOfStudyItem = FieldOfStudyItemLocalDB(
       name: args.fieldOfStudy,
-      subjects: args.subjects,
+      subjects: subjectsItem,
     );
 
     final studyPlanBox = HiveBoxInstances.studyPlan;

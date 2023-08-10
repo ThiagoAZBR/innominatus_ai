@@ -2,6 +2,7 @@ import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../domain/models/shared_field_of_study_item.dart';
 import '../../domain/models/shared_fields_of_study.dart';
+import '../../domain/models/subject_item.dart';
 import '../../domain/usecases/chat/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/usecase.dart';
@@ -75,7 +76,9 @@ class AppController {
               (fieldOfStudy) =>
                   fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
             )
-            .subjects;
+            .subjects
+            .map((e) => e.name)
+            .toList();
       }
     }
 
@@ -83,9 +86,20 @@ class AppController {
     return response.fold(
       (failure) => null,
       (subjects) {
+        List<SubjectItemModel> subjectsItem = [];
+
+        for (var i = 0; i < subjects.length; i++) {
+          subjectsItem.add(SubjectItemLocalDB(name: subjects[i]));
+        }
+        
+        final fieldOfStudyItemLocalDB = FieldOfStudyItemLocalDB(
+          subjects: subjectsItem,
+          name: params.topic,
+        );
+
         if (fieldsOfStudy != null) {
           fieldsOfStudy.items.add(
-            FieldOfStudyItemLocalDB(subjects: subjects, name: params.topic),
+            fieldOfStudyItemLocalDB,
           );
           fieldsOfStudyBox.put(
             LocalDBConstants.fieldsOfStudy,
@@ -96,9 +110,7 @@ class AppController {
           fieldsOfStudyBox.put(
             LocalDBConstants.fieldsOfStudy,
             FieldsOfStudyLocalDB(
-              items: [
-                FieldOfStudyItemLocalDB(subjects: subjects, name: params.topic)
-              ],
+              items: [fieldOfStudyItemLocalDB],
             ),
           );
         }

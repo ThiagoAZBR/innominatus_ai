@@ -9,7 +9,7 @@ part of 'shared_fields_of_study_local_db.dart';
 class SharedFieldsOfStudyLocalDBAdapter
     extends TypeAdapter<SharedFieldsOfStudyLocalDB> {
   @override
-  final int typeId = 3;
+  final int typeId = 1;
 
   @override
   SharedFieldsOfStudyLocalDB read(BinaryReader reader) {
@@ -44,7 +44,7 @@ class SharedFieldsOfStudyLocalDBAdapter
 class SharedFieldOfStudyItemLocalDBAdapter
     extends TypeAdapter<SharedFieldOfStudyItemLocalDB> {
   @override
-  final int typeId = 4;
+  final int typeId = 2;
 
   @override
   SharedFieldOfStudyItemLocalDB read(BinaryReader reader) {
