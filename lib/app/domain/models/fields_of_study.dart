@@ -1,4 +1,4 @@
-import 'package:innominatus_ai/app/domain/models/subject_item.dart';
+import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
 
 class FieldsOfStudyModel {
   final List<FieldOfStudyItemModel> items;

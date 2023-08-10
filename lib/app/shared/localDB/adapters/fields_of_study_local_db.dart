@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:innominatus_ai/app/domain/models/fields_of_study.dart';
 
-import '../../../domain/models/subject_item.dart';
+import '../../../domain/models/field_of_study_item.dart';
 
 part 'fields_of_study_local_db.g.dart';
 

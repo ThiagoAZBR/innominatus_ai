@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/domain/models/subject_item.dart';
+import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
 import 'package:innominatus_ai/app/modules/study_plan/controllers/states/study_plan_states.dart';
 import 'package:innominatus_ai/app/modules/study_plan/controllers/study_plan_controller.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
