@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:innominatus_ai/app/domain/models/class_item.dart';
 import 'package:innominatus_ai/app/domain/models/fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 
@@ -55,7 +56,7 @@ class SubjectItemLocalDB extends SubjectItemModel {
   @HiveField(0)
   final String name;
   @HiveField(1)
-  final List<String>? classes;
+  final List<ClassItemModel>? classes;
 
   SubjectItemLocalDB({
     required this.name,
@@ -67,7 +68,29 @@ class SubjectItemLocalDB extends SubjectItemModel {
   ) {
     return SubjectItemLocalDB(
       name: subjectItemModel.name,
-      classes: subjectItemModel.classes,
+      classes: subjectItemModel.classes
+          ?.map((e) => ClassItemLocalDB.fromClassItemModel(e))
+          .toList(),
+    );
+  }
+}
+
+@HiveType(typeId: 6)
+class ClassItemLocalDB extends ClassItemModel {
+  @HiveField(0)
+  final String name;
+  @HiveField(1)
+  final bool wasItCompleted;
+
+  ClassItemLocalDB({
+    required this.name,
+    required this.wasItCompleted,
+  }) : super(name: name, wasItCompleted: wasItCompleted);
+
+  factory ClassItemLocalDB.fromClassItemModel(ClassItemModel classItemModel) {
+    return ClassItemLocalDB(
+      name: classItemModel.name,
+      wasItCompleted: classItemModel.wasItCompleted,
     );
   }
 }
