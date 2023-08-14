@@ -2,7 +2,7 @@
     package="com.io.innominatus.innominatus_ai">
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
    <application
-        android:label="Chaos"
+        android:label="Chaos IO"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

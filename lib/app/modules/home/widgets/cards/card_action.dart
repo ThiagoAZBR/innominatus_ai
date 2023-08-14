@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/shared/app_constants/app_assets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
+
+import 'package:innominatus_ai/app/shared/app_constants/app_assets.dart';
 
 import '../../../../shared/themes/app_color.dart';
 import '../../../../shared/themes/app_text_styles.dart';
@@ -11,11 +12,13 @@ class CardAction extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+  final String url;
   const CardAction({
     Key? key,
     required this.title,
     required this.subtitle,
     required this.onTap,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -45,7 +48,7 @@ class CardAction extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
-                    imageUrl: AppAssets.studyWoman,
+                    imageUrl: url,
                     placeholder: (context, url) => Shimmer.fromColors(
                       baseColor: Colors.grey.shade300,
                       highlightColor: Colors.grey.shade100,

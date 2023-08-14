@@ -62,7 +62,7 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
   @override
   void initState() {
     super.initState();
-    controller.fillHasSubjectSelected(
+    controller.setQuantityOfSubjects(
       fieldOfStudyItemModel.subjects.map((e) => e.name).toList(),
     );
   }
@@ -73,18 +73,21 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          widget.fieldOfStudyItemModel.name,
+          fieldOfStudyItemModel.name,
           style: AppTextStyles.interVeryBig(fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 16),
-        for (int i = 0; i < widget.fieldOfStudyItemModel.subjects.length; i++)
+        for (int i = 0; i < fieldOfStudyItemModel.subjects.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 32),
             child: InkWell(
-              onTap: () => setState(() => controller.updateSelectionCard(i)),
+              onTap: () => setState(() => controller.updateSelectionCard(
+                    i,
+                    fieldOfStudyItemModel.subjects[i].name,
+                  )),
               child: SelectionCard(
-                isCardSelected: widget.controller.isSubjectSelectedList[i],
-                title: widget.fieldOfStudyItemModel.subjects[i].name,
+                isCardSelected: controller.isSubjectSelectedList[i],
+                title: fieldOfStudyItemModel.subjects[i].name,
                 isSemiBold: false,
               ),
             ),

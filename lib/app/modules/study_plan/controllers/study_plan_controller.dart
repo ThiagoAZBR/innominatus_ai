@@ -15,6 +15,7 @@ class StudyPlanController {
     const StudyPlanIsLoadingState(),
   );
   final _hasAnySelectedCard = RxNotifier(false);
+  String? selectedSubject;
 
   List<bool> isSubjectSelectedList = <bool>[];
 
@@ -32,7 +33,7 @@ class StudyPlanController {
     for (var i = 0; i < args.subjects.length; i++) {
       subjectsItem.add(SubjectItemLocalDB(name: args.subjects[i]));
     }
-    
+
     final fieldOfStudyItem = FieldOfStudyItemLocalDB(
       name: args.fieldOfStudy,
       subjects: subjectsItem,
@@ -82,13 +83,13 @@ class StudyPlanController {
     );
   }
 
-  void fillHasSubjectSelected(List<String> subjects) {
+  void setQuantityOfSubjects(List<String> subjects) {
     for (var i = 0; i < subjects.length; i++) {
       isSubjectSelectedList.add(false);
     }
   }
 
-  void updateSelectionCard(int index) {
+  void updateSelectionCard(int index, String subject) {
     final lastSelectedIndex = isSubjectSelectedList.indexOf(true);
 
     for (var i = 0; i < isSubjectSelectedList.length; i++) {
@@ -99,6 +100,11 @@ class StudyPlanController {
       isSubjectSelectedList[index] = !isSubjectSelectedList[index];
     }
     searchForAnySelectedCard();
+    if (hasAnySelectedCard) {
+      selectedSubject = subject;
+      return;
+    }
+    selectedSubject = null;
   }
 
   void searchForAnySelectedCard() =>

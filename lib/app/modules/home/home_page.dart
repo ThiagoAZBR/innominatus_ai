@@ -6,6 +6,7 @@ import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
+import '../../shared/app_constants/app_assets.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
 
@@ -225,6 +226,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
           builder: (_) => Visibility(
             visible: !appController.hasStudyPlan,
             replacement: CardAction(
+              url: AppAssets.studyWoman,
               title: 'Ver Plano de Estudos',
               subtitle:
                   'Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.',
@@ -234,6 +236,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
               ),
             ),
             child: CardAction(
+              url: AppAssets.studyMan,
               title: 'Iniciar estudos',
               subtitle:
                   'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',

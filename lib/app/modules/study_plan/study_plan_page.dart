@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/containers/study_plan_container.dart';
+import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
+import 'package:innominatus_ai/app/shared/routes/args/classes_page_args.dart';
 import 'package:innominatus_ai/app/shared/routes/args/study_plan_args.dart';
 import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -38,7 +40,7 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
         return controller.setDefaultState(fieldsOfStudy);
       }
 
-      controller.setErrorState();
+      return controller.setErrorState();
     }
 
     final studyPlan = await controller.saveStudyPlan(args!);
@@ -71,7 +73,15 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
           floatingButton: Visibility(
             visible: controller.hasAnySelectedCard,
             child: ContinueFloatingButton(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.classesPage,
+                  arguments: ClassesPageArgs(
+                    selectedSubject: controller.selectedSubject!,
+                  ),
+                );
+              },
             ),
           ),
           child: SingleChildScrollView(

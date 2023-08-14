@@ -37,6 +37,8 @@ void main() async {
   Hive.registerAdapter(SharedFieldOfStudyItemLocalDBAdapter());
   Hive.registerAdapter(FieldsOfStudyLocalDBAdapter());
   Hive.registerAdapter(FieldOfStudyItemLocalDBAdapter());
+  Hive.registerAdapter(SubjectItemLocalDBAdapter());
+  Hive.registerAdapter(ClassItemLocalDBAdapter());
   // Hive Instances
   await Hive.openBox<SharedFieldsOfStudyLocalDB>(
     LocalDBConstants.sharedFieldsOfStudy,

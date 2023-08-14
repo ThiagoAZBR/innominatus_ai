@@ -11,29 +11,32 @@ class ClassesSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "Escolha sua primeira aula",
-          style: AppTextStyles.interVeryBig(
-            fontWeight: FontWeight.w500,
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Escolha sua primeira aula",
+            style: AppTextStyles.interVeryBig(
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 16, top: 8),
-          child: Text(
-            'Você consegue selecionar uma aula ao tocar em cima dela',
-            style: AppTextStyles.interSmall(),
+          Padding(
+            padding: const EdgeInsets.only(right: 16, top: 8),
+            child: Text(
+              'Você consegue selecionar uma aula ao tocar em cima dela',
+              style: AppTextStyles.interSmall(),
+            ),
           ),
-        ),
-        const SizedBox(height: 32),
-        RxBuilder(
-          builder: (_) => classesController.isClassesLoading$
-              ? const ShimmerCards()
-              : const Text('text'),
-        )
-      ],
+          const SizedBox(height: 32),
+          RxBuilder(
+            builder: (_) => classesController.isClassesLoading$
+                ? const ShimmerCards()
+                : const Text('text'),
+          )
+        ],
+      ),
     );
   }
 }

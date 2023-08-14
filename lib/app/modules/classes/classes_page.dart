@@ -3,10 +3,12 @@ import 'package:innominatus_ai/app/modules/classes/controllers/classes_controlle
 import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_state.dart';
 import 'package:innominatus_ai/app/modules/classes/widgets/classes_error.dart';
 import 'package:innominatus_ai/app/modules/classes/widgets/classes_selection.dart';
+import 'package:innominatus_ai/app/shared/routes/args/classes_page_args.dart';
+import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-class ClassesPage extends StatelessWidget {
+class ClassesPage extends StatefulWidget {
   final ClassesController controller;
 
   const ClassesPage({
@@ -15,10 +17,23 @@ class ClassesPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ClassesPage> createState() => _ClassesPageState();
+}
+
+class _ClassesPageState extends State<ClassesPage> {
+  late final ClassesPageArgs? args;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    args = RouteUtils.getArgs(context) as ClassesPageArgs?;
+    if (args != null) {}
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mapBuilder = {
       ClassesSelectionState().toString(): ClassesSelection(
-        classesController: controller,
+        classesController: widget.controller,
       ),
       ClassesErrorState().toString(): const ClassesError(),
     };
@@ -26,7 +41,7 @@ class ClassesPage extends StatelessWidget {
     return AppScaffold(
       child: SingleChildScrollView(
         child: RxBuilder(
-          builder: (_) => mapBuilder[controller.state$.toString()]!,
+          builder: (_) => mapBuilder[widget.controller.state$.toString()]!,
         ),
       ),
     );
