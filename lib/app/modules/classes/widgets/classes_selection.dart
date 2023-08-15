@@ -6,10 +6,15 @@ import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../shared/themes/app_text_styles.dart';
 
-class ClassesSelection extends StatelessWidget {
+class ClassesSelection extends StatefulWidget {
   final ClassesController controller;
   const ClassesSelection({super.key, required this.controller});
 
+  @override
+  State<ClassesSelection> createState() => _ClassesSelectionState();
+}
+
+class _ClassesSelectionState extends State<ClassesSelection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,10 +44,15 @@ class ClassesSelection extends StatelessWidget {
                       for (int i = 0; i < generatedClasses.length; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 32),
-                          child: SelectionCard(
-                            title: generatedClasses[i],
-                            isSemiBold: false,
-                            isCardSelected: controller.isSelectedClasses[i],
+                          child: InkWell(
+                            onTap: () => setState(
+                              () => controller.changeSelectedClass(i),
+                            ),
+                            child: SelectionCard(
+                              title: generatedClasses[i],
+                              isSemiBold: false,
+                              isCardSelected: controller.isSelectedClasses[i],
+                            ),
                           ),
                         )
                     ],
@@ -53,5 +63,6 @@ class ClassesSelection extends StatelessWidget {
     );
   }
 
-  RxList<String> get generatedClasses => controller.generatedClasses;
+  ClassesController get controller => widget.controller;
+  RxList<String> get generatedClasses => widget.controller.generatedClasses;
 }

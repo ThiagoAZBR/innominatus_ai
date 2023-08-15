@@ -11,11 +11,30 @@ class ClassesController {
   final RxNotifier _state$ = RxNotifier<ClassesState>(ClassesSelectionState());
   final RxNotifier _isClassesLoading = RxNotifier(true);
   final RxList<String> generatedClasses = RxList();
+  final RxNotifier _hasAnyClassSelected = RxNotifier(false);
+  String? selectedClass;
+
   List<bool> isSelectedClasses = [];
 
   ClassesController({
     required this.getRoadmapUseCase,
   });
+
+  void changeSelectedClass(int i) {
+    final int indexOfPreviousSelectedClass = isSelectedClasses.indexOf(true);
+    resetAnySelectedClass();
+    if (i == indexOfPreviousSelectedClass) {
+      hasAnyClassSelected = false;
+      selectedClass = null;
+      return;
+    }
+    isSelectedClasses[i] = !isSelectedClasses[i];
+    selectedClass = generatedClasses[i];
+    hasAnyClassSelected = true;
+  }
+
+  void resetAnySelectedClass() =>
+      isSelectedClasses = List.of(isSelectedClasses).map((e) => false).toList();
 
   Future<List<String>?> getClassesRoadmap(GetRoadmapParams params) async {
     startClassesLoading();
@@ -137,4 +156,7 @@ class ClassesController {
 
   ClassesState get state$ => _state$.value;
   void setError() => _state$.value = ClassesErrorState();
+
+  bool get hasAnyClassSelected => _hasAnyClassSelected.value;
+  set hasAnyClassSelected(bool value) => _hasAnyClassSelected.value = value;
 }

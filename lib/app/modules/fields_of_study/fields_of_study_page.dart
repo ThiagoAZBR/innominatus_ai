@@ -32,7 +32,7 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
   @override
   void dispose() {
     super.dispose();
-    controller.resetSelectedCarts();
+    controller.resetSelectedCards();
     controller.appController.fieldsOfStudy$.clear();
     FieldsOfStudyContainer().dispose();
   }

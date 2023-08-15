@@ -8,6 +8,7 @@ import 'package:innominatus_ai/app/shared/containers/classes_container.dart';
 import 'package:innominatus_ai/app/shared/routes/args/classes_page_args.dart';
 import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
+import 'package:innominatus_ai/app/shared/widgets/continue_floating_button.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class ClassesPage extends StatefulWidget {
@@ -51,6 +52,14 @@ class _ClassesPageState extends State<ClassesPage> {
     };
 
     return AppScaffold(
+      floatingButton: RxBuilder(
+        builder: (_) => Visibility(
+          visible: controller.hasAnyClassSelected,
+          child: ContinueFloatingButton(
+            onTap: () {},
+          ),
+        ),
+      ),
       child: SingleChildScrollView(
         child: RxBuilder(
           builder: (_) => mapBuilder[controller.state$.toString()]!,

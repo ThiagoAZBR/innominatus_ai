@@ -28,7 +28,7 @@ class FieldsOfStudyController {
   void changeFieldOfStudySelectedCard(int i) {
     final int indexOfPreviousSelectedFieldOfStudy =
         isFieldOfStudySelectedList.indexOf(true);
-    resetSelectedCarts();
+    resetSelectedCards();
     if (i == indexOfPreviousSelectedFieldOfStudy) {
       hasAnyFieldOfStudySelected = false;
       return;
@@ -41,7 +41,7 @@ class FieldsOfStudyController {
     _state.value = const FieldsOfStudySelectionState();
   }
 
-  void resetSelectedCarts() {
+  void resetSelectedCards() {
     isFieldOfStudySelectedList =
         List.of(isFieldOfStudySelectedList).map((e) => false).toList();
   }

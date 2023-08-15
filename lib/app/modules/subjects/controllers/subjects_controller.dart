@@ -15,20 +15,24 @@ class SubjectsController {
   void changeSubjectsSelectedCard(int i) {
     final List<bool> indexOfPreviousSelectedSubjects =
         isSubjectsSelectedList.where((subject) => subject == true).toList();
+
     if (isSubjectsSelectedList[i] &&
         indexOfPreviousSelectedSubjects.length == 1) {
       hasAnySubjectsSelected = false;
       resetSelectedCarts();
       return;
     }
+
     if (indexOfPreviousSelectedSubjects.length == 3) {
       if (isSubjectsSelectedList[i]) {
         isSubjectsSelectedList[i] = !isSubjectsSelectedList[i];
         return;
       }
+
       final int lastSelectedSubject = isSubjectsSelectedList.lastIndexOf(true);
       isSubjectsSelectedList[lastSelectedSubject] = false;
     }
+
     isSubjectsSelectedList[i] = !isSubjectsSelectedList[i];
     hasAnySubjectsSelected = true;
   }
