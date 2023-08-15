@@ -17,9 +17,10 @@ class ClassesController {
 
   Future<List<String>?> getClassesRoadmap(GetRoadmapParams params) async {
     final studyPlan = recoverStudyPlan();
+    final subject = params.topic;
 
     final localClasses = getLocalCreatedClasses(
-      subject: params.topic,
+      subject: subject,
       studyPlan: studyPlan!,
     );
 
@@ -27,11 +28,18 @@ class ClassesController {
       return localClasses;
     }
 
-    // TODO: Create implementation for generate Classes Roadmap
     final result = await getRoadmapUseCase(params: params);
-    result.fold(
-      (failure) => null,
-      (classes) => null,
+
+    return result.fold(
+      (failure) {
+        setError();
+        return null;
+      },
+      (classes) => successInGeneratingClasses(
+        classes: classes,
+        studyPlan: studyPlan,
+        subject: subject,
+      ),
     );
   }
 
@@ -47,7 +55,9 @@ class ClassesController {
   }) {
     late int index;
     for (var i = 0; i < studyPlan.items.length; i++) {
-      index = studyPlan.items[i].subjects.indexWhere((e) => e.name == subject);
+      index = studyPlan.items[i].subjects.indexWhere(
+        (e) => e.name.toLowerCase() == subject.toLowerCase(),
+      );
       if (index != -1) {
         return studyPlan.items[i].subjects[index].classes
             ?.map((e) => e.name)
@@ -55,6 +65,48 @@ class ClassesController {
       }
     }
     return null;
+  }
+
+  List<String> successInGeneratingClasses({
+    required List<String> classes,
+    required FieldsOfStudyLocalDB studyPlan,
+    required String subject,
+  }) {
+    setLocalClasses(
+      subject: subject,
+      classes: classes,
+      studyPlan: studyPlan,
+    );
+
+    return classes;
+  }
+
+  void setLocalClasses({
+    required String subject,
+    required List<String> classes,
+    required FieldsOfStudyLocalDB studyPlan,
+  }) {
+    late int index;
+
+    for (var i = 0; i < studyPlan.items.length; i++) {
+      index = studyPlan.items[i].subjects.indexWhere(
+        (e) => e.name.toLowerCase() == subject.toLowerCase(),
+      );
+
+      if (index != -1) {
+        studyPlan.items[i].subjects[index] = SubjectItemLocalDB(
+          name: subject,
+          classes: classes
+              .map((e) => ClassItemLocalDB(name: e, wasItCompleted: false))
+              .toList(),
+        );
+
+        break;
+      }
+    }
+    
+    final studyPlanBox = HiveBoxInstances.studyPlan;
+    studyPlanBox.put(LocalDBConstants.studyPlan, studyPlan);
   }
 
   // Getters and Setters
