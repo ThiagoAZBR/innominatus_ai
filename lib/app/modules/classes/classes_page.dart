@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/classes/controllers/classes_controller.dart';
 import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_state.dart';
 import 'package:innominatus_ai/app/modules/classes/widgets/classes_error.dart';
 import 'package:innominatus_ai/app/modules/classes/widgets/classes_selection.dart';
+import 'package:innominatus_ai/app/shared/containers/classes_container.dart';
 import 'package:innominatus_ai/app/shared/routes/args/classes_page_args.dart';
 import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
@@ -21,19 +23,29 @@ class ClassesPage extends StatefulWidget {
 }
 
 class _ClassesPageState extends State<ClassesPage> {
-  late final ClassesPageArgs? args;
+  ClassesPageArgs? args;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as ClassesPageArgs?;
-    if (args != null) {}
+    if (args != null) {
+      controller.getClassesRoadmap(
+        GetRoadmapParams(args!.selectedSubject),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    ClassesContainer().dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final mapBuilder = {
       ClassesSelectionState().toString(): ClassesSelection(
-        classesController: widget.controller,
+        controller: controller,
       ),
       ClassesErrorState().toString(): const ClassesError(),
     };
@@ -41,9 +53,11 @@ class _ClassesPageState extends State<ClassesPage> {
     return AppScaffold(
       child: SingleChildScrollView(
         child: RxBuilder(
-          builder: (_) => mapBuilder[widget.controller.state$.toString()]!,
+          builder: (_) => mapBuilder[controller.state$.toString()]!,
         ),
       ),
     );
   }
+
+  ClassesController get controller => widget.controller;
 }

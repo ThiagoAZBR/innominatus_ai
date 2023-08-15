@@ -26,7 +26,7 @@ class StudyPlanPage extends StatefulWidget {
 }
 
 class _StudyPlanPageState extends State<StudyPlanPage> {
-  late final StudyPlanPageArgs? args;
+  StudyPlanPageArgs? args;
 
   @override
   void didChangeDependencies() async {

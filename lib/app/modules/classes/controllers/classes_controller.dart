@@ -10,12 +10,15 @@ class ClassesController {
   final GetRoadmapUseCase getRoadmapUseCase;
   final RxNotifier _state$ = RxNotifier<ClassesState>(ClassesSelectionState());
   final RxNotifier _isClassesLoading = RxNotifier(true);
+  final RxList<String> generatedClasses = RxList();
+  List<bool> isSelectedClasses = [];
 
   ClassesController({
     required this.getRoadmapUseCase,
   });
 
   Future<List<String>?> getClassesRoadmap(GetRoadmapParams params) async {
+    startClassesLoading();
     final studyPlan = recoverStudyPlan();
     final subject = params.topic;
 
@@ -25,6 +28,7 @@ class ClassesController {
     );
 
     if (localClasses != null) {
+      setupClasses(localClasses);
       return localClasses;
     }
 
@@ -78,6 +82,7 @@ class ClassesController {
       studyPlan: studyPlan,
     );
 
+    setupClasses(classes);
     return classes;
   }
 
@@ -104,9 +109,23 @@ class ClassesController {
         break;
       }
     }
-    
+
     final studyPlanBox = HiveBoxInstances.studyPlan;
     studyPlanBox.put(LocalDBConstants.studyPlan, studyPlan);
+  }
+
+  void setupClasses(
+    List<String> classes,
+  ) {
+    generatedClasses.addAll(classes);
+    setQuantityOfClasses(classes);
+    endClassesLoading();
+  }
+
+  void setQuantityOfClasses(List<String> classes) {
+    for (var i = 0; i < classes.length; i++) {
+      isSelectedClasses.add(false);
+    }
   }
 
   // Getters and Setters
