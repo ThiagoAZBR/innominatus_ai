@@ -5,6 +5,8 @@ import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_st
 import 'package:innominatus_ai/app/modules/classes/widgets/classes_error.dart';
 import 'package:innominatus_ai/app/modules/classes/widgets/classes_selection.dart';
 import 'package:innominatus_ai/app/shared/containers/classes_container.dart';
+import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
+import 'package:innominatus_ai/app/shared/routes/args/class_page_args.dart';
 import 'package:innominatus_ai/app/shared/routes/args/classes_page_args.dart';
 import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
@@ -56,7 +58,13 @@ class _ClassesPageState extends State<ClassesPage> {
         builder: (_) => Visibility(
           visible: controller.hasAnyClassSelected,
           child: ContinueFloatingButton(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.classPage,
+                arguments: ClassPageArgs(className: controller.selectedClass!),
+              );
+            },
           ),
         ),
       ),

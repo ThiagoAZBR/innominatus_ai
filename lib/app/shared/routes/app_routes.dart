@@ -6,4 +6,5 @@ class AppRoutes {
   static const String subjectsPage = '/subjects/';
   static const String studyPlanPage = '/study-plan/';
   static const String classesPage = '/classes/';
+  static const String classPage = '/class/';
 }
