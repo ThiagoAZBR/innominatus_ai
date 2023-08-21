@@ -1,8 +1,15 @@
 import 'package:flutter/widgets.dart';
+import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/class_controller.dart';
+import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
+import 'package:innominatus_ai/app/modules/class/widgets/states/class_default.dart';
+import 'package:innominatus_ai/app/modules/class/widgets/states/class_is_loading.dart';
+import 'package:innominatus_ai/app/modules/class/widgets/states/class_with_error.dart';
+import 'package:innominatus_ai/app/shared/containers/class_container.dart';
 import 'package:innominatus_ai/app/shared/routes/args/class_page_args.dart';
 import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 class ClassPage extends StatefulWidget {
   final ClassController controller;
@@ -16,16 +23,37 @@ class _ClassPageState extends State<ClassPage> {
   ClassPageArgs? args;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as ClassPageArgs?;
-    if (args != null) {}
+    if (args != null) {
+      await controller.createClass(
+        CreateClassParams(className: args!.className),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    ClassContainer().dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
-      child: Text('Tela de Aula'),
+    final mapBuilder = {
+      const ClassIsLoadingState().toString(): const ClassIsLoading(),
+      const ClassWithErrorState().toString(): const ClassWithError(),
+      const ClassDefaultState().toString():
+          ClassDefault(controller: controller),
+    };
+
+    return AppScaffold(
+      child: SingleChildScrollView(
+        child: RxBuilder(
+          builder: (_) => mapBuilder[controller.state.toString()]!,
+        ),
+      ),
     );
   }
 
