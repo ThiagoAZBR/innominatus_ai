@@ -7,7 +7,7 @@ import 'package:innominatus_ai/app/shared/widgets/app_scaffold/app_scaffold.dart
 import 'package:innominatus_ai/app/shared/widgets/continue_floating_button.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../domain/usecases/chat/get_roadmap.dart';
+import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../../shared/containers/subjects_container.dart';
 import '../../shared/core/app_controller.dart';
 import '../../shared/routes/args/subjects_page_args.dart';

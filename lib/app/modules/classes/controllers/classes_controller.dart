@@ -1,4 +1,4 @@
-import 'package:innominatus_ai/app/domain/usecases/chat/get_roadmap.dart';
+import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_state.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 

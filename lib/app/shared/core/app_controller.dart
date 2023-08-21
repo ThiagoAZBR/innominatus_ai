@@ -3,7 +3,7 @@ import 'package:rx_notifier/rx_notifier.dart';
 import '../../domain/models/shared_field_of_study_item.dart';
 import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/models/subject_item.dart';
-import '../../domain/usecases/chat/get_roadmap.dart';
+import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
