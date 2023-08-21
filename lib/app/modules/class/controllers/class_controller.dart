@@ -14,7 +14,10 @@ class ClassController {
 
     response.fold(
       (failure) => setClassError(),
-      setClassDefault,
+      (data) => setClassDefault(
+        data,
+        params.className,
+      ),
     );
   }
 
@@ -27,6 +30,10 @@ class ClassController {
   void setClassError() => _state.value = const ClassWithErrorState();
   void setClassDefault([
     String? classContent,
+    String? className,
   ]) =>
-      _state.value = ClassDefaultState(classContent: classContent);
+      _state.value = ClassDefaultState(
+        classContent: classContent,
+        className: className,
+      );
 }

@@ -8,7 +8,7 @@ class ClassIsLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height - kToolbarHeight,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -17,9 +17,13 @@ class ClassIsLoading extends StatelessWidget {
               color: AppColors.secondary,
             ),
             const SizedBox(height: 24),
-            Text(
-              'Estou criando sua aula!',
-              style: AppTextStyles.interMedium(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 42),
+              child: Text(
+                'Sua aula está sendo criada! Isso pode levar alguns segundos...',
+                style: AppTextStyles.interMedium(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
