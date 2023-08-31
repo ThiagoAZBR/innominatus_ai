@@ -119,6 +119,12 @@ class AppController {
     );
   }
 
+  bool fetchHasStudyPlan() {
+    final studyPlanBox = HiveBoxInstances.studyPlan;
+    final studyPlan = studyPlanBox.get(LocalDBConstants.studyPlan);
+    return studyPlan != null;
+  }
+
   // Getters and Setters
   bool get hasStudyPlan => _hasStudyPlan.value;
   set hasStudyPlan(bool value) => _hasStudyPlan.value = value;

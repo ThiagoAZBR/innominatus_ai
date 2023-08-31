@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(
               left: 32,
-              top: 24,
+              top: 48,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,70 +69,65 @@ class HomePage extends StatelessWidget {
                   'É bom ter você aqui!',
                   style: AppTextStyles.interMedium(),
                 ),
-                const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    right: 32,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                    child: SizedBox(
-                      height: 182,
-                      child: RxBuilder(
-                        builder: (_) => Stack(
-                          children: [
-                            PageView.builder(
-                              controller: controller.pageController,
-                              itemCount: pageViewChildren.length,
-                              onPageChanged: (int index) =>
-                                  controller.setPageCounter(index),
-                              itemBuilder: (context, index) =>
-                                  pageViewChildren[index],
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: pageViewChildren
-                                    .map(
-                                      (page) => Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 4,
-                                          bottom: 24,
-                                        ),
-                                        child: Container(
-                                          height: 10,
-                                          width: 10,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(1000),
-                                            color:
-                                                controller.slideBannerCounter ==
-                                                        pageViewChildren
-                                                            .indexOf(page)
-                                                    ? AppColors.lightBlack
-                                                    : AppColors.lightWhite,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // const SizedBox(height: 32),
+                // Padding(
+                //   padding: const EdgeInsets.only(
+                //     right: 32,
+                //   ),
+                //   child: ClipRRect(
+                //     borderRadius: const BorderRadius.all(
+                //       Radius.circular(12),
+                //     ),
+                //     child: SizedBox(
+                //       height: 182,
+                //       child: RxBuilder(
+                //         builder: (_) => Stack(
+                //           children: [
+                //             PageView.builder(
+                //               controller: controller.pageController,
+                //               itemCount: pageViewChildren.length,
+                //               onPageChanged: (int index) =>
+                //                   controller.setPageCounter(index),
+                //               itemBuilder: (context, index) =>
+                //                   pageViewChildren[index],
+                //             ),
+                //             Align(
+                //               alignment: Alignment.bottomCenter,
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: pageViewChildren
+                //                     .map(
+                //                       (page) => Padding(
+                //                         padding: const EdgeInsets.only(
+                //                           left: 4,
+                //                           bottom: 24,
+                //                         ),
+                //                         child: Container(
+                //                           height: 10,
+                //                           width: 10,
+                //                           decoration: BoxDecoration(
+                //                             borderRadius:
+                //                                 BorderRadius.circular(1000),
+                //                             color:
+                //                                 controller.slideBannerCounter ==
+                //                                         pageViewChildren
+                //                                             .indexOf(page)
+                //                                     ? AppColors.lightBlack
+                //                                     : AppColors.lightWhite,
+                //                           ),
+                //                         ),
+                //                       ),
+                //                     )
+                //                     .toList(),
+                //               ),
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 36),
-                Text(
-                  'Recursos',
-                  style: AppTextStyles.interVeryBig(),
-                ),
-                const SizedBox(height: 16),
                 SuggestionPlaceholders(
                   controller: controller,
                 ),
@@ -214,7 +209,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
   @override
   void initState() {
     super.initState();
-    appController.hasStudyPlan = homeController.fetchHasStudyPlan();
+    appController.hasStudyPlan = appController.fetchHasStudyPlan();
   }
 
   @override
