@@ -1,11 +1,10 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rx_notifier/rx_notifier.dart';
-
-import 'package:innominatus_ai/app/shared/core/app_controller.dart';
-import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../domain/models/chat_completion.dart';
 import '../../../domain/usecases/chat/create_chat_completion.dart';

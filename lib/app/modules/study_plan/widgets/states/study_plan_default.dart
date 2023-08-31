@@ -22,7 +22,7 @@ class StudyPlanDefault extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Selecione a primeira disciplina a ser estudada',
+              'Selecione uma disciplina para acessar suas aulas',
               style: AppTextStyles.interVeryBig(fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),

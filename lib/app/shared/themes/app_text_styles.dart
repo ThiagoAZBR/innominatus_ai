@@ -26,12 +26,14 @@ class AppTextStyles {
   static TextStyle interSmall({
     Color color = AppColors.textColor,
     FontWeight fontWeight = FontWeight.normal,
+    double lineHeight = 1,
   }) =>
       TextStyle(
         fontSize: 14,
         fontFamily: 'inter',
         fontWeight: fontWeight,
         color: color,
+        height: lineHeight,
       );
 
   static TextStyle interMedium({

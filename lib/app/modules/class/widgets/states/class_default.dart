@@ -23,7 +23,7 @@ class ClassDefault extends StatelessWidget {
           const SizedBox(height: 32),
           Text(
             state.classContent!,
-            style: AppTextStyles.interMedium(lineHeight: 1.3),
+            style: AppTextStyles.interSmall(lineHeight: 1.3),
             textAlign: TextAlign.left,
           ),
         ],
