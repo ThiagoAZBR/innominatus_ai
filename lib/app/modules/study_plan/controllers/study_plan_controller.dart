@@ -123,6 +123,8 @@ class StudyPlanController {
 
   void setErrorState() => state$ = const StudyPlanWithErrorState();
 
+  void startLoading() => state$ = const StudyPlanIsLoadingState();
+
   bool get hasAnySelectedCard => _hasAnySelectedCard.value;
   set hasAnySelectedCard(bool value) => _hasAnySelectedCard.value = value;
 }

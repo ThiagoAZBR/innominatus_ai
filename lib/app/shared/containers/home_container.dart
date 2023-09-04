@@ -7,7 +7,9 @@ class HomeContainer implements Dependencies {
   final I = GetIt.instance;
 
   @override
-  void dispose() {}
+  void dispose() {
+    I.unregister<HomeController>();
+  }
 
   @override
   void setup() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_action.dart';
+import 'package:innominatus_ai/app/shared/containers/home_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
@@ -25,12 +26,31 @@ final List<Widget> pageViewChildren = [
   ),
 ];
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final HomeController controller;
   const HomePage({
     Key? key,
     required this.controller,
   }) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void dispose() {
+    super.dispose();
+    HomeContainer().dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => appController.hasStudyPlan = appController.fetchHasStudyPlan(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +144,7 @@ class HomePage extends StatelessWidget {
                 // ),
                 const SizedBox(height: 36),
                 SuggestionPlaceholders(
-                  controller: controller,
+                  controller: widget.controller,
                 ),
               ],
             ),
@@ -186,6 +206,8 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  AppController get appController => widget.controller.appController;
 }
 
 class SuggestionPlaceholders extends StatefulWidget {
@@ -201,12 +223,6 @@ class SuggestionPlaceholders extends StatefulWidget {
 }
 
 class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
-  @override
-  void initState() {
-    super.initState();
-    appController.hasStudyPlan = appController.fetchHasStudyPlan();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(

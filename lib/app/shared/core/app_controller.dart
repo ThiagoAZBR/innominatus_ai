@@ -3,8 +3,8 @@ import 'package:rx_notifier/rx_notifier.dart';
 import '../../domain/models/shared_field_of_study_item.dart';
 import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/models/subject_item.dart';
-import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
+import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
 import '../localDB/adapters/shared_fields_of_study_local_db.dart';
@@ -91,7 +91,7 @@ class AppController {
         for (var i = 0; i < subjects.length; i++) {
           subjectsItem.add(SubjectItemLocalDB(name: subjects[i]));
         }
-        
+
         final fieldOfStudyItemLocalDB = FieldOfStudyItemLocalDB(
           subjects: subjectsItem,
           name: params.topic,
@@ -122,7 +122,14 @@ class AppController {
   bool fetchHasStudyPlan() {
     final studyPlanBox = HiveBoxInstances.studyPlan;
     final studyPlan = studyPlanBox.get(LocalDBConstants.studyPlan);
-    return studyPlan != null;
+
+    bool hasStudyPlan = studyPlan != null;
+    if (hasStudyPlan) {
+      bool studyPlanIsEmpty = studyPlan.items.isEmpty;
+
+      return !studyPlanIsEmpty;
+    }
+    return false;
   }
 
   // Getters and Setters
