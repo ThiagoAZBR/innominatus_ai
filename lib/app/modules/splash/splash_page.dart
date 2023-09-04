@@ -27,81 +27,75 @@ class SplashPage extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
-                flex: 4,
-                child: Column(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          'Chaos IO',
-                          style: AppTextStyles.interTiny(
-                            color: AppColors.secondary,
-                          ),
+              Column(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        'Chaos IO',
+                        style: AppTextStyles.interTiny(
+                          color: AppColors.secondary,
                         ),
-                        Text(
-                          'Crie sua própria maneira de estudar através do Chaos',
-                          style: AppTextStyles.interVeryBig(),
-                          textAlign: TextAlign.center,
-                        ),
-                        Center(
-                          child: SvgPicture.asset(
-                            AppAssets.chaosIOLogo,
-                            width: 250,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.link,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 64),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.secondary,
-                          fixedSize: Size(
-                            MediaQuery.sizeOf(context).width * 0.60,
-                            60,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () {
-                          GetIt.I.get<PrefsImpl>().put(
-                                LocalDBConstants.hasShowedSplashScreen,
-                                false,
-                              );
-                          Navigator.popAndPushNamed(
-                            context,
-                            AppRoutes.fieldsOfStudyPage,
-                            arguments: FieldsOfStudyPageArgs(
-                              canChooseMoreThanOneFieldOfStudy: true,
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Vamos Começar!',
-                          style: AppTextStyles.interBig(
-                            color: AppColors.primary,
+                      ),
+                      Text(
+                        'Crie sua própria maneira de estudar através do Chaos',
+                        style: AppTextStyles.interVeryBig(),
+                        textAlign: TextAlign.center,
+                      ),
+                      Center(
+                        child: SvgPicture.asset(
+                          AppAssets.chaosIOLogo,
+                          width: 250,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.link,
+                            BlendMode.srcIn,
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 64),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.secondary,
+                        fixedSize: Size(
+                          MediaQuery.sizeOf(context).width * 0.60,
+                          60,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () {
+                        GetIt.I.get<PrefsImpl>().put(
+                              LocalDBConstants.hasShowedSplashScreen,
+                              false,
+                            );
+                        Navigator.popAndPushNamed(
+                          context,
+                          AppRoutes.fieldsOfStudyPage,
+                          arguments: FieldsOfStudyPageArgs(
+                            canChooseMoreThanOneFieldOfStudy: true,
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Vamos Começar!',
+                        style: AppTextStyles.interBig(
+                          color: AppColors.primary,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
