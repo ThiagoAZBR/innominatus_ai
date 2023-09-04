@@ -48,20 +48,14 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Visibility(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(1000),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                      ),
-                      child: Text(
-                        'Olá!',
-                        style: AppTextStyles.interVeryBig(
-                          fontWeight: FontWeight.w600,
-                        ),
+                    child: Text(
+                      'Olá!',
+                      style: AppTextStyles.interVeryBig(
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

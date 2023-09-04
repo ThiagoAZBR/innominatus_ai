@@ -10,7 +10,7 @@ class ClassDefault extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(32, 32, 24, 48),
+      padding: const EdgeInsets.fromLTRB(24, 32, 24, 48),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -20,10 +20,10 @@ class ClassDefault extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 24),
           Text(
             state.classContent!,
-            style: AppTextStyles.interSmall(lineHeight: 1.3),
+            style: AppTextStyles.interMedium(lineHeight: 1.3),
             textAlign: TextAlign.left,
           ),
         ],
