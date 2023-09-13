@@ -51,9 +51,26 @@ class StudyPlanController {
         items: studyPlan.items,
         fieldOfStudy: args.fieldOfStudy,
       );
+
       if (hasAlreadySavedFieldOfStudy) {
-        return studyPlan;
+        final FieldsOfStudyLocalDB updatedStudyPlan =
+            updateStudyPlanWithNewSubjects(
+          newSubjects: subjectsItem,
+          localStudyPlan: studyPlan,
+          indexOfFieldOfStudy: getIndexOfFieldOfStudy(
+            items: studyPlan.items,
+            fieldOfStudy: args.fieldOfStudy,
+          ),
+        );
+
+        await studyPlanBox.put(
+          LocalDBConstants.studyPlan,
+          updatedStudyPlan,
+        );
+
+        return updatedStudyPlan;
       }
+
       studyPlan.items.add(fieldOfStudyItem);
 
       await studyPlanBox.put(
@@ -109,6 +126,33 @@ class StudyPlanController {
 
   void searchForAnySelectedCard() =>
       hasAnySelectedCard = isSubjectSelectedList.any((e) => e == true);
+
+  int getIndexOfFieldOfStudy({
+    required List<FieldOfStudyItemModel> items,
+    required String fieldOfStudy,
+  }) {
+    return items
+        .indexWhere((e) => e.name.toLowerCase() == fieldOfStudy.toLowerCase());
+  }
+
+  FieldsOfStudyLocalDB updateStudyPlanWithNewSubjects({
+    required List<SubjectItemModel> newSubjects,
+    required FieldsOfStudyLocalDB localStudyPlan,
+    required int indexOfFieldOfStudy,
+  }) {
+    final existingSubjects = localStudyPlan.items[indexOfFieldOfStudy].subjects;
+
+    for (var newSubject in newSubjects) {
+      final bool hasAlreadySubject = existingSubjects
+          .any((e) => e.name.toLowerCase() == newSubject.name.toLowerCase());
+
+      if (!hasAlreadySubject) {
+        localStudyPlan.items[indexOfFieldOfStudy].subjects.add(newSubject);
+      }
+    }
+
+    return localStudyPlan;
+  }
 
   // Getters and Setters
   StudyPlanState get state$ => _state.value;
