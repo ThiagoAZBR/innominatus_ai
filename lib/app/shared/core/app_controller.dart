@@ -58,20 +58,20 @@ class AppController {
     GetRoadmapParams params,
   ) async {
     final fieldsOfStudyBox = HiveBoxInstances.fieldsOfStudy;
-    final FieldsOfStudyLocalDB? fieldsOfStudy = fieldsOfStudyBox.get(
+    final FieldsOfStudyLocalDB? localFieldsOfStudy = fieldsOfStudyBox.get(
       LocalDBConstants.fieldsOfStudy,
     );
 
-    if (fieldsOfStudy != null) {
+    if (localFieldsOfStudy != null) {
       final selectedFieldOfStudy = params.topic.toLowerCase();
 
-      final hasSubjectsInSelectedFieldOfStudy = fieldsOfStudy.items.any(
+      final hasSubjectsInSelectedFieldOfStudy = localFieldsOfStudy.items.any(
         (fieldOfStudy) =>
             fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
       );
 
       if (hasSubjectsInSelectedFieldOfStudy) {
-        return fieldsOfStudy.items
+        return localFieldsOfStudy.items
             .firstWhere(
               (fieldOfStudy) =>
                   fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
@@ -97,13 +97,13 @@ class AppController {
           name: params.topic,
         );
 
-        if (fieldsOfStudy != null) {
-          fieldsOfStudy.items.add(
+        if (localFieldsOfStudy != null) {
+          localFieldsOfStudy.items.add(
             fieldOfStudyItemLocalDB,
           );
           fieldsOfStudyBox.put(
             LocalDBConstants.fieldsOfStudy,
-            fieldsOfStudy,
+            localFieldsOfStudy,
           );
         } else {
           // First Time it's created FieldsOfStudy cache
