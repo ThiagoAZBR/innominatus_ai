@@ -3,6 +3,7 @@ import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
 import 'package:innominatus_ai/app/modules/study_plan/controllers/states/study_plan_states.dart';
 import 'package:innominatus_ai/app/modules/study_plan/controllers/study_plan_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
+import 'package:innominatus_ai/app/shared/routes/args/subjects_page_args.dart';
 import 'package:innominatus_ai/app/shared/themes/app_color.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
@@ -54,12 +55,16 @@ class _StudyPlanDefaultState extends State<StudyPlanDefault> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Selecione uma disciplina para acessar suas aulas',
+                isEditing
+                    ? 'Você está editando seu plano de estudos'
+                    : 'Selecione uma disciplina para acessar suas aulas',
                 style: AppTextStyles.interVeryBig(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
               Text(
-                'Você consegue selecionar uma disciplina ao tocar em cima dela',
+                isEditing
+                    ? 'Clique em "Parar de editar", para conseguir acessar o conteúdo das disciplinas'
+                    : 'Você consegue selecionar uma disciplina ao tocar em cima dela',
                 style: AppTextStyles.interSmall(),
               ),
               const SizedBox(height: 16),
@@ -191,14 +196,43 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
           ],
         ),
         const SizedBox(height: 16),
+        Visibility(
+          visible: widget.isEditing,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 32),
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(
+                context,
+                AppRoutes.subjectsPage,
+                arguments: SubjectsPageArgs(
+                  fieldOfStudy: fieldOfStudyItemModel.name,
+                  isAddingSubjectsToExistingStudyPlan: true,
+                ),
+              ),
+              child: const SelectionCard(
+                title: 'Adicionar Disciplina',
+                isCardSelected: true,
+                hasBoxShadow: false,
+                hasIcon: true,
+                borderColor: AppColors.link,
+                textColor: AppColors.link,
+                textAlign: MainAxisAlignment.center,
+              ),
+            ),
+          ),
+        ),
         for (int i = 0; i < fieldOfStudyItemModel.subjects.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 32),
             child: InkWell(
-              onTap: () => setState(() => controller.updateSelectionCard(
+              onTap: () => setState(() {
+                if (!widget.isEditing) {
+                  controller.updateSelectionCard(
                     i,
                     fieldOfStudyItemModel.subjects[i].name,
-                  )),
+                  );
+                }
+              }),
               child: SelectionCard(
                 isCardSelected: controller.isSubjectSelectedList[i],
                 title: fieldOfStudyItemModel.subjects[i].name,

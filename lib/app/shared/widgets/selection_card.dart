@@ -8,6 +8,14 @@ class SelectionCard extends StatefulWidget {
   final String? description;
   final bool isSemiBold;
   final bool isCardSelected;
+  final Color backgroundColor;
+  final Color borderColor;
+  final Color textColor;
+  final bool hasBoxShadow;
+  final MainAxisAlignment textAlign;
+  final bool hasIcon;
+  final IconData icon;
+  final Color iconColor;
 
   const SelectionCard({
     Key? key,
@@ -15,6 +23,14 @@ class SelectionCard extends StatefulWidget {
     this.description,
     this.isSemiBold = true,
     this.isCardSelected = false,
+    this.backgroundColor = AppColors.primary,
+    this.borderColor = AppColors.secondary,
+    this.textColor = AppColors.textColor,
+    this.hasBoxShadow = true,
+    this.textAlign = MainAxisAlignment.start,
+    this.hasIcon = false,
+    this.icon = Icons.add_outlined,
+    this.iconColor = AppColors.link,
   }) : super(key: key);
 
   @override
@@ -29,22 +45,24 @@ class _SelectionCardState extends State<SelectionCard> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(12),
         border: widget.isCardSelected
             ? Border.all(
-                color: AppColors.secondary,
+                color: widget.borderColor,
                 width: 1.5,
               )
             : null,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadow,
-            offset: const Offset(0, 4),
-            blurRadius: 4,
-            spreadRadius: 0,
-          ),
-        ],
+        boxShadow: widget.hasBoxShadow
+            ? [
+                BoxShadow(
+                  color: AppColors.shadow,
+                  offset: const Offset(0, 4),
+                  blurRadius: 4,
+                  spreadRadius: 0,
+                ),
+              ]
+            : null,
       ),
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -53,12 +71,31 @@ class _SelectionCardState extends State<SelectionCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             // Name of the Topic
-            Text(
-              widget.title,
-              style: AppTextStyles.interBig(
-                fontWeight:
-                    widget.isSemiBold ? FontWeight.w500 : FontWeight.normal,
-              ),
+            Row(
+              mainAxisAlignment: widget.textAlign,
+              children: [
+                Flexible(
+                  child: Text(
+                    widget.title,
+                    style: AppTextStyles.interBig(
+                      color: widget.textColor,
+                      fontWeight: widget.isSemiBold
+                          ? FontWeight.w500
+                          : FontWeight.normal,
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: widget.hasIcon,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Icon(
+                      widget.icon,
+                      color: widget.iconColor,
+                    ),
+                  ),
+                )
+              ],
             ),
             Visibility(
               visible: widget.description != null,
