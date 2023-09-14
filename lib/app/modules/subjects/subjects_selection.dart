@@ -41,7 +41,16 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
             ),
           ),
           const SizedBox(height: 32),
-          const AddPersonalizedSubject(),
+          AddPersonalizedSubject(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => AddNewSubjectConfirmation(
+                  onTap: () {},
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 32),
           RxBuilder(
             builder: (_) => subjectsController.isLoading$
@@ -79,7 +88,11 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
 }
 
 class AddPersonalizedSubject extends StatelessWidget {
-  const AddPersonalizedSubject({super.key});
+  final VoidCallback onTap;
+  const AddPersonalizedSubject({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +120,7 @@ class AddPersonalizedSubject extends StatelessWidget {
             hintText: ' Escreva uma disciplina...',
             border: InputBorder.none,
             suffixIcon: IconButton(
-              onPressed: () {},
+              onPressed: onTap,
               icon: const Icon(
                 Icons.send_rounded,
                 color: AppColors.black,
@@ -115,6 +128,83 @@ class AddPersonalizedSubject extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AddNewSubjectConfirmation extends StatelessWidget {
+  final VoidCallback onTap;
+  const AddNewSubjectConfirmation({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.primary,
+      ),
+      padding: const EdgeInsets.only(left: 32, right: 32, bottom: 32, top: 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Confirme o nome da disciplina:',
+            style: AppTextStyles.interBig(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Antropologia Cultural',
+            style: AppTextStyles.interMedium(),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: onTap,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.secondary,
+              fixedSize: const Size(
+                double.infinity,
+                50,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Confirmar',
+                style: AppTextStyles.interMedium(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              fixedSize: const Size(
+                double.infinity,
+                50,
+              ),
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(color: AppColors.lightWhite),
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Cancelar',
+                style: AppTextStyles.interMedium(color: AppColors.lightBlack),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
