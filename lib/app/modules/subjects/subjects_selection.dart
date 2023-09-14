@@ -54,7 +54,17 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                   context: context,
                   builder: (_) => AddNewSubjectConfirmation(
                     subjectToBeAdded: subjectToBeAdded,
-                    onTap: () {},
+                    onTap: () {
+                      subjectsController.updateSubjectsSelection(
+                        subjectToBeAdded: subjectToBeAdded,
+                        selectedFieldOfStudy:
+                            subjectsController.selectedFieldOfStudy,
+                      );
+                      subjectsController.personalizedSubjectFieldController
+                          .clear();
+
+                      Navigator.pop(context);
+                    },
                   ),
                 );
               }

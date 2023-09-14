@@ -83,9 +83,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
   AppController get appController => subjectsController.appController;
 
   // UI Functions
-  Future<void> fetchSubjects(String subject) async {
+  Future<void> fetchSubjects(String fieldOfStudy) async {
+    subjectsController.selectedFieldOfStudy = fieldOfStudy;
     final subjects = await appController
-        .getSubjectsFromFieldOfStudyRoadmap(GetRoadmapParams(subject));
+        .getSubjectsFromFieldOfStudyRoadmap(GetRoadmapParams(fieldOfStudy));
     if (subjects != null) {
       subjectsController.subjects$.addAll(subjects);
       for (var i = 0; i < subjectsController.subjects$.length; i++) {
