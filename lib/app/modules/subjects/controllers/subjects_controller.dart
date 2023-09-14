@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -7,6 +8,8 @@ class SubjectsController {
   List<bool> isSubjectsSelectedList = <bool>[];
   final RxNotifier _isLoading = RxNotifier<bool>(true);
   final RxNotifier _hasAnySubjectsSelected = RxNotifier(false);
+
+  final TextEditingController personalizedSubjectFieldController = TextEditingController();
 
   SubjectsController(
     this.appController,

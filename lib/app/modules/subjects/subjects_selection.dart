@@ -42,13 +42,22 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
           ),
           const SizedBox(height: 32),
           AddPersonalizedSubject(
+            textEditingController:
+                subjectsController.personalizedSubjectFieldController,
             onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (_) => AddNewSubjectConfirmation(
-                  onTap: () {},
-                ),
-              );
+              FocusScope.of(context).unfocus();
+
+              final subjectToBeAdded =
+                  subjectsController.personalizedSubjectFieldController.text;
+              if (subjectToBeAdded.isNotEmpty) {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (_) => AddNewSubjectConfirmation(
+                    subjectToBeAdded: subjectToBeAdded,
+                    onTap: () {},
+                  ),
+                );
+              }
             },
           ),
           const SizedBox(height: 32),
@@ -89,9 +98,11 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
 
 class AddPersonalizedSubject extends StatelessWidget {
   final VoidCallback onTap;
+  final TextEditingController textEditingController;
   const AddPersonalizedSubject({
     Key? key,
     required this.onTap,
+    required this.textEditingController,
   }) : super(key: key);
 
   @override
@@ -113,6 +124,7 @@ class AddPersonalizedSubject extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: TextField(
+          controller: textEditingController,
           maxLines: 2,
           minLines: 1,
           style: AppTextStyles.interBig(),
@@ -135,9 +147,11 @@ class AddPersonalizedSubject extends StatelessWidget {
 
 class AddNewSubjectConfirmation extends StatelessWidget {
   final VoidCallback onTap;
+  final String subjectToBeAdded;
   const AddNewSubjectConfirmation({
     Key? key,
     required this.onTap,
+    required this.subjectToBeAdded,
   }) : super(key: key);
 
   @override
@@ -157,7 +171,7 @@ class AddNewSubjectConfirmation extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Antropologia Cultural',
+            subjectToBeAdded,
             style: AppTextStyles.interMedium(),
           ),
           const SizedBox(height: 24),
