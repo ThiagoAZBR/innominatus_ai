@@ -22,7 +22,7 @@ class ClassDefault extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            state.classContent!,
+            formatText(state.classContent!),
             style: AppTextStyles.interMedium(lineHeight: 1.3),
             textAlign: TextAlign.left,
           ),
@@ -32,4 +32,11 @@ class ClassDefault extends StatelessWidget {
   }
 
   ClassDefaultState get state => controller.state as ClassDefaultState;
+
+  String formatText(String classContent) {
+    if (classContent.contains('Claro!')) {
+      return classContent.replaceFirst('Claro! ', '').replaceAll('\n-', '\n\n-');
+    }
+    return classContent.replaceAll('\n-', '\n\n-');
+  }
 }
