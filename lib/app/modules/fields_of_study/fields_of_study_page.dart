@@ -56,27 +56,36 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
       const FieldsOfStudyErrorState().toString(): const FieldsOfStudyError()
     };
 
-    return RxBuilder(
-      builder: (_) => AppScaffold(
-        floatingButton: Visibility(
-          visible: controller.isFloatingButtonVisible(controller.state$).value,
-          child: ContinueFloatingButton(
-            onTap: () {
-              if (controller.state$ is FieldsOfStudySelectionState) {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.subjectsPage,
-                  arguments: SubjectsPageArgs(
-                    fieldOfStudy:
-                        appController.fieldsOfStudy$[fieldOfStudyIndex].name,
-                  ),
-                );
-              }
-            },
+    return WillPopScope(
+      onWillPop: () async {
+        if (!Navigator.of(context).canPop()) {
+          Navigator.popAndPushNamed(context, AppRoutes.homePage);
+          return false;
+        }
+        return true;
+      },
+      child: RxBuilder(
+        builder: (_) => AppScaffold(
+          floatingButton: Visibility(
+            visible: controller.isFloatingButtonVisible(controller.state$).value,
+            child: ContinueFloatingButton(
+              onTap: () {
+                if (controller.state$ is FieldsOfStudySelectionState) {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.subjectsPage,
+                    arguments: SubjectsPageArgs(
+                      fieldOfStudy:
+                          appController.fieldsOfStudy$[fieldOfStudyIndex].name,
+                    ),
+                  );
+                }
+              },
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: mapBuilder[controller.state$.toString()],
+          child: SingleChildScrollView(
+            child: mapBuilder[controller.state$.toString()],
+          ),
         ),
       ),
     );

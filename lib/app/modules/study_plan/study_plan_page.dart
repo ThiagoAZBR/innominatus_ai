@@ -66,6 +66,10 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
     return WillPopScope(
       onWillPop: () async {
         controller.appController.hasStudyPlan = true;
+        if (!Navigator.of(context).canPop()) {
+          Navigator.popAndPushNamed(context, AppRoutes.homePage);
+          return false;
+        }
         return true;
       },
       child: RxBuilder(
