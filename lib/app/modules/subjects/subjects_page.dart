@@ -43,34 +43,37 @@ class _SubjectsPageState extends State<SubjectsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      floatingButton: RxBuilder(
-        builder: (_) => Visibility(
-          visible: subjectsController.hasAnySubjectsSelected,
-          child: ContinueFloatingButton(
-            onTap: () {
-              Navigator.popUntil(
-                context,
-                (route) => route.settings.name == AppRoutes.homePage,
-              );
-              Navigator.pushNamed(
-                context,
-                AppRoutes.studyPlanPage,
-                arguments: StudyPlanPageArgs(
-                  fieldOfStudy: args?.fieldOfStudy ?? '',
-                  subjects: subjectsController.getChosenSubjects(
-                    subjects: subjectsController.subjects$,
-                    isChosenList: subjectsController.isSubjectsSelectedList,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: AppScaffold(
+        floatingButton: RxBuilder(
+          builder: (_) => Visibility(
+            visible: subjectsController.hasAnySubjectsSelected,
+            child: ContinueFloatingButton(
+              onTap: () {
+                Navigator.popUntil(
+                  context,
+                  (route) => route.settings.name == AppRoutes.homePage,
+                );
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.studyPlanPage,
+                  arguments: StudyPlanPageArgs(
+                    fieldOfStudy: args?.fieldOfStudy ?? '',
+                    subjects: subjectsController.getChosenSubjects(
+                      subjects: subjectsController.subjects$,
+                      isChosenList: subjectsController.isSubjectsSelectedList,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
-      ),
-      child: SingleChildScrollView(
-        child: SubjectsSelection(
-          subjectsController: widget.controller,
+        child: SingleChildScrollView(
+          child: SubjectsSelection(
+            subjectsController: widget.controller,
+          ),
         ),
       ),
     );
