@@ -27,6 +27,12 @@ class FieldsOfStudyLoading extends StatelessWidget {
             SizedBox(height: 8),
             LoadingPlaceholder(),
             SizedBox(height: 8),
+            LoadingPlaceholder(),
+            SizedBox(height: 8),
+            LoadingPlaceholder(),
+            SizedBox(height: 8),
+            LoadingPlaceholder(),
+            SizedBox(height: 8),
           ],
         )
       ],

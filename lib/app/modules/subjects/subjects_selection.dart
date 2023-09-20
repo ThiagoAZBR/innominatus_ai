@@ -76,11 +76,12 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                       }
                     },
                   ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 16),
           RxBuilder(
             builder: (_) => subjectsController.isLoading$
                 ? const ShimmerCards()
