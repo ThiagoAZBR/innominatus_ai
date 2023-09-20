@@ -40,35 +40,45 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
               style: AppTextStyles.interSmall(),
             ),
           ),
-          const SizedBox(height: 32),
-          AddPersonalizedSubject(
-            textEditingController:
-                subjectsController.personalizedSubjectFieldController,
-            onTap: () {
-              FocusScope.of(context).unfocus();
-
-              final subjectToBeAdded =
-                  subjectsController.personalizedSubjectFieldController.text;
-              if (subjectToBeAdded.isNotEmpty) {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (_) => AddNewSubjectConfirmation(
-                    subjectToBeAdded: subjectToBeAdded,
+          RxBuilder(
+            builder: (_) => Visibility(
+              visible: !subjectsController.isLoading$,
+              child: Column(
+                children: [
+                  const SizedBox(height: 32),
+                  AddPersonalizedSubject(
+                    textEditingController:
+                        subjectsController.personalizedSubjectFieldController,
                     onTap: () {
-                      subjectsController.updateSubjectsSelection(
-                        subjectToBeAdded: subjectToBeAdded,
-                        selectedFieldOfStudy:
-                            subjectsController.selectedFieldOfStudy,
-                      );
-                      subjectsController.personalizedSubjectFieldController
-                          .clear();
+                      FocusScope.of(context).unfocus();
 
-                      Navigator.pop(context);
+                      final subjectToBeAdded = subjectsController
+                          .personalizedSubjectFieldController.text;
+                      if (subjectToBeAdded.isNotEmpty) {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (_) => AddNewSubjectConfirmation(
+                            subjectToBeAdded: subjectToBeAdded,
+                            onTap: () {
+                              subjectsController.updateSubjectsSelection(
+                                subjectToBeAdded: subjectToBeAdded,
+                                selectedFieldOfStudy:
+                                    subjectsController.selectedFieldOfStudy,
+                              );
+                              subjectsController
+                                  .personalizedSubjectFieldController
+                                  .clear();
+
+                              Navigator.pop(context);
+                            },
+                          ),
+                        );
+                      }
                     },
                   ),
-                );
-              }
-            },
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: 32),
           RxBuilder(
