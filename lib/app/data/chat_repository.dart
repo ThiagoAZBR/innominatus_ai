@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:http/http.dart' as http;
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
 import 'package:innominatus_ai/app/domain/usecases/fields_of_study/get_fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
@@ -25,6 +27,9 @@ abstract class ChatRepository {
     NoParams params,
   );
   Future<Either<Exception, String>> createClass(CreateClassParams params);
+  Either<Exception, Future<http.StreamedResponse>> streamCreateClass(
+    CreateClassParams params,
+  );
 }
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -118,6 +123,35 @@ class ChatRepositoryImpl implements ChatRepository {
       return Left(e);
     } on UnexpectedException catch (e) {
       return Left(e);
+    }
+  }
+
+  @override
+  Either<Exception, Future<http.StreamedResponse>> streamCreateClass(
+    CreateClassParams params,
+  ) {
+    try {
+      final data = CreateClassParams(
+        className: AppConstants.createClass(params.className),
+      );
+
+      final classNameEncoded = base64Encode(utf8.encode(data.className));
+      http.Client _client = http.Client();
+
+      var request = http.Request(
+          "GET",
+          Uri.parse(
+            AppUrls.streamCreateChatCompletionProduction + classNameEncoded,
+          ));
+
+      request.headers["Cache-Control"] = "no-cache";
+      request.headers["Accept"] = "text/event-stream";
+
+      return Right(_client.send(request));
+    } on HttpException catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(UnexpectedException());
     }
   }
 }
