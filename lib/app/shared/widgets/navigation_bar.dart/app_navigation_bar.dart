@@ -4,6 +4,7 @@ import 'package:innominatus_ai/app/shared/app_constants/app_assets.dart';
 import 'package:innominatus_ai/app/shared/containers/study_plan_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
+import 'package:innominatus_ai/app/shared/themes/app_color.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 class AppNavigationBar extends StatelessWidget {
@@ -61,6 +62,8 @@ class AppNavigationBar extends StatelessWidget {
             ),
           ],
           selectedIndex: appController.pageIndex,
+          backgroundColor: AppColors.primary,
+          elevation: 3,
         ),
       ),
     );
