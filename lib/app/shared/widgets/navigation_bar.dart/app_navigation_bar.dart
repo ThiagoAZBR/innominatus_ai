@@ -20,7 +20,10 @@ class AppNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return RxBuilder(
       builder: (_) => Visibility(
-        visible: showNavigationBar ?? appController.hasStudyPlan,
+        visible: _showNavigationBar(
+          showNavigationBar,
+          appController.hasStudyPlan,
+        ),
         child: NavigationBar(
           onDestinationSelected: (index) {
             final String? routeName = ModalRoute.of(context)?.settings.name;
@@ -28,10 +31,15 @@ class AppNavigationBar extends StatelessWidget {
               if (routeName != AppRoutes.homePage) {
                 Navigator.popUntil(
                   context,
-                  (route) => route.settings.name == AppRoutes.homePage,
+                  (route) => route.isFirst,
                 );
+                Navigator.popAndPushNamed(context, AppRoutes.homePage);
               }
-              _handleNavigation(index, appController.pageIndex);
+              _handleNavigation(
+                index,
+                appController.pageIndex,
+                routeName,
+              );
               appController.pageIndex = index;
             }
           },
@@ -59,8 +67,22 @@ class AppNavigationBar extends StatelessWidget {
   }
 }
 
-void _handleNavigation(int newIndex, int lastIndex) {
+void _handleNavigation(int newIndex, int lastIndex, String actualRoute) {
+  if (actualRoute != AppRoutes.homePage) {
+    StudyPlanContainer().dispose();
+    return;
+  }
   if (lastIndex == 1 && newIndex != 1) {
     StudyPlanContainer().dispose();
   }
+}
+
+bool _showNavigationBar(bool? showNavigationBar, bool hasStudyPlan) {
+  if (showNavigationBar != null) {
+    if (showNavigationBar) {
+      return showNavigationBar;
+    }
+  }
+
+  return hasStudyPlan;
 }

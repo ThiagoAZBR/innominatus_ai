@@ -164,10 +164,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
               title: 'Ver Plano de Estudos',
               subtitle:
                   'Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.',
-              onTap: () => Navigator.pushNamed(
-                context,
-                AppRoutes.studyPlanPage,
-              ),
+              onTap: () => appController.setPageToStudyPlan(),
             ),
             child: CardAction(
               url: AppAssets.studyMan,

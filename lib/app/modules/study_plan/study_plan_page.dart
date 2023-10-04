@@ -49,12 +49,6 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    StudyPlanContainer().dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final mapBuilder = {
       const StudyPlanIsLoadingState().toString(): const StudyPlanIsLoading(),
@@ -75,9 +69,12 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
       },
       child: RxBuilder(
         builder: (_) => AppScaffold(
-          bottomNavigationBar: AppNavigationBar(
-            appController: controller.appController,
-            showNavigationBar: args != null,
+          bottomNavigationBar: Visibility(
+            visible: args != null,
+            child: AppNavigationBar(
+              appController: controller.appController,
+              showNavigationBar: args != null,
+            ),
           ),
           floatingButton: Visibility(
             visible: controller.hasAnySelectedCard,

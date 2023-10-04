@@ -16,7 +16,7 @@ class AppController {
   final GetFieldsOfStudyDB _getFieldsOfStudyDB;
   final GetRoadmapUseCase _getRoadmap;
   final RxNotifier _pageIndex = RxNotifier(0);
-  
+
   final LocalDB prefs;
 
   final _hasStudyPlan = RxNotifier(false);
@@ -140,4 +140,6 @@ class AppController {
 
   int get pageIndex => _pageIndex.value;
   set pageIndex(int value) => _pageIndex.value = value;
+
+  void setPageToStudyPlan() => _pageIndex.value = 1;
 }

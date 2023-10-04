@@ -68,6 +68,7 @@ class StudyPlanController {
           updatedStudyPlan,
         );
 
+        appController.hasStudyPlan = true;
         return updatedStudyPlan;
       }
 
@@ -78,6 +79,7 @@ class StudyPlanController {
         studyPlan,
       );
 
+      appController.hasStudyPlan = true;
       return studyPlan;
     }
 
@@ -87,6 +89,8 @@ class StudyPlanController {
       LocalDBConstants.studyPlan,
       newStudyPlan,
     );
+    
+    appController.hasStudyPlan = true;
     return newStudyPlan;
   }
 
