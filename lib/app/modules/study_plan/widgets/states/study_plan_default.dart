@@ -176,6 +176,7 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
                   );
 
                   if (studyPlan.items.isEmpty) {
+                    controller.appController.hasStudyPlan = false;
                     // ignore: use_build_context_synchronously
                     Navigator.popAndPushNamed(
                       context,

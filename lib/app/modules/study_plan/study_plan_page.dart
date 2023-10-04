@@ -4,6 +4,7 @@ import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/classes_page_args.dart';
 import 'package:innominatus_ai/app/shared/routes/args/study_plan_args.dart';
 import 'package:innominatus_ai/app/shared/utils/route_utils.dart';
+import 'package:innominatus_ai/app/shared/widgets/navigation_bar.dart/app_navigation_bar.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/widgets/app_scaffold/app_scaffold.dart';
@@ -74,6 +75,10 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
       },
       child: RxBuilder(
         builder: (_) => AppScaffold(
+          bottomNavigationBar: AppNavigationBar(
+            appController: controller.appController,
+            showNavigationBar: args != null,
+          ),
           floatingButton: Visibility(
             visible: controller.hasAnySelectedCard,
             child: ContinueFloatingButton(

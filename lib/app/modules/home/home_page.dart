@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_action.dart';
+import 'package:innominatus_ai/app/modules/home/widgets/states/home_default.dart';
+import 'package:innominatus_ai/app/modules/study_plan/study_plan_page.dart';
 import 'package:innominatus_ai/app/shared/containers/home_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
+import 'package:innominatus_ai/app/shared/widgets/navigation_bar.dart/app_navigation_bar.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/app_constants/app_assets.dart';
+import '../../shared/containers/study_plan_container.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
+import '../study_plan/controllers/study_plan_controller.dart';
 
 final List<Widget> pageViewChildren = [
   Container(
@@ -54,149 +60,71 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 32,
-              top: 48,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Visibility(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                    ),
-                    child: Text(
-                      'Olá!',
-                      style: AppTextStyles.interVeryBig(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  'É bom ter você aqui!',
-                  style: AppTextStyles.interMedium(),
-                ),
-                // const SizedBox(height: 32),
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //     right: 32,
-                //   ),
-                //   child: ClipRRect(
-                //     borderRadius: const BorderRadius.all(
-                //       Radius.circular(12),
-                //     ),
-                //     child: SizedBox(
-                //       height: 182,
-                //       child: RxBuilder(
-                //         builder: (_) => Stack(
-                //           children: [
-                //             PageView.builder(
-                //               controller: controller.pageController,
-                //               itemCount: pageViewChildren.length,
-                //               onPageChanged: (int index) =>
-                //                   controller.setPageCounter(index),
-                //               itemBuilder: (context, index) =>
-                //                   pageViewChildren[index],
-                //             ),
-                //             Align(
-                //               alignment: Alignment.bottomCenter,
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 children: pageViewChildren
-                //                     .map(
-                //                       (page) => Padding(
-                //                         padding: const EdgeInsets.only(
-                //                           left: 4,
-                //                           bottom: 24,
-                //                         ),
-                //                         child: Container(
-                //                           height: 10,
-                //                           width: 10,
-                //                           decoration: BoxDecoration(
-                //                             borderRadius:
-                //                                 BorderRadius.circular(1000),
-                //                             color:
-                //                                 controller.slideBannerCounter ==
-                //                                         pageViewChildren
-                //                                             .indexOf(page)
-                //                                     ? AppColors.lightBlack
-                //                                     : AppColors.lightWhite,
-                //                           ),
-                //                         ),
-                //                       ),
-                //                     )
-                //                     .toList(),
-                //               ),
-                //             )
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                const SizedBox(height: 36),
-                SuggestionPlaceholders(
-                  controller: widget.controller,
-                ),
-              ],
-            ),
-          ),
+    return RxBuilder(
+      builder: (_) => Scaffold(
+        bottomNavigationBar: AppNavigationBar(
+          appController: widget.controller.appController,
         ),
-      ),
-      floatingActionButton: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.94,
-        child: Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              bottom: 24,
-            ),
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, AppRoutes.chatPage);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.shadow,
-                      offset: const Offset(0, 4),
-                      blurRadius: 4,
-                      spreadRadius: 0,
-                    ),
-                  ],
+        backgroundColor: AppColors.primary,
+        body: <Widget>[
+          HomeDefault(homeController: widget.controller),
+          _handleStudyPlanPage(),
+          Container(
+            color: Colors.blue,
+            alignment: Alignment.center,
+            child: const Text('Page 3'),
+          ),
+        ][widget.controller.appController.pageIndex],
+        floatingActionButton: Visibility(
+          visible: widget.controller.appController.pageIndex == 0,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.94,
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 24,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 16,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.chat,
-                        color: AppColors.primary,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.chatPage);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary,
+                      borderRadius: BorderRadius.circular(100),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.shadow,
+                          offset: const Offset(0, 4),
+                          blurRadius: 4,
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 16,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Pergunte a Chaos',
-                        style:
-                            AppTextStyles.interSmall(color: AppColors.primary),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.chat,
+                            color: AppColors.primary,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Pergunte a Chaos',
+                            style: AppTextStyles.interSmall(
+                                color: AppColors.primary),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -262,4 +190,16 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
 
   HomeController get homeController => widget.controller;
   AppController get appController => widget.controller.appController;
+}
+
+Widget _handleStudyPlanPage() {
+  final I = GetIt.I;
+
+  if (!I.isRegistered<StudyPlanController>()) {
+    StudyPlanContainer().setup();
+  }
+
+  return StudyPlanPage(
+    controller: I.get<StudyPlanController>(),
+  );
 }

@@ -15,6 +15,8 @@ import '../localDB/localdb_instances.dart';
 class AppController {
   final GetFieldsOfStudyDB _getFieldsOfStudyDB;
   final GetRoadmapUseCase _getRoadmap;
+  final RxNotifier _pageIndex = RxNotifier(0);
+  
   final LocalDB prefs;
 
   final _hasStudyPlan = RxNotifier(false);
@@ -135,4 +137,7 @@ class AppController {
   // Getters and Setters
   bool get hasStudyPlan => _hasStudyPlan.value;
   set hasStudyPlan(bool value) => _hasStudyPlan.value = value;
+
+  int get pageIndex => _pageIndex.value;
+  set pageIndex(int value) => _pageIndex.value = value;
 }

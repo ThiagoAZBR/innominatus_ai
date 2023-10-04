@@ -5,12 +5,14 @@ class AppScaffold extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
   final Widget? floatingButton;
+  final Widget? bottomNavigationBar;
 
   const AppScaffold({
     Key? key,
     required this.child,
-    this.floatingButton,
     this.backgroundColor = AppColors.primary,
+    this.floatingButton,
+    this.bottomNavigationBar,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,7 @@ class AppScaffold extends StatelessWidget {
         child: child,
       ),
       floatingActionButton: floatingButton,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }
