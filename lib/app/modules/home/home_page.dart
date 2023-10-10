@@ -3,8 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_action.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/states/home_default.dart';
+import 'package:innominatus_ai/app/modules/premium/controllers/premium_controller.dart';
+import 'package:innominatus_ai/app/modules/premium/premium_page.dart';
 import 'package:innominatus_ai/app/modules/study_plan/study_plan_page.dart';
 import 'package:innominatus_ai/app/shared/containers/home_container.dart';
+import 'package:innominatus_ai/app/shared/containers/premium_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
@@ -69,11 +72,7 @@ class _HomePageState extends State<HomePage> {
         body: <Widget>[
           HomeDefault(homeController: widget.controller),
           _handleStudyPlanPage(),
-          Container(
-            color: Colors.blue,
-            alignment: Alignment.center,
-            child: const Text('Page 3'),
-          ),
+          _handlePremiumPage(),
         ][widget.controller.appController.pageIndex],
         floatingActionButton: Visibility(
           visible: widget.controller.appController.pageIndex == 0,
@@ -198,5 +197,17 @@ Widget _handleStudyPlanPage() {
 
   return StudyPlanPage(
     controller: I.get<StudyPlanController>(),
+  );
+}
+
+Widget _handlePremiumPage() {
+  final I = GetIt.I;
+
+  if (!I.isRegistered<PremiumController>()) {
+    PremiumContainer().setup();
+  }
+
+  return PremiumPage(
+    premiumController: I.get<PremiumController>(),
   );
 }

@@ -6,12 +6,14 @@ class AppTextStyles {
   static TextStyle interTiny({
     Color color = AppColors.textColor,
     FontWeight fontWeight = FontWeight.normal,
+    TextDecoration? textDecoration,
   }) =>
       TextStyle(
         fontSize: 10,
         fontFamily: 'inter',
         fontWeight: fontWeight,
         color: color,
+        decoration: textDecoration,
       );
   static TextStyle interVerySmall({
     Color color = AppColors.textColor,

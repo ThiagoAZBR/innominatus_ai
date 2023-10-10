@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/shared/containers/study_plan_container.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/classes_page_args.dart';
 import 'package:innominatus_ai/app/shared/routes/args/study_plan_args.dart';
