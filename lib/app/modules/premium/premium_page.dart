@@ -110,7 +110,7 @@ class PremiumPage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Depois, pague somente R\$ 21,90/mês.\nCancele quando quiser',
+            'Depois, pague somente R\$ 21,90/mês.\nCancele quando quiser.',
             style: AppTextStyles.interSmall(),
             textAlign: TextAlign.center,
           ),
