@@ -25,7 +25,7 @@ class AppButton extends StatelessWidget {
         backgroundColor: AppColors.secondary,
         fixedSize: Size(
           MediaQuery.sizeOf(context).width,
-          height ?? 60,
+          height ?? 64,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -36,6 +36,7 @@ class AppButton extends StatelessWidget {
             text ?? 'Continuar',
             style: AppTextStyles.interMedium(
               color: AppColors.primary,
+              fontWeight: FontWeight.bold,
             ),
           ),
     );

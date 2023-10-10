@@ -120,7 +120,10 @@ class PremiumPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: AppButton(onTap: () {}),
+            child: AppButton(
+              onTap: () {},
+              text: 'Experimente Gratuitamente',
+            ),
           ),
           const SizedBox(height: 32),
           Padding(
