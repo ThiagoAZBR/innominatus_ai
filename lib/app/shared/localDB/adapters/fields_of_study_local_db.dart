@@ -81,11 +81,18 @@ class ClassItemLocalDB extends ClassItemModel {
   final String name;
   @HiveField(1)
   final bool wasItCompleted;
+  @HiveField(2)
+  final String? content;
 
   ClassItemLocalDB({
     required this.name,
     required this.wasItCompleted,
-  }) : super(name: name, wasItCompleted: wasItCompleted);
+    this.content,
+  }) : super(
+          name: name,
+          wasItCompleted: wasItCompleted,
+          content: content,
+        );
 
   factory ClassItemLocalDB.fromClassItemModel(ClassItemModel classItemModel) {
     return ClassItemLocalDB(

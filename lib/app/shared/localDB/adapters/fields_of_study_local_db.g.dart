@@ -128,17 +128,20 @@ class ClassItemLocalDBAdapter extends TypeAdapter<ClassItemLocalDB> {
     return ClassItemLocalDB(
       name: fields[0] as String,
       wasItCompleted: fields[1] as bool,
+      content: fields[2] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ClassItemLocalDB obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.wasItCompleted);
+      ..write(obj.wasItCompleted)
+      ..writeByte(2)
+      ..write(obj.content);
   }
 
   @override
