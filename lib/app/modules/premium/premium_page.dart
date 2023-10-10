@@ -140,18 +140,6 @@ class PremiumPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Termos de Uso',
-                      style: AppTextStyles.interTiny(
-                        textDecoration: TextDecoration.underline,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      ' - ',
-                      style: AppTextStyles.interTiny(),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
                       'Política de Privacidade',
                       style: AppTextStyles.interTiny(
                         textDecoration: TextDecoration.underline,
