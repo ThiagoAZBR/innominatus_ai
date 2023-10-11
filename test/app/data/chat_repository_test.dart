@@ -33,7 +33,10 @@ void main() {
   group('Must return a detailed class', () {
     test('Must return String from createClass', () async {
       final response = await chatRepository.createClass(
-        CreateClassParams(className: 'Behaviorismo'),
+        CreateClassParams(
+          className: 'Behaviorismo',
+          subject: 'Psicologia',
+        ),
       );
 
       expect(response, isA<Right>());

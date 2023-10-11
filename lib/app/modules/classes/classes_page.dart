@@ -62,7 +62,10 @@ class _ClassesPageState extends State<ClassesPage> {
               Navigator.pushNamed(
                 context,
                 AppRoutes.classPage,
-                arguments: ClassPageArgs(className: controller.selectedClass!),
+                arguments: ClassPageArgs(
+                  className: controller.selectedClass!,
+                  subject: args?.selectedSubject ?? '',
+                ),
               );
             },
           ),

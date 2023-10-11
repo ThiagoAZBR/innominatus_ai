@@ -1,8 +1,15 @@
 import 'package:http/http.dart' as http;
+import 'package:innominatus_ai/app/domain/models/class_item.dart';
+import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
+import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/stream_create_class_use_case.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
+
+import '../../../shared/localDB/localdb_instances.dart';
 
 class ClassController {
   final CreateClassUseCase createClassUseCase;
@@ -18,13 +25,82 @@ class ClassController {
   Future<void> createClass(CreateClassParams params) async {
     final response = await createClassUseCase(params: params);
 
+    final localContent = recoverClass(params);
+
+    if (localContent != null) {
+      return setClassDefault(localContent, params.className);
+    }
+
     response.fold(
       (failure) => setClassError(),
-      (data) => setClassDefault(
-        data,
-        params.className,
-      ),
+      (data) {
+        saveLocalClass(data, params);
+        return setClassDefault(
+          data,
+          params.className,
+        );
+      },
     );
+  }
+
+  String? recoverClass(CreateClassParams params) {
+    final studyPlanBox = HiveBoxInstances.studyPlan;
+
+    final FieldsOfStudyLocalDB? studyLocalDB =
+        studyPlanBox.get(LocalDBConstants.studyPlan);
+
+    final FieldOfStudyItemModel fieldOfStudyItem = studyLocalDB!.items
+        .where((fieldOfStudy) => fieldOfStudy.subjects.any(
+              (subject) =>
+                  subject.name.toLowerCase() == params.subject.toLowerCase(),
+            ))
+        .first;
+
+    final SubjectItemModel subjectItem = fieldOfStudyItem.subjects
+        .where((e) => e.name.toLowerCase() == params.subject.toLowerCase())
+        .first;
+
+    final ClassItemModel classItem = subjectItem.classes!
+        .where((e) => e.name.toLowerCase() == params.className.toLowerCase())
+        .first;
+
+    return classItem.content;
+  }
+
+  void saveLocalClass(
+    String classContent,
+    CreateClassParams params,
+  ) {
+    final studyPlanBox = HiveBoxInstances.studyPlan;
+
+    final studyLocalDB = studyPlanBox.get(LocalDBConstants.studyPlan);
+
+    final fieldOfStudyIndex = studyLocalDB!.items
+        .indexWhere((fieldOfStudy) => fieldOfStudy.subjects.any(
+              (subject) =>
+                  subject.name.toLowerCase() == params.subject.toLowerCase(),
+            ));
+
+    final subjectIndex = studyLocalDB.items[fieldOfStudyIndex].subjects
+        .indexWhere(
+            (e) => e.name.toLowerCase() == params.subject.toLowerCase());
+
+    final classIndex = studyLocalDB
+        .items[fieldOfStudyIndex].subjects[subjectIndex].classes!
+        .indexWhere(
+            (e) => e.name.toLowerCase() == params.className.toLowerCase());
+
+    final ClassItemModel classItemModel = studyLocalDB
+        .items[fieldOfStudyIndex].subjects[subjectIndex].classes![classIndex];
+
+    studyLocalDB.items[fieldOfStudyIndex].subjects[subjectIndex]
+        .classes![classIndex] = ClassItemLocalDB(
+      name: classItemModel.name,
+      wasItCompleted: classItemModel.wasItCompleted,
+      content: classContent,
+    );
+
+    studyPlanBox.put(LocalDBConstants.studyPlan, studyLocalDB);
   }
 
   void streamCreateClass(CreateClassParams params) {

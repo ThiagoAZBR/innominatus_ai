@@ -28,7 +28,10 @@ class _ClassPageState extends State<ClassPage> {
     args = RouteUtils.getArgs(context) as ClassPageArgs?;
     if (args != null) {
       await controller.createClass(
-        CreateClassParams(className: args!.className),
+        CreateClassParams(
+          className: args!.className,
+          subject: args!.subject,
+        ),
       );
     }
   }

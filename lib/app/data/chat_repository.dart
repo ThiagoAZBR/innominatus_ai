@@ -111,6 +111,7 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final Map data = CreateClassParams(
         className: AppConstants.createClass(params.className),
+        subject: params.subject,
       ).toMap();
 
       final response = await dio.post(
@@ -133,6 +134,7 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final data = CreateClassParams(
         className: AppConstants.createClass(params.className),
+        subject: params.subject,
       );
 
       final classNameEncoded = base64Encode(utf8.encode(data.className));

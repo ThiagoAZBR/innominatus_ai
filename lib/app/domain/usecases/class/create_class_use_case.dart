@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
@@ -17,10 +17,14 @@ class CreateClassUseCase implements UseCase<String, CreateClassParams> {
 
 class CreateClassParams {
   final String className;
+  final String subject;
 
-  CreateClassParams({required this.className});
+  CreateClassParams({
+    required this.className,
+    required this.subject,
+  });
 
-   Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
     result.addAll({'content': className});
