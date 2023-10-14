@@ -11,6 +11,7 @@ class ClassContainer implements Dependencies {
   @override
   void dispose() {
     I.unregister<CreateClassUseCase>();
+    I.unregister<StreamCreateClassUseCase>();
     I.unregister<ClassController>();
   }
 

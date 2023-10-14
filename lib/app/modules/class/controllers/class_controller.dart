@@ -23,13 +23,13 @@ class ClassController {
   );
 
   Future<void> createClass(CreateClassParams params) async {
-    final response = await createClassUseCase(params: params);
-
     final localContent = recoverClass(params);
 
     if (localContent != null) {
       return setClassDefault(localContent, params.className);
     }
+
+    final response = await createClassUseCase(params: params);
 
     response.fold(
       (failure) => setClassError(),
