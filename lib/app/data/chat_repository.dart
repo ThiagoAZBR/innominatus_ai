@@ -47,9 +47,7 @@ class ChatRepositoryImpl implements ChatRepository {
       }
       final Map data = params.toMap();
       final response = await dio.post(
-        kDebugMode
-            ? AppUrls.createChatCompletionHomolog
-            : AppUrls.createChatCompletionProduction,
+        AppUrls.createChatCompletionProduction,
         data: data,
       );
       return Right(_handleChatResponse(response));
@@ -69,9 +67,7 @@ class ChatRepositoryImpl implements ChatRepository {
         AppConstants.getRoadmap(params.topic),
       ).toMap();
       final response = await dio.post(
-        kDebugMode
-            ? AppUrls.createChatCompletionHomolog
-            : AppUrls.createChatCompletionProduction,
+        AppUrls.createChatCompletionProduction,
         data: data,
       );
       return Right(_handleGetRoadmapResponse(response));
@@ -91,9 +87,7 @@ class ChatRepositoryImpl implements ChatRepository {
         content: AppConstants.getFieldsOfStudy,
       ).toMap();
       final response = await dio.post(
-        kDebugMode
-            ? AppUrls.createChatCompletionHomolog
-            : AppUrls.createChatCompletionProduction,
+        AppUrls.createChatCompletionProduction,
         data: data,
       );
       return Right(_handleGetFieldsOfStudyResponse(response));
