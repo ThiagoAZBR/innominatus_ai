@@ -21,6 +21,7 @@ class AppController {
 
   final _hasStudyPlan = RxNotifier(false);
   final fieldsOfStudy$ = RxList<SharedFieldOfStudyItemModel>();
+  final RxNotifier _isHomeLoading = RxNotifier(true);
 
   AppController({
     required GetRoadmapUseCase getRoadmap,
@@ -122,6 +123,7 @@ class AppController {
   }
 
   bool fetchHasStudyPlan() {
+    isHomeLoading = true;
     final studyPlanBox = HiveBoxInstances.studyPlan;
     final studyPlan = studyPlanBox.get(LocalDBConstants.studyPlan);
 
@@ -131,6 +133,7 @@ class AppController {
 
       return !studyPlanIsEmpty;
     }
+    
     return false;
   }
 
@@ -142,4 +145,7 @@ class AppController {
   set pageIndex(int value) => _pageIndex.value = value;
 
   void setPageToStudyPlan() => _pageIndex.value = 1;
+
+  bool get isHomeLoading => _isHomeLoading.value;
+  set isHomeLoading(bool value) => _isHomeLoading.value = value;
 }

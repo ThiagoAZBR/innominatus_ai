@@ -13,6 +13,7 @@ import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
 import 'package:innominatus_ai/app/shared/widgets/navigation_bar.dart/app_navigation_bar.dart';
 import 'package:rx_notifier/rx_notifier.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../shared/app_constants/app_assets.dart';
 import '../../shared/containers/study_plan_container.dart';
@@ -57,7 +58,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => appController.hasStudyPlan = appController.fetchHasStudyPlan(),
+      (_) {
+        appController.hasStudyPlan = appController.fetchHasStudyPlan();
+        appController.isHomeLoading = false;
+      },
     );
   }
 
@@ -156,29 +160,45 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         RxBuilder(
-          builder: (_) => Visibility(
-            visible: !appController.hasStudyPlan,
-            replacement: CardAction(
-              url: AppAssets.studyWoman,
-              title: 'Ver Plano de Estudos',
-              subtitle:
-                  'Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.',
-              onTap: () => appController.setPageToStudyPlan(),
-            ),
-            child: CardAction(
-              url: AppAssets.studyMan,
-              title: 'Iniciar estudos',
-              subtitle:
-                  'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',
-              onTap: () => Navigator.pushNamed(
-                context,
-                AppRoutes.fieldsOfStudyPage,
-                arguments: FieldsOfStudyPageArgs(
-                  canChooseMoreThanOneFieldOfStudy: true,
+          builder: (_) => appController.isHomeLoading
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 32, bottom: 32),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      width: double.infinity,
+                      height: 220,
+                    ),
+                  ),
+                )
+              : Visibility(
+                  visible: !appController.hasStudyPlan,
+                  replacement: CardAction(
+                    url: AppAssets.studyWoman,
+                    title: 'Ver Plano de Estudos',
+                    subtitle:
+                        'Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.',
+                    onTap: () => appController.setPageToStudyPlan(),
+                  ),
+                  child: CardAction(
+                    url: AppAssets.studyMan,
+                    title: 'Iniciar estudos',
+                    subtitle:
+                        'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      AppRoutes.fieldsOfStudyPage,
+                      arguments: FieldsOfStudyPageArgs(
+                        canChooseMoreThanOneFieldOfStudy: true,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
         ),
       ],
     );

@@ -202,7 +202,7 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 32),
             child: InkWell(
-              onTap: () => Navigator.popAndPushNamed(
+              onTap: () => Navigator.pushNamed(
                 context,
                 AppRoutes.subjectsPage,
                 arguments: SubjectsPageArgs(
