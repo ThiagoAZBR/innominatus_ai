@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -25,7 +26,7 @@ class PremiumController {
   Future<bool> makePurchase(Package package) async {
     try {
       CustomerInfo purchaserInfo = await Purchases.purchasePackage(package);
-      if (purchaserInfo.entitlements.active.containsKey('Premium')) {
+      if (purchaserInfo.entitlements.active.containsKey(AppConstants.premiumPlan)) {
         GetIt.I.get<PrefsImpl>().put(LocalDBConstants.hasPremiumPlan, true);
         return true;
       }

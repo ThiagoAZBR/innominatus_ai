@@ -157,7 +157,10 @@ class _PremiumPageState extends State<PremiumPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: AppButton(
-                      onTap: () {},
+                      onTap: () {
+                        premiumController
+                            .makePurchase(premiumController.offering!.monthly!);
+                      },
                       text: 'Experimente Gratuitamente',
                     ),
                   ),
