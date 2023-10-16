@@ -25,17 +25,35 @@ class PremiumController {
 
   Future<bool> makePurchase(Package package) async {
     try {
-      CustomerInfo purchaserInfo = await Purchases.purchasePackage(package);
-      if (purchaserInfo.entitlements.active.containsKey(AppConstants.premiumPlan)) {
-        GetIt.I.get<PrefsImpl>().put(LocalDBConstants.hasPremiumPlan, true);
-        return true;
-      }
-      return false;
+      CustomerInfo customerInfo = await Purchases.purchasePackage(package);
+      return _validateIfHasPremiumPlan(customerInfo);
     } on PlatformException catch (e) {
-      final errorCode = PurchasesErrorHelper.getErrorCode(e);
-      if (errorCode != PurchasesErrorCode.purchaseCancelledError) {}
-      return false;
+      return _handleError(e);
     }
+  }
+
+  Future<bool> restorePurchase() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.restorePurchases();
+      return _validateIfHasPremiumPlan(customerInfo);
+    } on PlatformException catch (e) {
+      return _handleError(e);
+    }
+  }
+
+  bool _validateIfHasPremiumPlan(CustomerInfo customerInfo) {
+    if (customerInfo.entitlements.active
+        .containsKey(AppConstants.premiumPlan)) {
+      GetIt.I.get<PrefsImpl>().put(LocalDBConstants.hasPremiumPlan, true);
+      return true;
+    }
+    return false;
+  }
+
+  bool _handleError(PlatformException e) {
+    final errorCode = PurchasesErrorHelper.getErrorCode(e);
+    if (errorCode != PurchasesErrorCode.purchaseCancelledError) {}
+    return false;
   }
 
   // Getters and Setters

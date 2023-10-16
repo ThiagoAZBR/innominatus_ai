@@ -185,6 +185,17 @@ class _PremiumPageState extends State<PremiumPage> {
                               ),
                               textAlign: TextAlign.center,
                             ),
+                            const SizedBox(width: 8),
+                            InkWell(
+                              onTap: () => premiumController.restorePurchase(),
+                              child: Text(
+                                'Restaurar compra',
+                                style: AppTextStyles.interTiny(
+                                  textDecoration: TextDecoration.underline,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ],
                         )
                       ],
