@@ -8,4 +8,5 @@ class AppConstants {
       'Escreva em formato de Json, onde terá uma chave "items" e um valor que vai ser um Array de Strings. Dentro do Array, escreve o máximo possível áreas de estudo escolhidas na faculdade e em alta no mercado de trabalho';
   static String createClass(String className) =>
       'Você é uma IA especializada em educação. Me de uma explicação/aula bem detalhada sobre $className.';
+  static const String revenueCatApiKey = 'goog_MuwDROSUcNeBQQNOFUYWxlBQgTZ';
 }

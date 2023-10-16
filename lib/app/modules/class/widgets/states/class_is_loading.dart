@@ -8,7 +8,7 @@ class ClassIsLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height - kToolbarHeight,
+      height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

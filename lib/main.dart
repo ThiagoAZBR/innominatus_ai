@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/shared/containers/app_container.dart';
@@ -20,6 +22,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // TODO: Update setup with IOS, when possible
+  await Purchases.setLogLevel(kDebugMode ? LogLevel.debug : LogLevel.info);
+  final configuration = PurchasesConfiguration(AppConstants.revenueCatApiKey);
+  await Purchases.configure(configuration);
 
   // Crashlytics
   FlutterError.onError = (errorDetails) {

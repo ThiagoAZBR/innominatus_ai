@@ -5,4 +5,5 @@ class LocalDBConstants {
   static const String subjectsWithClasses = 'subjectsWithClasses';
   // SharedPreferences
   static const String hasShowedSplashScreen = 'isFirstTimeOfSplashScreen';
+  static const String hasPremiumPlan = 'hasPremiumPlan';
 }
