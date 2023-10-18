@@ -45,7 +45,9 @@ class _PremiumPageState extends State<PremiumPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const CircularProgressIndicator(),
+                    const CircularProgressIndicator(
+                      color: AppColors.secondary,
+                    ),
                     const SizedBox(height: 24),
                     Text(
                       'Carregando plano de assinatura',

@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/cards/card_action.dart';
 import 'package:innominatus_ai/app/modules/home/widgets/states/home_default.dart';
+import 'package:innominatus_ai/app/modules/home/widgets/states/home_loading.dart';
 import 'package:innominatus_ai/app/modules/premium/controllers/premium_controller.dart';
 import 'package:innominatus_ai/app/modules/premium/premium_page.dart';
 import 'package:innominatus_ai/app/modules/study_plan/study_plan_page.dart';
@@ -68,64 +69,67 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return RxBuilder(
-      builder: (_) => Scaffold(
-        bottomNavigationBar: AppNavigationBar(
-          appController: widget.controller.appController,
-        ),
-        backgroundColor: AppColors.primary,
-        body: <Widget>[
-          HomeDefault(homeController: widget.controller),
-          _handleStudyPlanPage(),
-          _handlePremiumPage(),
-        ][widget.controller.appController.pageIndex],
-        floatingActionButton: Visibility(
-          visible: widget.controller.appController.pageIndex == 0,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.94,
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 24,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.chatPage);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.secondary,
-                      borderRadius: BorderRadius.circular(100),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.shadow,
-                          offset: const Offset(0, 4),
-                          blurRadius: 4,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 16,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.chat,
-                            color: AppColors.primary,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Pergunte a Chaos',
-                            style: AppTextStyles.interSmall(
-                                color: AppColors.primary),
+      builder: (_) => Visibility(
+        visible: appController.isHomeLoading,
+        replacement: Scaffold(
+          bottomNavigationBar: AppNavigationBar(
+            appController: widget.controller.appController,
+          ),
+          backgroundColor: AppColors.primary,
+          body: <Widget>[
+            HomeDefault(homeController: widget.controller),
+            _handleStudyPlanPage(),
+            _handlePremiumPage(),
+          ][widget.controller.appController.pageIndex],
+          floatingActionButton: Visibility(
+            visible: widget.controller.appController.pageIndex == 0,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.94,
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 24,
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.chatPage);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.shadow,
+                            offset: const Offset(0, 4),
+                            blurRadius: 4,
+                            spreadRadius: 0,
                           ),
                         ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 16,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.chat,
+                              color: AppColors.primary,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Pergunte a Chaos',
+                              style: AppTextStyles.interSmall(
+                                  color: AppColors.primary),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -134,6 +138,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+        child: const HomeLoading(),
       ),
     );
   }
