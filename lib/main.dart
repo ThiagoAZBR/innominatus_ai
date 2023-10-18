@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/non_premium_user_local_db.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,6 +47,7 @@ void main() async {
   Hive.registerAdapter(FieldOfStudyItemLocalDBAdapter());
   Hive.registerAdapter(SubjectItemLocalDBAdapter());
   Hive.registerAdapter(ClassItemLocalDBAdapter());
+  Hive.registerAdapter(NonPremiumUserLocalDBAdapter());
   // Hive Instances
   await Hive.openBox<SharedFieldsOfStudyLocalDB>(
     LocalDBConstants.sharedFieldsOfStudy,
@@ -55,6 +57,9 @@ void main() async {
   );
   await Hive.openBox<FieldsOfStudyLocalDB>(
     LocalDBConstants.studyPlan,
+  );
+  await Hive.openBox<NonPremiumUserLocalDB>(
+    LocalDBConstants.nonPremiumUser,
   );
   // Shared Preferences
   final sharedPreferences = await SharedPreferences.getInstance();
