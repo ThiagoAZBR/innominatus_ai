@@ -82,6 +82,10 @@ class ChatTextField extends StatelessWidget {
                             if (state is ChatHttpErrorState) {
                               chatController.showErrorToUser();
                             }
+
+                            if (state is ChatLimitationNonPremiumUserState) {
+                              chatController.showLimitationErrorToUser();
+                            }
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),

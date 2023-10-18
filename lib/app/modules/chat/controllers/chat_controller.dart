@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -44,15 +46,56 @@ class ChatController {
       params.content,
       userMessages$,
     );
+
     if (hasError != null) {
       return setMissingRequisitesError(hasError);
     }
+
     messageFieldFocusNode.unfocus();
     messageFieldController.clear();
+
     saveUserMessage(params.content);
     setLoading();
+
+    if (!appController.isUserPremium) {
+      if (await hasUserLimitation()) {
+        _state$.value = const ChatDefaultState();
+        return const ChatLimitationNonPremiumUserState();
+      }
+    }
+
     final response = await chatCompletion(params: params);
     return response.fold(setHttpError, setDefaultState);
+  }
+
+  Future<bool> hasUserLimitation() async {
+    final nonPremiumUserBox = HiveBoxInstances.nonPremiumUser;
+    final nonPremiumUserLocalDB =
+        nonPremiumUserBox.get(LocalDBConstants.nonPremiumUser);
+
+    if (!nonPremiumUserLocalDB!.hasReachedLimit) {
+      final chatAnswers = nonPremiumUserLocalDB.chatAnswers;
+
+      if (chatAnswers == 0) {
+        await nonPremiumUserBox.put(
+            LocalDBConstants.nonPremiumUser,
+            nonPremiumUserLocalDB.copyWith(
+              hasReachedLimit: true,
+            ));
+        return true;
+      }
+
+      if (chatAnswers >= 1) {
+        await nonPremiumUserBox.put(
+            LocalDBConstants.nonPremiumUser,
+            nonPremiumUserLocalDB.copyWith(
+              chatAnswers: chatAnswers - 1,
+            ));
+        return false;
+      }
+    }
+
+    return true;
   }
 
   void saveUserMessage(String content) {
@@ -70,6 +113,15 @@ class ChatController {
         isUser: false,
         message:
             'Ocorreu um erro ao tentar gerar a sua resposta.\nPor favor, tente novamente!'));
+  }
+
+  void showLimitationErrorToUser() {
+    chatMessages$.add(
+      ChatMessage(
+          isUser: false,
+          message:
+              'Seu limite de perguntas foi atingido por hoje...\n\nAssine a versão Premium do Chaos IO e remova os limites diários, além de outros benefícios!'),
+    );
   }
 
   void cleanData() {

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
@@ -42,9 +41,6 @@ class ChatRepositoryImpl implements ChatRepository {
     CreateChatCompletionParam params,
   ) async {
     try {
-      if (kDebugMode) {
-        return Left(HomologResponse());
-      }
       final Map data = params.toMap();
       final response = await dio.post(
         AppUrls.createChatCompletionProduction,

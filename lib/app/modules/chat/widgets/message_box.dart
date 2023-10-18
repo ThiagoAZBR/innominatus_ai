@@ -18,7 +18,7 @@ class MessageBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.75,
+        maxWidth: MediaQuery.of(context).size.width * 0.85,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),

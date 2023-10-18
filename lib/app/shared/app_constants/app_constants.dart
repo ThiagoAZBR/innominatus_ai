@@ -1,6 +1,6 @@
 class AppConstants {
   static const String chaosSelfIntroduction =
-      'Olá, sou Chaos!\n\nSuas dúvidas de estudos e assuntos correlatos podem ser respondidas por mim. \n\nMe envie suas dúvidas e ficarei feliz em poder ajudar!';
+      'Olá!\n\nEstou aqui para responder suas dúvidas e perguntas sobre os conteúdos!\n\nMe envie suas dúvidas e ficarei feliz em poder ajudar.';
   // Prompts
   static String getRoadmap(String content) =>
       'Crie um Roadmap de estudos sobre $content e escreva em formato de Json, onde será um array de objetos, onde cada objeto terá a apenas a chave "content"';
@@ -10,7 +10,7 @@ class AppConstants {
       'Você é uma IA especializada em educação. Me de uma explicação/aula bem detalhada sobre $className.';
   static const String revenueCatApiKey = 'goog_MuwDROSUcNeBQQNOFUYWxlBQgTZ';
   static const String premiumPlan = 'Premium';
-  
+
   static const String chatAnswersLimit = 'chatAnswersLimit';
   static const String generatedClassesLimit = 'generatedClassesLimit';
 }

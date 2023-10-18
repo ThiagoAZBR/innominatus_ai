@@ -14,6 +14,10 @@ class ChatMissingRequisitesState implements ChatState {
   const ChatMissingRequisitesState();
 }
 
+class ChatLimitationNonPremiumUserState implements ChatState {
+  const ChatLimitationNonPremiumUserState();
+}
+
 class ChatDefaultState implements ChatState {
   const ChatDefaultState();
 }
