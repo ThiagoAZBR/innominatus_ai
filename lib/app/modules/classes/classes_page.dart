@@ -28,7 +28,7 @@ class ClassesPage extends StatefulWidget {
 class _ClassesPageState extends State<ClassesPage> {
   ClassesPageArgs? args;
   @override
-  void didChangeDependencies() async {
+  void didChangeDependencies() {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as ClassesPageArgs?;
     if (args != null) {
@@ -36,7 +36,6 @@ class _ClassesPageState extends State<ClassesPage> {
         GetRoadmapParams(args!.selectedSubject),
       );
     }
-    await controller.appController.checkUserPremiumStatus();
   }
 
   @override

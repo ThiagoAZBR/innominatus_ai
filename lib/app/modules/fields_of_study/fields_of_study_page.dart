@@ -38,10 +38,9 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
   }
 
   @override
-  void didChangeDependencies() async {
+  void didChangeDependencies() {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as FieldsOfStudyPageArgs;
-    await appController.checkUserPremiumStatus();
     controller.setToFieldsOfStudySelectionState();
   }
 

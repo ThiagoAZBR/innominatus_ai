@@ -32,7 +32,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as SubjectsPageArgs;
-    await appController.checkUserPremiumStatus();
     await fetchSubjects(args!.fieldOfStudy);
   }
 
