@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
+import 'package:innominatus_ai/app/shared/localDB/adapters/non_premium_user_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/shared_fields_of_study_local_db.dart';
 
 import 'localdb_constants.dart';
@@ -16,5 +17,9 @@ class HiveBoxInstances {
   static Box<FieldsOfStudyLocalDB> get studyPlan =>
       Hive.box<FieldsOfStudyLocalDB>(
         LocalDBConstants.studyPlan,
+      );
+  static Box<NonPremiumUserLocalDB> get nonPremiumUser =>
+      Hive.box<NonPremiumUserLocalDB>(
+        LocalDBConstants.nonPremiumUser,
       );
 }
