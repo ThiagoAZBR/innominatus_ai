@@ -44,23 +44,7 @@ class AppNavigationBar extends StatelessWidget {
               appController.pageIndex = index;
             }
           },
-          destinations: [
-            const NavigationDestination(
-              icon: Icon(Icons.home_rounded),
-              label: 'Início',
-            ),
-            const NavigationDestination(
-              icon: Icon(Icons.school_rounded),
-              label: 'Plano de Estudos',
-            ),
-            NavigationDestination(
-              icon: SvgPicture.asset(
-                AppAssets.chaosIOLogo,
-                width: 32,
-              ),
-              label: 'Premium',
-            ),
-          ],
+          destinations: getNavigationPages(appController.isUserPremium),
           selectedIndex: appController.pageIndex,
           backgroundColor: AppColors.primary,
           elevation: 3,
@@ -68,6 +52,37 @@ class AppNavigationBar extends StatelessWidget {
       ),
     );
   }
+}
+
+List<Widget> getNavigationPages(bool isUserPremium) {
+  return isUserPremium
+      ? [
+          const NavigationDestination(
+            icon: Icon(Icons.home_rounded),
+            label: 'Início',
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.school_rounded),
+            label: 'Plano de Estudos',
+          )
+        ]
+      : [
+          const NavigationDestination(
+            icon: Icon(Icons.home_rounded),
+            label: 'Início',
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.school_rounded),
+            label: 'Plano de Estudos',
+          ),
+          NavigationDestination(
+            icon: SvgPicture.asset(
+              AppAssets.chaosIOLogo,
+              width: 32,
+            ),
+            label: 'Premium',
+          ),
+        ];
 }
 
 void _handleNavigation(int newIndex, int lastIndex, String actualRoute) {

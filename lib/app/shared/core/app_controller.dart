@@ -1,3 +1,8 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/services.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../domain/models/shared_field_of_study_item.dart';
@@ -7,6 +12,7 @@ import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
+import '../localDB/adapters/non_premium_user_local_db.dart';
 import '../localDB/adapters/shared_fields_of_study_local_db.dart';
 import '../localDB/localdb.dart';
 import '../localDB/localdb_constants.dart';
@@ -22,6 +28,7 @@ class AppController {
   final _hasStudyPlan = RxNotifier(false);
   final fieldsOfStudy$ = RxList<SharedFieldOfStudyItemModel>();
   final RxNotifier _isHomeLoading = RxNotifier(true);
+  final RxNotifier _isUserPremium = RxNotifier(false);
 
   AppController({
     required GetRoadmapUseCase getRoadmap,
@@ -133,8 +140,24 @@ class AppController {
 
       return !studyPlanIsEmpty;
     }
-    
+
     return false;
+  }
+
+  Future<void> getUserPremiumStatus() async {
+    try {
+      final CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+
+      if (customerInfo.entitlements.active
+          .containsKey(AppConstants.premiumPlan)) {
+        return activatePremium();
+      }
+
+      await deactivatePremium();
+    } on PlatformException {
+      // TODO: Implement Error Handle, show dialog or error widget
+      return;
+    }
   }
 
   // Getters and Setters
@@ -145,7 +168,80 @@ class AppController {
   set pageIndex(int value) => _pageIndex.value = value;
 
   void setPageToStudyPlan() => _pageIndex.value = 1;
+  void setPageToHome() => _pageIndex.value = 0;
 
   bool get isHomeLoading => _isHomeLoading.value;
   set isHomeLoading(bool value) => _isHomeLoading.value = value;
+
+  bool get isUserPremium => _isUserPremium.value;
+
+  void activatePremium() => _isUserPremium.value = true;
+
+  Future<void> deactivatePremium() async {
+    try {
+      final nonPremiumUserBox = HiveBoxInstances.nonPremiumUser;
+      final nonPremiumUserModel =
+          nonPremiumUserBox.get(LocalDBConstants.nonPremiumUser);
+
+      if (nonPremiumUserModel != null) {
+        await handleNonPremiumUserDateTime(
+          nonPremiumUserLocalDB: nonPremiumUserModel,
+        );
+      } else {
+        await createNonPremiumLimit();
+      }
+
+      _isUserPremium.value = false;
+    } catch (e) {
+      // TODO: Implement Error Handle, show dialog or error widget
+      return;
+    }
+  }
+
+  Future<void> setupRemoteConfig(FirebaseRemoteConfig remoteConfig) async {
+    try {
+      await remoteConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: const Duration(seconds: 10),
+        minimumFetchInterval: const Duration(seconds: 10),
+      ));
+      await remoteConfig.fetchAndActivate();
+    } catch (e) {
+      return;
+    }
+  }
+
+  Future<void> createNonPremiumLimit() async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await setupRemoteConfig(remoteConfig);
+
+    final int generatedClassesLimit =
+        remoteConfig.getInt(AppConstants.generatedClassesLimit);
+    final int chatAnswersLimit =
+        remoteConfig.getInt(AppConstants.chatAnswersLimit);
+
+    await HiveBoxInstances.nonPremiumUser.put(
+      LocalDBConstants.nonPremiumUser,
+      NonPremiumUserLocalDB(
+        hasReachedLimit: false,
+        generatedClasses: generatedClassesLimit,
+        chatAnswers: chatAnswersLimit,
+        actualDay: DateTime.now(),
+      ),
+    );
+  }
+
+  Future<void> handleNonPremiumUserDateTime({
+    required NonPremiumUserLocalDB nonPremiumUserLocalDB,
+  }) async {
+    final now = DateTime.now();
+
+    if (!now.eqvYearMonthDay(nonPremiumUserLocalDB.actualDay)) {
+      await HiveBoxInstances.nonPremiumUser.put(
+        LocalDBConstants.nonPremiumUser,
+        nonPremiumUserLocalDB.copyWith(
+          actualDay: now,
+        ),
+      );
+    }
+  }
 }

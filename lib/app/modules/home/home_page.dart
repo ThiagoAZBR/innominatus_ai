@@ -59,8 +59,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
+      (_) async {
         appController.hasStudyPlan = appController.fetchHasStudyPlan();
+        await appController.getUserPremiumStatus();
         appController.isHomeLoading = false;
       },
     );

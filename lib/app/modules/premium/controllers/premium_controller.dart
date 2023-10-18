@@ -1,15 +1,18 @@
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/containers/premium_container.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../../shared/localDB/localdb.dart';
-
 class PremiumController {
+  final AppController appController;
   Offering? offering;
   final RxNotifier _isPremiumLoading = RxNotifier(true);
+
+  PremiumController({
+    required this.appController,
+  });
 
   Future<Offering?> recoverOffer() async {
     try {
@@ -44,7 +47,9 @@ class PremiumController {
   bool _validateIfHasPremiumPlan(CustomerInfo customerInfo) {
     if (customerInfo.entitlements.active
         .containsKey(AppConstants.premiumPlan)) {
-      GetIt.I.get<PrefsImpl>().put(LocalDBConstants.hasPremiumPlan, true);
+      appController.setPageToHome();
+      appController.activatePremium();
+      PremiumContainer().dispose();
       return true;
     }
     return false;

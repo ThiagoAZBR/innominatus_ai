@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:innominatus_ai/app/modules/home/controllers/home_controller.dart';
 
 import '../../../../shared/themes/app_text_styles.dart';
@@ -36,15 +35,13 @@ class HomeDefault extends StatelessWidget {
                           vertical: 12,
                         ),
                         child: Text(
-                          'Olá!',
-                          style: AppTextStyles.interVeryBig(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          'Olá,',
+                          style: AppTextStyles.interVeryBig(),
                         ),
                       ),
                       Text(
-                        'É bom ter você aqui!',
-                        style: AppTextStyles.interMedium(),
+                        'É bom ter você aqui.',
+                        style: AppTextStyles.interVeryBig(),
                       ),
                     ],
                   ),

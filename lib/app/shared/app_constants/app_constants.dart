@@ -10,4 +10,7 @@ class AppConstants {
       'Você é uma IA especializada em educação. Me de uma explicação/aula bem detalhada sobre $className.';
   static const String revenueCatApiKey = 'goog_MuwDROSUcNeBQQNOFUYWxlBQgTZ';
   static const String premiumPlan = 'Premium';
+  
+  static const String chatAnswersLimit = 'chatAnswersLimit';
+  static const String generatedClassesLimit = 'generatedClassesLimit';
 }
