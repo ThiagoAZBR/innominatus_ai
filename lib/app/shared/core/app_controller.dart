@@ -144,7 +144,7 @@ class AppController {
     return false;
   }
 
-  Future<void> getUserPremiumStatus() async {
+  Future<void> checkUserPremiumStatus() async {
     try {
       final CustomerInfo customerInfo = await Purchases.getCustomerInfo();
 
@@ -183,12 +183,25 @@ class AppController {
       final nonPremiumUserModel =
           nonPremiumUserBox.get(LocalDBConstants.nonPremiumUser);
 
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      await setupRemoteConfig(remoteConfig);
+
+      final int generatedClassesLimit =
+          remoteConfig.getInt(AppConstants.generatedClassesLimit);
+      final int chatAnswersLimit =
+          remoteConfig.getInt(AppConstants.chatAnswersLimit);
+
       if (nonPremiumUserModel != null) {
-        await handleNonPremiumUserDateTime(
+        await handleNonPremiumUser(
           nonPremiumUserLocalDB: nonPremiumUserModel,
+          generatedClassesLimit: generatedClassesLimit,
+          chatAnswersLimit: chatAnswersLimit,
         );
       } else {
-        await createNonPremiumLimit();
+        await createNonPremiumLimit(
+          generatedClassesLimit: generatedClassesLimit,
+          chatAnswersLimit: chatAnswersLimit,
+        );
       }
 
       _isUserPremium.value = false;
@@ -202,7 +215,7 @@ class AppController {
     try {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
         fetchTimeout: const Duration(seconds: 10),
-        minimumFetchInterval: const Duration(seconds: 10),
+        minimumFetchInterval: const Duration(hours: 12),
       ));
       await remoteConfig.fetchAndActivate();
     } catch (e) {
@@ -210,15 +223,10 @@ class AppController {
     }
   }
 
-  Future<void> createNonPremiumLimit() async {
-    final remoteConfig = FirebaseRemoteConfig.instance;
-    await setupRemoteConfig(remoteConfig);
-
-    final int generatedClassesLimit =
-        remoteConfig.getInt(AppConstants.generatedClassesLimit);
-    final int chatAnswersLimit =
-        remoteConfig.getInt(AppConstants.chatAnswersLimit);
-
+  Future<void> createNonPremiumLimit({
+    required int generatedClassesLimit,
+    required int chatAnswersLimit,
+  }) async {
     await HiveBoxInstances.nonPremiumUser.put(
       LocalDBConstants.nonPremiumUser,
       NonPremiumUserLocalDB(
@@ -230,8 +238,10 @@ class AppController {
     );
   }
 
-  Future<void> handleNonPremiumUserDateTime({
+  Future<void> handleNonPremiumUser({
     required NonPremiumUserLocalDB nonPremiumUserLocalDB,
+    required int generatedClassesLimit,
+    required int chatAnswersLimit,
   }) async {
     final now = DateTime.now();
 
@@ -240,6 +250,9 @@ class AppController {
         LocalDBConstants.nonPremiumUser,
         nonPremiumUserLocalDB.copyWith(
           actualDay: now,
+          chatAnswers: chatAnswersLimit,
+          generatedClasses: generatedClassesLimit,
+          hasReachedLimit: false,
         ),
       );
     }

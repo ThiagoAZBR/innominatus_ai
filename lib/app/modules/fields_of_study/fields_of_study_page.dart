@@ -38,10 +38,10 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as FieldsOfStudyPageArgs;
-
+    await appController.checkUserPremiumStatus();
     controller.setToFieldsOfStudySelectionState();
   }
 
@@ -67,7 +67,8 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
       child: RxBuilder(
         builder: (_) => AppScaffold(
           floatingButton: Visibility(
-            visible: controller.isFloatingButtonVisible(controller.state$).value,
+            visible:
+                controller.isFloatingButtonVisible(controller.state$).value,
             child: ContinueFloatingButton(
               onTap: () {
                 if (controller.state$ is FieldsOfStudySelectionState) {

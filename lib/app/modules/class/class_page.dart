@@ -26,6 +26,7 @@ class _ClassPageState extends State<ClassPage> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     args = RouteUtils.getArgs(context) as ClassPageArgs?;
+    await controller.appController.checkUserPremiumStatus();
     if (args != null) {
       await controller.createClass(
         CreateClassParams(

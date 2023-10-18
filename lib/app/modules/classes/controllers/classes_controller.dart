@@ -1,12 +1,15 @@
+import 'package:rx_notifier/rx_notifier.dart';
+
 import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_state.dart';
-import 'package:rx_notifier/rx_notifier.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 
 import '../../../shared/localDB/adapters/fields_of_study_local_db.dart';
 import '../../../shared/localDB/localdb_constants.dart';
 import '../../../shared/localDB/localdb_instances.dart';
 
 class ClassesController {
+  AppController appController;
   final GetRoadmapUseCase getRoadmapUseCase;
   final RxNotifier _state$ = RxNotifier<ClassesState>(ClassesSelectionState());
   final RxNotifier _isClassesLoading = RxNotifier(true);
@@ -17,6 +20,7 @@ class ClassesController {
   List<bool> isSelectedClasses = [];
 
   ClassesController({
+    required this.appController,
     required this.getRoadmapUseCase,
   });
 

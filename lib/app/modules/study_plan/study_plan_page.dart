@@ -44,6 +44,7 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
     }
 
     final studyPlan = await controller.saveStudyPlan(args!);
+    await controller.appController.checkUserPremiumStatus();
     controller.setDefaultState(studyPlan);
   }
 

@@ -1,17 +1,20 @@
 import 'package:http/http.dart' as http;
+import 'package:rx_notifier/rx_notifier.dart';
+
 import 'package:innominatus_ai/app/domain/models/class_item.dart';
 import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/stream_create_class_use_case.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
-import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../shared/localDB/localdb_instances.dart';
 
 class ClassController {
+  final AppController appController;
   final CreateClassUseCase createClassUseCase;
   final StreamCreateClassUseCase streamCreateClassUseCase;
 
@@ -116,6 +119,7 @@ class ClassController {
   }
 
   ClassController(
+    this.appController,
     this.createClassUseCase,
     this.streamCreateClassUseCase,
   );

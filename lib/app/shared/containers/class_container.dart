@@ -4,6 +4,7 @@ import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.d
 import 'package:innominatus_ai/app/domain/usecases/class/stream_create_class_use_case.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/class_controller.dart';
 import 'package:innominatus_ai/app/shared/containers/app_container.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 
 class ClassContainer implements Dependencies {
   final I = GetIt.instance;
@@ -29,6 +30,7 @@ class ClassContainer implements Dependencies {
     );
     I.registerLazySingleton(
       () => ClassController(
+        I.get<AppController>(),
         I.get<CreateClassUseCase>(),
         I.get<StreamCreateClassUseCase>(),
       ),

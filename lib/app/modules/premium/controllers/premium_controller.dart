@@ -52,12 +52,14 @@ class PremiumController {
       PremiumContainer().dispose();
       return true;
     }
+    // TODO: Implement Error Handle, show dialog or error widget
     return false;
   }
 
   bool _handleError(PlatformException e) {
     final errorCode = PurchasesErrorHelper.getErrorCode(e);
     if (errorCode != PurchasesErrorCode.purchaseCancelledError) {}
+    // TODO: Implement Error Handle, show dialog or error widget
     return false;
   }
 
