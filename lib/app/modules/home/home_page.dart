@@ -125,9 +125,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'Pergunte a Chaos',
+                              'Pergunte ao Chaos',
                               style: AppTextStyles.interSmall(
-                                  color: AppColors.primary),
+                                color: AppColors.primary,
+                              ),
                             ),
                           ],
                         ),

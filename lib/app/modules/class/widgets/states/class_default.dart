@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/class_controller.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
@@ -23,46 +21,11 @@ class ClassDefault extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          controller.streamClassContent != null
-              ? StreamBuilder(
-                  stream: controller.streamClassContent!.asStream(),
-                  builder: (context, snapshotFirst) {
-                    if (snapshotFirst.hasData) {
-                      return StreamBuilder(
-                          stream: snapshotFirst.data!.stream,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final String stringfyContent = formatStringfyJson(
-                                utf8.decode(snapshot.data!),
-                              );
-
-                              final List contentList =
-                                  json.decode(stringfyContent);
-
-                              final List<String> classContent = contentList
-                                  .map((e) => ClassContent.fromMap(e).content)
-                                  .toList();
-
-                              controller.classContentStream +=
-                                  (classContent.reduce((a, b) => a + b));
-
-                              return Text(
-                                formatText(controller.classContentStream),
-                                style:
-                                    AppTextStyles.interMedium(lineHeight: 1.3),
-                                textAlign: TextAlign.left,
-                              );
-                            }
-                            return const SizedBox();
-                          });
-                    }
-                    return const SizedBox();
-                  })
-              : Text(
-                  formatText(state.classContent!),
-                  style: AppTextStyles.interMedium(lineHeight: 1.3),
-                  textAlign: TextAlign.left,
-                ),
+          Text(
+            formatText(state.classContent!),
+            style: AppTextStyles.interMedium(lineHeight: 1.3),
+            textAlign: TextAlign.left,
+          ),
         ],
       ),
     );

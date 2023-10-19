@@ -7,7 +7,8 @@ class ClassIsLoadingState implements ClassState {
 }
 
 class ClassWithErrorState implements ClassState {
-  const ClassWithErrorState();
+  final bool isNonPremiumLimitation;
+  const ClassWithErrorState({this.isNonPremiumLimitation = false});
 }
 
 class ClassDefaultState implements ClassState {

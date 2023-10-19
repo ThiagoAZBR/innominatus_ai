@@ -77,11 +77,13 @@ class ChatController {
       final chatAnswers = nonPremiumUserLocalDB.chatAnswers;
 
       if (chatAnswers == 0) {
-        await nonPremiumUserBox.put(
-            LocalDBConstants.nonPremiumUser,
-            nonPremiumUserLocalDB.copyWith(
-              hasReachedLimit: true,
-            ));
+        if (nonPremiumUserLocalDB.generatedClasses == 0) {
+          await nonPremiumUserBox.put(
+              LocalDBConstants.nonPremiumUser,
+              nonPremiumUserLocalDB.copyWith(
+                hasReachedLimit: true,
+              ));
+        }
         return true;
       }
 
@@ -120,7 +122,7 @@ class ChatController {
       ChatMessage(
           isUser: false,
           message:
-              'Seu limite de perguntas foi atingido por hoje...\n\nAssine a versão Premium do Chaos IO e remova os limites diários, além de outros benefícios!'),
+              'Seu limite de perguntas foi atingido por hoje...\n\nAssine a versão Premium do Chaos IO para receber diversos benefícios, entre eles, o fim dos limites diários de perguntas!'),
     );
   }
 

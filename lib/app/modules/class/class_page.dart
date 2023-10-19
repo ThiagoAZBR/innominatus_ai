@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/class_controller.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
@@ -47,7 +47,9 @@ class _ClassPageState extends State<ClassPage> {
   Widget build(BuildContext context) {
     final mapBuilder = {
       const ClassIsLoadingState().toString(): const ClassIsLoading(),
-      const ClassWithErrorState().toString(): const ClassWithError(),
+      const ClassWithErrorState().toString(): ClassWithError(
+        classController: controller,
+      ),
       const ClassDefaultState().toString():
           ClassDefault(controller: controller),
     };

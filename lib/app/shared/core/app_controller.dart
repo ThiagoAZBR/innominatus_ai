@@ -167,8 +167,9 @@ class AppController {
   int get pageIndex => _pageIndex.value;
   set pageIndex(int value) => _pageIndex.value = value;
 
-  void setPageToStudyPlan() => _pageIndex.value = 1;
   void setPageToHome() => _pageIndex.value = 0;
+  void setPageToStudyPlan() => _pageIndex.value = 1;
+  void setPageToPremium() => _pageIndex.value = 2;
 
   bool get isHomeLoading => _isHomeLoading.value;
   set isHomeLoading(bool value) => _isHomeLoading.value = value;

@@ -1,6 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:rx_notifier/rx_notifier.dart';
-
 import 'package:innominatus_ai/app/domain/models/class_item.dart';
 import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
@@ -10,6 +8,7 @@ import 'package:innominatus_ai/app/modules/class/controllers/states/class_states
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../shared/localDB/localdb_instances.dart';
 
@@ -26,6 +25,12 @@ class ClassController {
   );
 
   Future<void> createClass(CreateClassParams params) async {
+    if (!appController.isUserPremium) {
+      if (await hasNonPremiumUserLimitation()) {
+        return setClassError(isNonPremiumLimitation: true);
+      }
+    }
+
     final localContent = recoverClass(params);
 
     if (localContent != null) {
@@ -44,6 +49,38 @@ class ClassController {
         );
       },
     );
+  }
+
+  Future<bool> hasNonPremiumUserLimitation() async {
+    final nonPremiumUserBox = HiveBoxInstances.nonPremiumUser;
+    final nonPremiumUserLocalDB =
+        nonPremiumUserBox.get(LocalDBConstants.nonPremiumUser);
+
+    if (!nonPremiumUserLocalDB!.hasReachedLimit) {
+      final generatedClasses = nonPremiumUserLocalDB.generatedClasses;
+
+      if (generatedClasses == 0) {
+        if (nonPremiumUserLocalDB.chatAnswers == 0) {
+          await nonPremiumUserBox.put(
+              LocalDBConstants.nonPremiumUser,
+              nonPremiumUserLocalDB.copyWith(
+                hasReachedLimit: true,
+              ));
+        }
+        return true;
+      }
+
+      if (generatedClasses >= 1) {
+        await nonPremiumUserBox.put(
+            LocalDBConstants.nonPremiumUser,
+            nonPremiumUserLocalDB.copyWith(
+              generatedClasses: generatedClasses - 1,
+            ));
+        return false;
+      }
+    }
+
+    return true;
   }
 
   String? recoverClass(CreateClassParams params) {
@@ -128,7 +165,12 @@ class ClassController {
   ClassState get state => _state.value;
 
   void setClassLoading() => _state.value = const ClassIsLoadingState();
-  void setClassError() => _state.value = const ClassWithErrorState();
+  void setClassError({
+    isNonPremiumLimitation = false,
+  }) =>
+      _state.value = ClassWithErrorState(
+        isNonPremiumLimitation: isNonPremiumLimitation,
+      );
   void setClassDefault([
     String? classContent,
     String? className,
