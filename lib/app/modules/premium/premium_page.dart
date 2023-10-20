@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:innominatus_ai/app/modules/premium/controllers/premium_controller.dart';
+import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_button/app_button.dart';
+import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/app_constants/app_assets.dart';
@@ -159,10 +161,12 @@ class _PremiumPageState extends State<PremiumPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: AppButton(
-                      onTap: () {
-                        premiumController
-                            .makePurchase(premiumController.offering!.monthly!);
-                      },
+                      onTap: () => premiumController
+                          .makePurchase(premiumController.offering!.monthly!)
+                          .then(
+                            (error) =>
+                                _handleAfterPurchaseResult(context, error),
+                          ),
                       text: 'Experimente Gratuitamente',
                     ),
                   ),
@@ -189,7 +193,12 @@ class _PremiumPageState extends State<PremiumPage> {
                             ),
                             const SizedBox(width: 8),
                             InkWell(
-                              onTap: () => premiumController.restorePurchase(),
+                              onTap: () => premiumController
+                                  .restorePurchase()
+                                  .then((error) => _handleAfterPurchaseResult(
+                                        context,
+                                        error,
+                                      )),
                               child: Text(
                                 'Restaurar compra',
                                 style: AppTextStyles.interTiny(
@@ -208,6 +217,37 @@ class _PremiumPageState extends State<PremiumPage> {
               ),
       ),
     );
+  }
+
+  void _handleAfterPurchaseResult(BuildContext context, Exception? error) {
+    if (error != null) {
+      if (error is CancelledPurchaseByUser) {
+        return;
+      }
+      showDialog(
+        context: context,
+        builder: (_) => AppDialog(
+          content: getMessageError(error),
+        ),
+      );
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (_) => const AppDialog(
+        title: 'Boas-vindas ao Chaos IO Premium',
+        content:
+            'Obrigado por acreditar no Chaos IO e investir no seu conhecimento!',
+      ),
+    ).then((_) => premiumController.setupPremiumPlan());
+  }
+
+  String getMessageError(Exception exception) {
+    if (exception is UnableToValidatePremiumStatus) {
+      return exception.message;
+    } else {
+      return (exception as UnableToMakeSubscriptionPurchase).message;
+    }
   }
 
   PremiumController get premiumController => widget.premiumController;

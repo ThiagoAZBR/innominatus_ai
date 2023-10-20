@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/containers/premium_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
+import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -26,7 +27,7 @@ class PremiumController {
     }
   }
 
-  Future<bool> makePurchase(Package package) async {
+  Future<Exception?> makePurchase(Package package) async {
     try {
       CustomerInfo customerInfo = await Purchases.purchasePackage(package);
       return _validateIfHasPremiumPlan(customerInfo);
@@ -35,7 +36,7 @@ class PremiumController {
     }
   }
 
-  Future<bool> restorePurchase() async {
+  Future<Exception?> restorePurchase() async {
     try {
       CustomerInfo customerInfo = await Purchases.restorePurchases();
       return _validateIfHasPremiumPlan(customerInfo);
@@ -44,23 +45,28 @@ class PremiumController {
     }
   }
 
-  bool _validateIfHasPremiumPlan(CustomerInfo customerInfo) {
-    if (customerInfo.entitlements.active
-        .containsKey(AppConstants.premiumPlan)) {
-      appController.setPageToHome();
-      appController.activatePremium();
-      PremiumContainer().dispose();
-      return true;
+  Exception? _validateIfHasPremiumPlan(CustomerInfo customerInfo) {
+    if (!customerInfo.entitlements.active.containsKey(
+      AppConstants.premiumPlan,
+    )) {
+      return const UnableToValidatePremiumStatus();
     }
-    // TODO: Implement Error Handle, show dialog or error widget
-    return false;
+
+    return null;
   }
 
-  bool _handleError(PlatformException e) {
+  Exception _handleError(PlatformException e) {
     final errorCode = PurchasesErrorHelper.getErrorCode(e);
-    if (errorCode != PurchasesErrorCode.purchaseCancelledError) {}
-    // TODO: Implement Error Handle, show dialog or error widget
-    return false;
+    if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
+      return const UnableToMakeSubscriptionPurchase();
+    }
+    return const CancelledPurchaseByUser();
+  }
+
+  void setupPremiumPlan() {
+    appController.setPageToHome();
+    appController.activatePremium();
+    PremiumContainer().dispose();
   }
 
   // Getters and Setters
