@@ -90,7 +90,6 @@ class StudyPlanController {
       newStudyPlan,
     );
     
-    appController.hasStudyPlan = true;
     return newStudyPlan;
   }
 

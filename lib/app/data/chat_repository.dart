@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
@@ -41,6 +42,9 @@ class ChatRepositoryImpl implements ChatRepository {
     CreateChatCompletionParam params,
   ) async {
     try {
+      if (kDebugMode) {
+        return Left(HomologResponse());
+      }
       final Map data = params.toMap();
       final response = await dio.post(
         AppUrls.createChatCompletionProduction,
@@ -150,56 +154,72 @@ class ChatRepositoryImpl implements ChatRepository {
 
 // Handlers
 ChatCompletionModel _handleChatResponse(Response response) {
-  if (response.statusCode == 200) {
-    return ChatCompletionModel.fromJson(response.data);
-  }
+  try {
+    if (response.statusCode == 200) {
+      return ChatCompletionModel.fromJson(response.data);
+    }
 
-  throw UnexpectedException();
+    throw UnexpectedException();
+  } catch (e) {
+    throw UnexpectedException();
+  }
 }
 
 List<String> _handleGetRoadmapResponse(Response response) {
-  if (response.statusCode == 200) {
-    ChatCompletionModel chatCompletionModel = ChatCompletionModel.fromJson(
-      response.data,
-    );
-    String content =
-        chatCompletionModel.choices.first.message.content.replaceAll('\n', '');
-    final int startIndex = content.indexOf('[');
-    final int endIndex = content.lastIndexOf(']');
-    content = content.substring(startIndex, endIndex + 1);
-    final List data = jsonDecode(content);
-    return data.map((e) => e['content'].toString()).toList();
-  }
+  try {
+    if (response.statusCode == 200) {
+      ChatCompletionModel chatCompletionModel = ChatCompletionModel.fromJson(
+        response.data,
+      );
+      String content = chatCompletionModel.choices.first.message.content
+          .replaceAll('\n', '');
+      final int startIndex = content.indexOf('[');
+      final int endIndex = content.lastIndexOf(']');
+      content = content.substring(startIndex, endIndex + 1);
+      final List data = jsonDecode(content);
+      return data.map((e) => e['content'].toString()).toList();
+    }
 
-  throw UnexpectedException();
+    throw UnexpectedException();
+  } catch (e) {
+    throw UnexpectedException();
+  }
 }
 
 List<String> _handleGetFieldsOfStudyResponse(Response response) {
-  if (response.statusCode == 200) {
-    ChatCompletionModel chatCompletionModel = ChatCompletionModel.fromJson(
-      response.data,
-    );
-    String content =
-        chatCompletionModel.choices.first.message.content.replaceAll('\n', '');
-    final int startIndex = content.indexOf('[');
-    final int endIndex = content.lastIndexOf(']');
-    content = content.substring(startIndex, endIndex + 1);
-    final List data = jsonDecode(content);
-    return data.map((e) => e.toString()).toList();
-  }
+  try {
+    if (response.statusCode == 200) {
+      ChatCompletionModel chatCompletionModel = ChatCompletionModel.fromJson(
+        response.data,
+      );
+      String content = chatCompletionModel.choices.first.message.content
+          .replaceAll('\n', '');
+      final int startIndex = content.indexOf('[');
+      final int endIndex = content.lastIndexOf(']');
+      content = content.substring(startIndex, endIndex + 1);
+      final List data = jsonDecode(content);
+      return data.map((e) => e.toString()).toList();
+    }
 
-  throw UnexpectedException();
+    throw UnexpectedException();
+  } catch (e) {
+    throw UnexpectedException();
+  }
 }
 
 String _handleCreateClassResponse(Response response) {
-  if (response.statusCode == 200) {
-    ChatCompletionModel chatCompletionModel =
-        ChatCompletionModel.fromJson(response.data);
+  try {
+    if (response.statusCode == 200) {
+      ChatCompletionModel chatCompletionModel =
+          ChatCompletionModel.fromJson(response.data);
 
-    String content = chatCompletionModel.choices.first.message.content;
+      String content = chatCompletionModel.choices.first.message.content;
 
-    return content;
+      return content;
+    }
+
+    throw UnexpectedException();
+  } catch (e) {
+    throw UnexpectedException();
   }
-
-  throw UnexpectedException();
 }

@@ -40,6 +40,8 @@ class _StudyPlanDefaultState extends State<StudyPlanDefault> {
             AppRoutes.fieldsOfStudyPage,
             arguments: FieldsOfStudyPageArgs(),
           );
+        } else {
+          widget.controller.appController.hasStudyPlan = true;
         }
       },
     );
