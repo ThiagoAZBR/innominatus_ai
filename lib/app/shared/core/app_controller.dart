@@ -155,7 +155,7 @@ class AppController {
 
       await deactivatePremium();
     } on PlatformException {
-      // TODO: Implement Error Handle, show dialog or error widget
+      // Because it's not recommended make restorePurchase automatically, in case of error the user must go to PremiumPage to do it himself
       return;
     }
   }

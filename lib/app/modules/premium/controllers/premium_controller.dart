@@ -44,8 +44,8 @@ class PremiumController {
         customerInfo: customerInfo,
         isRestorePurchase: true,
       );
-    } on PlatformException catch (e) {
-      return _handleError(e);
+    } on PlatformException {
+      return const UnableToValidatePremiumStatus();
     }
   }
 
