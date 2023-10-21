@@ -30,7 +30,7 @@ class PremiumController {
   Future<Exception?> makePurchase(Package package) async {
     try {
       CustomerInfo customerInfo = await Purchases.purchasePackage(package);
-      return _validateIfHasPremiumPlan(customerInfo);
+      return _validateIfHasPremiumPlan(customerInfo: customerInfo);
     } on PlatformException catch (e) {
       return _handleError(e);
     }
@@ -38,20 +38,29 @@ class PremiumController {
 
   Future<Exception?> restorePurchase() async {
     try {
+      startPremiumLoading();
       CustomerInfo customerInfo = await Purchases.restorePurchases();
-      return _validateIfHasPremiumPlan(customerInfo);
+      return _validateIfHasPremiumPlan(
+        customerInfo: customerInfo,
+        isRestorePurchase: true,
+      );
     } on PlatformException catch (e) {
       return _handleError(e);
     }
   }
 
-  Exception? _validateIfHasPremiumPlan(CustomerInfo customerInfo) {
+  Exception? _validateIfHasPremiumPlan({
+    required CustomerInfo customerInfo,
+    isRestorePurchase = false,
+  }) {
     if (!customerInfo.entitlements.active.containsKey(
       AppConstants.premiumPlan,
     )) {
+      if (isRestorePurchase) {
+        return const ThereIsNoPurchaseToRestore();
+      }
       return const UnableToValidatePremiumStatus();
     }
-
     return null;
   }
 
@@ -72,4 +81,7 @@ class PremiumController {
   // Getters and Setters
   bool get isPremiumLoading => _isPremiumLoading.value;
   set isPremiumLoading(bool value) => _isPremiumLoading.value = value;
+
+  void startPremiumLoading() => isPremiumLoading = true;
+  void endPremiumLoading() => isPremiumLoading = false;
 }

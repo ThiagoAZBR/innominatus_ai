@@ -12,6 +12,15 @@ class UnableToValidatePremiumStatus implements Exception {
   });
 }
 
+class ThereIsNoPurchaseToRestore implements Exception {
+  final String message;
+
+  const ThereIsNoPurchaseToRestore({
+    this.message =
+        'Você não possui assinaturas para restaurar.\n\nRealize a assinatura do Chaos IO Premium para poder receber diversos benefícios!',
+  });
+}
+
 class UnableToMakeSubscriptionPurchase implements Exception {
   final String message;
   const UnableToMakeSubscriptionPurchase({

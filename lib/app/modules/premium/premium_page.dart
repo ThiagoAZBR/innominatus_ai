@@ -220,6 +220,7 @@ class _PremiumPageState extends State<PremiumPage> {
   }
 
   void _handleAfterPurchaseResult(BuildContext context, Exception? error) {
+    premiumController.endPremiumLoading();
     if (error != null) {
       if (error is CancelledPurchaseByUser) {
         return;
@@ -244,6 +245,8 @@ class _PremiumPageState extends State<PremiumPage> {
 
   String getMessageError(Exception exception) {
     if (exception is UnableToValidatePremiumStatus) {
+      return exception.message;
+    } else if (exception is ThereIsNoPurchaseToRestore) {
       return exception.message;
     } else {
       return (exception as UnableToMakeSubscriptionPurchase).message;
