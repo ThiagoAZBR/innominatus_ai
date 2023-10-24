@@ -12,6 +12,7 @@ import 'package:innominatus_ai/app/shared/containers/premium_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
+import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
 import 'package:innominatus_ai/app/shared/widgets/navigation_bar.dart/app_navigation_bar.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 import 'package:shimmer/shimmer.dart';
@@ -62,7 +63,20 @@ class _HomePageState extends State<HomePage> {
       (_) async {
         appController.hasStudyPlan = appController.fetchHasStudyPlan();
         await appController.checkUserPremiumStatus();
+        appController.isAppUpdated = await appController.isAppVersionUpdated();
         appController.isHomeLoading = false;
+        
+        if (!appController.isAppUpdated) {
+          // ignore: use_build_context_synchronously
+          showDialog(
+            context: context,
+            builder: (_) => const AppDialog(
+              title: 'Nova versão do Chaos IO disponível',
+              content:
+                  'Atualize o App para receber as últimas atualizações e funcionalidades',
+            ),
+          );
+        }
       },
     );
   }

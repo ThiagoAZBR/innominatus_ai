@@ -2,6 +2,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -29,6 +30,7 @@ class AppController {
   final fieldsOfStudy$ = RxList<SharedFieldOfStudyItemModel>();
   final RxNotifier _isHomeLoading = RxNotifier(true);
   final RxNotifier _isUserPremium = RxNotifier(false);
+  final RxNotifier _isAppUpdated = RxNotifier(false);
 
   AppController({
     required GetRoadmapUseCase getRoadmap,
@@ -144,6 +146,20 @@ class AppController {
     return false;
   }
 
+  Future<bool> isAppVersionUpdated() async {
+    try {
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      await setupRemoteConfig(remoteConfig);
+      final remoteStoreVersion =
+          remoteConfig.getString(AppConstants.remoteVersion);
+      final appVersion = await PackageInfo.fromPlatform();
+
+      return appVersion.buildNumber == remoteStoreVersion;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> checkUserPremiumStatus() async {
     try {
       final CustomerInfo customerInfo = await Purchases.getCustomerInfo();
@@ -159,24 +175,6 @@ class AppController {
       return;
     }
   }
-
-  // Getters and Setters
-  bool get hasStudyPlan => _hasStudyPlan.value;
-  set hasStudyPlan(bool value) => _hasStudyPlan.value = value;
-
-  int get pageIndex => _pageIndex.value;
-  set pageIndex(int value) => _pageIndex.value = value;
-
-  void setPageToHome() => _pageIndex.value = 0;
-  void setPageToStudyPlan() => _pageIndex.value = 1;
-  void setPageToPremium() => _pageIndex.value = 2;
-
-  bool get isHomeLoading => _isHomeLoading.value;
-  set isHomeLoading(bool value) => _isHomeLoading.value = value;
-
-  bool get isUserPremium => _isUserPremium.value;
-
-  void activatePremium() => _isUserPremium.value = true;
 
   Future<void> deactivatePremium() async {
     try {
@@ -258,4 +256,25 @@ class AppController {
       );
     }
   }
+
+  // Getters and Setters
+  bool get hasStudyPlan => _hasStudyPlan.value;
+  set hasStudyPlan(bool value) => _hasStudyPlan.value = value;
+
+  int get pageIndex => _pageIndex.value;
+  set pageIndex(int value) => _pageIndex.value = value;
+
+  void setPageToHome() => _pageIndex.value = 0;
+  void setPageToStudyPlan() => _pageIndex.value = 1;
+  void setPageToPremium() => _pageIndex.value = 2;
+
+  bool get isHomeLoading => _isHomeLoading.value;
+  set isHomeLoading(bool value) => _isHomeLoading.value = value;
+
+  bool get isUserPremium => _isUserPremium.value;
+
+  void activatePremium() => _isUserPremium.value = true;
+
+  bool get isAppUpdated => _isAppUpdated.value;
+  set isAppUpdated(bool value) => _isAppUpdated.value = value;
 }

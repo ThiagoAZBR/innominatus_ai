@@ -13,4 +13,5 @@ class AppConstants {
 
   static const String chatAnswersLimit = 'chatAnswersLimit';
   static const String generatedClassesLimit = 'generatedClassesLimit';
+  static const String remoteVersion = 'remoteVersion';
 }
