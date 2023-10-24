@@ -5,8 +5,8 @@ import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
 import 'package:innominatus_ai/app/domain/usecases/fields_of_study/get_fields_of_study.dart';
-import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/get_fields_of_study_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 
 import '../localDB/localdb.dart';
@@ -24,7 +24,12 @@ class AppContainer implements Dependencies {
   @override
   void setup() {
     I.registerLazySingleton(
-      () => Dio(),
+      () => Dio(
+        BaseOptions(
+          connectTimeout: const Duration(seconds: 115),
+          receiveTimeout: const Duration(seconds: 115),
+        ),
+      ),
     );
     I.registerLazySingleton<FirebaseFirestore>(
       () => FirebaseFirestore.instance,
