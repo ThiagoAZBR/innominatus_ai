@@ -151,10 +151,10 @@ class AppController {
       final remoteConfig = FirebaseRemoteConfig.instance;
       await setupRemoteConfig(remoteConfig);
       final remoteStoreVersion =
-          remoteConfig.getString(AppConstants.remoteVersion);
+          remoteConfig.getInt(AppConstants.remoteVersion);
       final appVersion = await PackageInfo.fromPlatform();
 
-      return appVersion.buildNumber == remoteStoreVersion;
+      return (int.tryParse(appVersion.buildNumber) ?? -1) >= remoteStoreVersion;
     } catch (e) {
       return false;
     }
@@ -245,15 +245,17 @@ class AppController {
     final now = DateTime.now();
 
     if (!now.eqvYearMonthDay(nonPremiumUserLocalDB.actualDay)) {
-      await HiveBoxInstances.nonPremiumUser.put(
-        LocalDBConstants.nonPremiumUser,
-        nonPremiumUserLocalDB.copyWith(
-          actualDay: now,
-          chatAnswers: chatAnswersLimit,
-          generatedClasses: generatedClassesLimit,
-          hasReachedLimit: false,
-        ),
-      );
+      if (now.day > nonPremiumUserLocalDB.actualDay.day) {
+        await HiveBoxInstances.nonPremiumUser.put(
+          LocalDBConstants.nonPremiumUser,
+          nonPremiumUserLocalDB.copyWith(
+            actualDay: now,
+            chatAnswers: chatAnswersLimit,
+            generatedClasses: generatedClassesLimit,
+            hasReachedLimit: false,
+          ),
+        );
+      }
     }
   }
 
