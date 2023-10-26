@@ -6,6 +6,8 @@ class AppConstants {
       'Você é uma IA especializada em educação. Crie um Roadmap de estudos sobre $content e escreva em formato de Json, onde será um array de objetos, onde cada objeto terá a apenas a chave "content"';
   static const String getFieldsOfStudy =
       'Escreva em formato de Json, onde terá uma chave "items" e um valor que vai ser um Array de Strings. Dentro do Array, escreve o máximo possível áreas de estudo escolhidas na faculdade e em alta no mercado de trabalho';
+  static generateFieldsOfStudy(String language) =>
+      'Traduza os valores dos parâmetros para $language, mais nada de alteração:\n';
   static String createClass(String className) =>
       'Você é uma IA especializada em educação. Me de uma explicação/aula bem detalhada sobre $className.';
   static const String revenueCatApiKey = 'goog_MuwDROSUcNeBQQNOFUYWxlBQgTZ';
