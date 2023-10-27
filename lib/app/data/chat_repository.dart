@@ -64,7 +64,8 @@ class ChatRepositoryImpl implements ChatRepository {
   ) async {
     try {
       final Map data = GetRoadmapParams(
-        AppConstants.getRoadmap(params.topic),
+        AppConstants.getRoadmap(params.topic, params.language),
+        params.language,
       ).toMap();
       final response = await dio.post(
         AppUrls.createChatCompletionProduction,
@@ -104,8 +105,9 @@ class ChatRepositoryImpl implements ChatRepository {
   ) async {
     try {
       final Map data = CreateClassParams(
-        className: AppConstants.createClass(params.className),
+        className: AppConstants.createClass(params.className, params.language),
         subject: params.subject,
+        language: params.language,
       ).toMap();
 
       final response = await dio.post(
@@ -127,8 +129,9 @@ class ChatRepositoryImpl implements ChatRepository {
   ) {
     try {
       final data = CreateClassParams(
-        className: AppConstants.createClass(params.className),
+        className: AppConstants.createClass(params.className, params.language),
         subject: params.subject,
+        language: params.language,
       );
 
       final classNameEncoded = base64Encode(utf8.encode(data.className));

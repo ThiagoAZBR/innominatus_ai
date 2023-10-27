@@ -32,6 +32,8 @@ class _ClassPageState extends State<ClassPage> {
         CreateClassParams(
           className: args!.className,
           subject: args!.subject,
+          // ignore: use_build_context_synchronously
+          language: Localizations.localeOf(context).languageCode,
         ),
       );
     }

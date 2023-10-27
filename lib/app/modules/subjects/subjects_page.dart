@@ -86,7 +86,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
   Future<void> fetchSubjects(String fieldOfStudy) async {
     subjectsController.selectedFieldOfStudy = fieldOfStudy;
     final subjects = await appController
-        .getSubjectsFromFieldOfStudyRoadmap(GetRoadmapParams(fieldOfStudy));
+        .getSubjectsFromFieldOfStudyRoadmap(GetRoadmapParams(fieldOfStudy, Localizations.localeOf(context).languageCode));
     if (subjects != null) {
       subjectsController.subjects$.addAll(subjects);
       for (var i = 0; i < subjectsController.subjects$.length; i++) {

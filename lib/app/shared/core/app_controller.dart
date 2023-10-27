@@ -205,7 +205,6 @@ class AppController {
 
       _isUserPremium.value = false;
     } catch (e) {
-      // TODO: Implement Error Handle, show dialog or error widget
       return;
     }
   }

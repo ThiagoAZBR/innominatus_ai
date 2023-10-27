@@ -4,6 +4,7 @@ import 'package:innominatus_ai/app/shared/routes/app_routing.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -20,6 +21,8 @@ class AppWidget extends StatelessWidget {
           ? AppRoutes.homePage
           : AppRoutes.splashPage,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

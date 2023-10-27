@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
@@ -17,8 +18,12 @@ class GetRoadmapUseCase implements UseCase<List<String>, GetRoadmapParams> {
 
 class GetRoadmapParams {
   final String topic;
+  final String language;
 
-  GetRoadmapParams(this.topic);
+  GetRoadmapParams(
+    this.topic,
+    this.language,
+  );
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};

@@ -33,7 +33,7 @@ class _ClassesPageState extends State<ClassesPage> {
     args = RouteUtils.getArgs(context) as ClassesPageArgs?;
     if (args != null) {
       controller.getClassesRoadmap(
-        GetRoadmapParams(args!.selectedSubject),
+        GetRoadmapParams(args!.selectedSubject,Localizations.localeOf(context).languageCode),
       );
     }
   }

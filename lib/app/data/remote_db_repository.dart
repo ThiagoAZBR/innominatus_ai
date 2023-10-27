@@ -23,7 +23,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
     try {
       final response = await firebaseFirestore
           .collection(RemoteDBConstants.shared)
-          .doc(RemoteDBConstants.fieldsOfStudy)
+          .doc(RemoteDBConstants.oldFieldsOfStudy)
           .get();
       return Right(await _handleGetFieldsOfStudy(response));
     } on FirebaseException catch (e) {

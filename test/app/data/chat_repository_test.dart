@@ -13,7 +13,7 @@ void main() {
   group('Get Roadmap', () {
     test('GetRoadmap must Return Right', () async {
       final response = await chatRepository.getRoadmap(
-        GetRoadmapParams('UX'),
+        GetRoadmapParams('UX', 'pt'),
       );
 
       expect(response, isA<Right>());
@@ -34,9 +34,7 @@ void main() {
     test('Must return String from createClass', () async {
       final response = await chatRepository.createClass(
         CreateClassParams(
-          className: 'Behaviorismo',
-          subject: 'Psicologia',
-        ),
+            className: 'Behaviorismo', subject: 'Psicologia', language: 'pt'),
       );
 
       expect(response, isA<Right>());
