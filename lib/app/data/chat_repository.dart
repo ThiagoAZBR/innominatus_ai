@@ -5,10 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
+import 'package:innominatus_ai/app/domain/models/shared_field_of_study_item.dart';
+import 'package:innominatus_ai/app/domain/models/shared_fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
 import 'package:innominatus_ai/app/domain/usecases/fields_of_study/get_fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
-import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/network/app_urls.dart';
 
@@ -23,8 +24,8 @@ abstract class ChatRepository {
   Future<Either<Exception, List<String>>> getRoadmap(
     GetRoadmapParams params,
   );
-  Future<Either<Exception, List<String>>> getFieldsOfStudy(
-    NoParams params,
+  Future<Either<Exception, SharedFieldsOfStudyModel>> getFieldsOfStudy(
+    GetFieldsOfStudyParams params,
   );
   Future<Either<Exception, String>> createClass(CreateClassParams params);
   Either<Exception, Future<http.StreamedResponse>> streamCreateClass(
@@ -80,13 +81,14 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Exception, List<String>>> getFieldsOfStudy(
-    NoParams params,
+  Future<Either<Exception, SharedFieldsOfStudyModel>> getFieldsOfStudy(
+    GetFieldsOfStudyParams params,
   ) async {
     try {
       final Map data = GetFieldsOfStudyParams(
-        content: AppConstants.getFieldsOfStudy,
+        content: params.content,
       ).toMap();
+
       final response = await dio.post(
         AppUrls.createChatCompletionProduction,
         data: data,
@@ -189,7 +191,7 @@ List<String> _handleGetRoadmapResponse(Response response) {
   }
 }
 
-List<String> _handleGetFieldsOfStudyResponse(Response response) {
+SharedFieldsOfStudyModel _handleGetFieldsOfStudyResponse(Response response) {
   try {
     if (response.statusCode == 200) {
       ChatCompletionModel chatCompletionModel = ChatCompletionModel.fromJson(
@@ -200,8 +202,24 @@ List<String> _handleGetFieldsOfStudyResponse(Response response) {
       final int startIndex = content.indexOf('[');
       final int endIndex = content.lastIndexOf(']');
       content = content.substring(startIndex, endIndex + 1);
+
+      if (!content.contains('"subject"') && !content.contains("'subject'")) {
+        content = content.replaceAll('subject', '"subject"');
+      }
+      if (!content.contains('"description"') &&
+          !content.contains("'description'")) {
+        content = content.replaceAll('description', '"description"');
+      }
+
       final List data = jsonDecode(content);
-      return data.map((e) => e.toString()).toList();
+      return SharedFieldsOfStudyModel(
+        items: data
+            .map((e) => SharedFieldOfStudyItemModel(
+                  name: e['subject'],
+                  description: e['description'],
+                ))
+            .toList(),
+      );
     }
 
     throw UnexpectedException();

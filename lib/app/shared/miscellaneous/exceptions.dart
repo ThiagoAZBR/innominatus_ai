@@ -1,5 +1,9 @@
 class UnexpectedException implements Exception {}
 
+class CantGenerateTranslatedFieldsOfStudyException {
+  const CantGenerateTranslatedFieldsOfStudyException();
+}
+
 class MissingLanguageCacheException implements Exception {}
 
 class HomologResponse implements Exception {}

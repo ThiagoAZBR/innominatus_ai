@@ -1,16 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:innominatus_ai/app/domain/usecases/fields_of_study/get_fields_of_study.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
+import '../../domain/models/remoteDB/language.dart';
 import '../../domain/models/shared_field_of_study_item.dart';
 import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/models/subject_item.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
+import '../app_constants/remote_db_constants.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
 import '../localDB/adapters/non_premium_user_local_db.dart';
 import '../localDB/adapters/shared_fields_of_study_local_db.dart';
@@ -21,6 +26,7 @@ import '../localDB/localdb_instances.dart';
 class AppController {
   String languageCode = '';
   final GetFieldsOfStudyDB _getFieldsOfStudyDB;
+  final GetFieldsOfStudyAI _getFieldsOfStudyAI;
   final GetRoadmapUseCase _getRoadmap;
   final RxNotifier _pageIndex = RxNotifier(0);
 
@@ -35,18 +41,20 @@ class AppController {
   AppController({
     required GetRoadmapUseCase getRoadmap,
     required GetFieldsOfStudyDB getFieldsOfStudyDB,
+    required GetFieldsOfStudyAI getFieldsOfStudyAI,
     required this.prefs,
   })  : _getFieldsOfStudyDB = getFieldsOfStudyDB,
-        _getRoadmap = getRoadmap;
+        _getRoadmap = getRoadmap,
+        _getFieldsOfStudyAI = getFieldsOfStudyAI;
 
-  Future<bool> getFieldsOfStudy() async {
+  Future<Exception?> getFieldsOfStudy() async {
     final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
     final SharedFieldsOfStudyModel? fieldsOfStudy =
         fieldsOfStudyBox.get(LocalDBConstants.sharedFieldsOfStudy);
 
     if (fieldsOfStudy != null) {
       fieldsOfStudy$.addAll(fieldsOfStudy.items);
-      return true;
+      return null;
     }
 
     final responseDB = await _getFieldsOfStudyDB(
@@ -54,9 +62,12 @@ class AppController {
     );
     if (responseDB.isRight()) {
       responseDB.map(getFieldsOfStudyOnSuccess);
+      return null;
     }
+    Exception? exception;
+    responseDB.mapLeft((a) => exception = a);
 
-    return responseDB.isRight();
+    return exception;
   }
 
   void getFieldsOfStudyOnSuccess(SharedFieldsOfStudyModel data) {
@@ -66,6 +77,43 @@ class AppController {
       LocalDBConstants.sharedFieldsOfStudy,
       SharedFieldsOfStudyLocalDB.fromFieldsOfStudyModel(data),
     );
+  }
+
+  Future<Exception?> addLanguageCache(String language) async {
+    try {
+      final firebaseInstance = FirebaseFirestore.instance;
+
+      final result = await firebaseInstance
+          .collection(RemoteDBConstants.shared)
+          .doc(RemoteDBConstants.oldFieldsOfStudy)
+          .get();
+
+      final generatedFieldsOfStudy = await _getFieldsOfStudyAI(
+        params: GetFieldsOfStudyParams(
+          content: AppConstants.generateFieldsOfStudy(
+            language,
+            result.data()!.toString(),
+          ),
+        ),
+      );
+
+      return generatedFieldsOfStudy.fold(
+        (f) {
+          throw const CantGenerateTranslatedFieldsOfStudyException();
+        },
+        (data) async =>
+            await firebaseInstance.collection(RemoteDBConstants.languages).add(
+                  LanguageModel(
+                    name: language,
+                    allFieldsOfStudy: data.items,
+                  ).toMap(),
+                ),
+      ).then((_) => null);
+    } on FirebaseException {
+      return FirebaseException(plugin: 'Firestore');
+    } catch (e) {
+      return UnexpectedException();
+    }
   }
 
   Future<List<String>?> getSubjectsFromFieldOfStudyRoadmap(

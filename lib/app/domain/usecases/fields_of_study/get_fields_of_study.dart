@@ -2,14 +2,17 @@ import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/data/chat_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
-class GetFieldsOfStudyAI implements UseCase<List<String>, NoParams> {
+import '../../models/shared_fields_of_study.dart';
+
+class GetFieldsOfStudyAI
+    implements UseCase<SharedFieldsOfStudyModel, GetFieldsOfStudyParams> {
   final ChatRepository chatRepository;
 
   GetFieldsOfStudyAI(this.chatRepository);
 
   @override
-  Future<Either<Exception, List<String>>> call({
-    required NoParams params,
+  Future<Either<Exception, SharedFieldsOfStudyModel>> call({
+    required GetFieldsOfStudyParams params,
   }) async {
     return await chatRepository.getFieldsOfStudy(params);
   }

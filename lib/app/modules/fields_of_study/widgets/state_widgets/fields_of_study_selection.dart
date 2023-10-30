@@ -37,17 +37,49 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Escolha uma área de estudo',
-              style: AppTextStyles.interVeryBig(
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 16, top: 8),
-              child: Text(
-                'Você consegue selecionar uma área de estudo ao tocar em cima dela.',
-                style: AppTextStyles.interSmall(),
+            RxBuilder(
+              builder: (_) => Visibility(
+                visible: fieldsOfStudyController.isFieldOfStudyPageLoading$,
+                replacement: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Escolha uma área de estudo',
+                      style: AppTextStyles.interVeryBig(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16, top: 8),
+                      child: Text(
+                        'Você consegue selecionar uma área de estudo ao tocar em cima dela.',
+                        style: AppTextStyles.interSmall(),
+                      ),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Carregando conteúdo...',
+                      style: AppTextStyles.interBig(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        right: 16,
+                        top: 8,
+                        bottom: 8,
+                      ),
+                      child: Text(
+                        'Logo, logo, suas áreas de estudo estarão prontas para serem selecionadas.',
+                        style: AppTextStyles.interSmall(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 16),

@@ -69,6 +69,7 @@ class AppContainer implements Dependencies {
       AppController(
         getFieldsOfStudyDB: I.get<GetFieldsOfStudyDB>(),
         getRoadmap: I.get<GetRoadmapUseCase>(),
+        getFieldsOfStudyAI: I.get<GetFieldsOfStudyAI>(),
         prefs: I.get<PrefsImpl>(),
       ),
     );

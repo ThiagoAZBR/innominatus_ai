@@ -23,8 +23,8 @@ class AppConstants {
 
   static const String getFieldsOfStudy =
       'Escreva em formato de Json, onde terá uma chave "items" e um valor que vai ser um Array de Strings. Dentro do Array, escreve o máximo possível áreas de estudo escolhidas na faculdade e em alta no mercado de trabalho';
-  static generateFieldsOfStudy(String language) =>
-      'Traduza os valores dos parâmetros para $language, mais nada de alteração:\n';
+  static generateFieldsOfStudy(String language, String map) =>
+      'Traduza os valores dos parâmetros para $language, e devolva da mesma forma em json, mais nada de alteração:\n $map';
 
   // RevenueCat
   static const String revenueCatApiKey = 'goog_MuwDROSUcNeBQQNOFUYWxlBQgTZ';
