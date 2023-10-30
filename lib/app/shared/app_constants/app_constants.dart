@@ -1,24 +1,24 @@
 class AppConstants {
   static String chaosSelfIntroduction(String language) {
-    if (language == 'en') {
-      return "Hello!\n\nI'm here to answer your doubts and questions about the content!\n\nSend me your questions, and I'll be happy to help.";
+    if (language == LanguageConstants.portuguese) {
+      return 'Olá!\n\nEstou aqui para responder suas dúvidas e perguntas sobre os conteúdos!\n\nMe envie suas dúvidas e ficarei feliz em poder ajudar.';
     }
-    return 'Olá!\n\nEstou aqui para responder suas dúvidas e perguntas sobre os conteúdos!\n\nMe envie suas dúvidas e ficarei feliz em poder ajudar.';
+    return "Hello!\n\nI'm here to answer your doubts and questions about the content!\n\nSend me your questions, and I'll be happy to help.";
   }
 
   // Prompts
   static String getRoadmap(String content, String language) {
-    if (language == 'en') {
-      return 'You are an AI specialized in education. Create a study roadmap for $content and write it in Json format, which will be an array of objects, where each object will have only the key "content"';
+    if (language == LanguageConstants.portuguese) {
+      return 'Você é uma IA especializada em educação. Crie um Roadmap de estudos sobre $content e escreva em formato de Json, onde será um array de objetos, onde cada objeto terá a apenas a chave "content"';
     }
-    return 'Você é uma IA especializada em educação. Crie um Roadmap de estudos sobre $content e escreva em formato de Json, onde será um array de objetos, onde cada objeto terá a apenas a chave "content"';
+    return 'You are an AI specialized in education. Create a study roadmap for $content and write it in Json format, which will be an array of objects, where each object will have only the key "content"';
   }
 
   static String createClass(String className, String language) {
-    if (language == 'en') {
-      return 'You are an AI specialized in education. Give me a very detailed explanation/lesson about $className.';
+    if (language == LanguageConstants.portuguese) {
+      return 'Você é uma IA especializada em educação. Me de uma explicação/aula bem detalhada sobre $className.';
     }
-    return 'Você é uma IA especializada em educação. Me de uma explicação/aula bem detalhada sobre $className.';
+    return 'You are an AI specialized in education. Give me a very detailed explanation/lesson about $className.';
   }
 
   static const String getFieldsOfStudy =
@@ -34,4 +34,9 @@ class AppConstants {
   static const String chatAnswersLimit = 'chatAnswersLimit';
   static const String generatedClassesLimit = 'generatedClassesLimit';
   static const String remoteVersion = 'remoteVersion';
+}
+
+class LanguageConstants {
+  static const String portuguese = 'pt';
+  static const String english = 'en';
 }
