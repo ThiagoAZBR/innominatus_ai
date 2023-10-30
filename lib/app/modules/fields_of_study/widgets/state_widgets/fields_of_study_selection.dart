@@ -24,7 +24,13 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) async => await widget.fieldsOfStudyController.getFieldsOfStudy(),
+      (_) async {
+        if (appController.languageCode.isEmpty) {
+          appController.languageCode =
+              Localizations.localeOf(context).languageCode;
+        }
+        await widget.fieldsOfStudyController.getFieldsOfStudy();
+      },
     );
   }
 
