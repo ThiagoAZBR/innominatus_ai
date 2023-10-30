@@ -20,6 +20,7 @@ import '../localDB/localdb_constants.dart';
 import '../localDB/localdb_instances.dart';
 
 class AppController {
+  String languageCode = '';
   final GetFieldsOfStudyDB _getFieldsOfStudyDB;
   final GetRoadmapUseCase _getRoadmap;
   final RxNotifier _pageIndex = RxNotifier(0);

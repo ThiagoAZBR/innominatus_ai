@@ -1,7 +1,6 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
-import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
@@ -24,15 +23,8 @@ class ChatController {
   final _errorMessage$ = RxNotifier<String?>(null);
   final _isAppAvailable$ = RxNotifier(false);
   final userMessages$ = RxList<String>();
-  final artificialIntelligenceMessages$ = RxList<String>([
-    AppConstants.chaosSelfIntroduction,
-  ]);
-  final chatMessages$ = RxList<ChatMessage>([
-    ChatMessage(
-      isUser: false,
-      message: AppConstants.chaosSelfIntroduction,
-    ),
-  ]);
+  final artificialIntelligenceMessages$ = RxList<String>([]);
+  final chatMessages$ = RxList<ChatMessage>([]);
 
   ChatController(
     this.appController,

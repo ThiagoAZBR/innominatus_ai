@@ -65,7 +65,9 @@ class _HomePageState extends State<HomePage> {
         await appController.checkUserPremiumStatus();
         appController.isAppUpdated = await appController.isAppVersionUpdated();
         appController.isHomeLoading = false;
-        
+        appController.languageCode =
+            // ignore: use_build_context_synchronously
+            Localizations.localeOf(context).languageCode;
         if (!appController.isAppUpdated) {
           // ignore: use_build_context_synchronously
           showDialog(

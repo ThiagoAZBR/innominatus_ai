@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
 import 'package:innominatus_ai/app/modules/chat/widgets/chat_text_field.dart';
 import 'package:innominatus_ai/app/modules/chat/widgets/typing_indicator.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:innominatus_ai/app/shared/containers/chat_container.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/themes/app_color.dart';
@@ -10,12 +12,34 @@ import 'controllers/chat_controller.dart';
 import 'controllers/states/chat_states.dart';
 import 'widgets/message_box.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   final ChatController chatController;
   const ChatPage({
     Key? key,
     required this.chatController,
   }) : super(key: key);
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      chatController.artificialIntelligenceMessages$.add(
+        AppConstants.chaosSelfIntroduction(appController.languageCode),
+      );
+      chatController.chatMessages$.add(
+        ChatMessage(
+          isUser: false,
+          message:
+              AppConstants.chaosSelfIntroduction(appController.languageCode),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,4 +145,7 @@ class ChatPage extends StatelessWidget {
       ),
     );
   }
+
+  ChatController get chatController => widget.chatController;
+  AppController get appController => widget.chatController.appController;
 }

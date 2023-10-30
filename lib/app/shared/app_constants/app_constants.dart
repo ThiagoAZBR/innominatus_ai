@@ -1,6 +1,10 @@
 class AppConstants {
-  static const String chaosSelfIntroduction =
-      'Olá!\n\nEstou aqui para responder suas dúvidas e perguntas sobre os conteúdos!\n\nMe envie suas dúvidas e ficarei feliz em poder ajudar.';
+  static String chaosSelfIntroduction(String language) {
+    if (language == 'en') {
+      return "Hello!\n\nI'm here to answer your doubts and questions about the content!\n\nSend me your questions, and I'll be happy to help.";
+    }
+    return 'Olá!\n\nEstou aqui para responder suas dúvidas e perguntas sobre os conteúdos!\n\nMe envie suas dúvidas e ficarei feliz em poder ajudar.';
+  }
 
   // Prompts
   static String getRoadmap(String content, String language) {
