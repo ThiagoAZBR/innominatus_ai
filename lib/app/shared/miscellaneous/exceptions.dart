@@ -1,6 +1,6 @@
 class UnexpectedException implements Exception {}
 
-class EmptyCacheException implements Exception {}
+class MissingLanguageCacheException implements Exception {}
 
 class HomologResponse implements Exception {}
 

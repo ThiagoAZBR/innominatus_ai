@@ -13,4 +13,13 @@ class SharedFieldOfStudyItemModel {
       description: map['description'] ?? '',
     );
   }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'name': name});
+    result.addAll({'description': description});
+
+    return result;
+  }
 }

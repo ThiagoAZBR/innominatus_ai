@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
+import 'package:innominatus_ai/app/domain/models/remoteDB/language.dart';
 import 'package:innominatus_ai/app/shared/app_constants/remote_db_constants.dart';
+import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 
 import '../domain/models/shared_fields_of_study.dart';
-import '../domain/usecases/usecase.dart';
+import '../domain/usecases/remote_db/get_fields_of_study_db.dart';
 
 abstract class RemoteDBRepository {
   Future<Either<Exception, SharedFieldsOfStudyModel>> getFieldsOfStudy(
-    NoParams params,
+    GetFieldsOfStudyDBParams params,
   );
 }
 
@@ -19,23 +20,41 @@ class FirebaseStoreRepository implements RemoteDBRepository {
 
   @override
   Future<Either<Exception, SharedFieldsOfStudyModel>> getFieldsOfStudy(
-      NoParams params) async {
+    GetFieldsOfStudyDBParams params,
+  ) async {
     try {
       final response = await firebaseFirestore
-          .collection(RemoteDBConstants.shared)
-          .doc(RemoteDBConstants.oldFieldsOfStudy)
+          .collection(RemoteDBConstants.languages)
+          .where(
+            RemoteDBFieldsConstants.name,
+            isEqualTo: params.language,
+          )
           .get();
-      return Right(await _handleGetFieldsOfStudy(response));
+      return Right(await _handleGetFieldsOfStudy(response, params.language));
     } on FirebaseException catch (e) {
       return Left(e);
-    } catch (e) {
-      return Left(EmptyCacheException());
+    } on MissingLanguageCacheException catch (e) {
+      return Left(e);
+    } on UnexpectedException catch (e) {
+      return Left(e);
     }
   }
 }
 
 Future<SharedFieldsOfStudyModel> _handleGetFieldsOfStudy(
-  DocumentSnapshot<Map<String, dynamic>> json,
+  QuerySnapshot<Map<String, dynamic>> querySnapshot,
+  String language,
 ) async {
-  return SharedFieldsOfStudyModel.fromJson(json.data()!);
+  try {
+    if (querySnapshot.docs.isEmpty) {
+      throw MissingLanguageCacheException();
+    }
+    return SharedFieldsOfStudyModel.fromLanguageModel(
+      LanguageModel.fromMap(querySnapshot.docs.first.data()),
+    );
+  } on MissingLanguageCacheException {
+    throw MissingLanguageCacheException();
+  } catch (e) {
+    throw UnexpectedException();
+  }
 }

@@ -11,7 +11,6 @@ import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/models/subject_item.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
-import '../../domain/usecases/usecase.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
 import '../localDB/adapters/non_premium_user_local_db.dart';
 import '../localDB/adapters/shared_fields_of_study_local_db.dart';
@@ -50,7 +49,9 @@ class AppController {
       return true;
     }
 
-    final responseDB = await _getFieldsOfStudyDB(params: const NoParams());
+    final responseDB = await _getFieldsOfStudyDB(
+      params: GetFieldsOfStudyDBParams(language: languageCode),
+    );
     if (responseDB.isRight()) {
       responseDB.map(getFieldsOfStudyOnSuccess);
     }
