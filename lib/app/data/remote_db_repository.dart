@@ -13,6 +13,7 @@ import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 
 import '../domain/models/remoteDB/field_of_study_db.dart';
 import '../domain/models/shared_fields_of_study.dart';
+import '../domain/usecases/remote_db/get_classes_db.dart';
 import '../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../domain/usecases/remote_db/get_subjects_db.dart';
 
@@ -30,7 +31,7 @@ abstract class RemoteDBRepository {
     SaveSubjectsWithClassesDBParams params,
   );
   Future<Either<Exception, List<String>>> getClasses(
-    GetClassDBParams params,
+    GetClassesDBParams params,
   );
   Future<Either<Exception, String>> saveClassContent(
     SaveClassDBParams params,
@@ -188,7 +189,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
 
   @override
   Future<Either<Exception, List<String>>> getClasses(
-    GetClassDBParams params,
+    GetClassesDBParams params,
   ) async {
     try {
       final queryDoc = await firebaseFirestore

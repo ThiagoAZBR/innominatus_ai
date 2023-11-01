@@ -1,3 +1,5 @@
+import 'package:innominatus_ai/app/domain/usecases/remote_db/get_classes_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/save_subject_with_classes_db.dart';
 import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_state.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
@@ -10,6 +12,8 @@ import '../../../shared/localDB/localdb_instances.dart';
 class ClassesController {
   AppController appController;
   final GetRoadmapUseCase getRoadmapUseCase;
+  final SaveSubjectWithClassesRemoteDB saveSubjectWithClassesRemoteDB;
+  final GetClassesRemoteDB getClassesRemoteDB;
   final RxNotifier _state$ = RxNotifier<ClassesState>(ClassesSelectionState());
   final RxNotifier _isClassesLoading = RxNotifier(true);
   final RxList<String> generatedClasses = RxList();
@@ -21,6 +25,8 @@ class ClassesController {
   ClassesController({
     required this.appController,
     required this.getRoadmapUseCase,
+    required this.saveSubjectWithClassesRemoteDB,
+    required this.getClassesRemoteDB,
   });
 
   void changeSelectedClass(int i) {
@@ -39,7 +45,10 @@ class ClassesController {
   void resetAnySelectedClass() =>
       isSelectedClasses = List.of(isSelectedClasses).map((e) => false).toList();
 
-  Future<List<String>?> getClassesRoadmap(GetRoadmapParams params) async {
+  Future<List<String>?> getClassesRoadmap(
+    GetRoadmapParams params,
+    String fieldOfStudy,
+  ) async {
     startClassesLoading();
     final studyPlan = recoverStudyPlan();
     final subject = params.topic;
@@ -54,6 +63,16 @@ class ClassesController {
       return localClasses;
     }
 
+    final remoteClasses = await getRemoteCreatedClasses(
+      subject: subject,
+      fieldOfStudy: fieldOfStudy,
+      studyPlan: studyPlan,
+    );
+
+    if (remoteClasses != null) {
+      return remoteClasses;
+    }
+
     final result = await getRoadmapUseCase(params: params);
 
     return result.fold(
@@ -66,6 +85,35 @@ class ClassesController {
         studyPlan: studyPlan,
         subject: subject,
       ),
+    );
+  }
+
+  Future<List<String>?> getRemoteCreatedClasses({
+    required String subject,
+    required String fieldOfStudy,
+    required FieldsOfStudyLocalDB studyPlan,
+  }) async {
+    final response = await getClassesRemoteDB(
+      params: GetClassesDBParams(
+        languageCode: appController.languageCode,
+        fieldOfStudyName: fieldOfStudy,
+        subjectName: subject,
+      ),
+    );
+
+    return response.fold(
+      (failure) => null,
+      (classes) {
+        setLocalClasses(
+          subject: subject,
+          classes: classes,
+          studyPlan: studyPlan,
+        );
+
+        setupClasses(classes);
+
+        return classes;
+      },
     );
   }
 

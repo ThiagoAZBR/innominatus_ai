@@ -91,6 +91,7 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
                   AppRoutes.classesPage,
                   arguments: ClassesPageArgs(
                     selectedSubject: controller.selectedSubject!,
+                    selectedFieldOfStudy: controller.selectedFieldOfStudy!,
                   ),
                 );
               },

@@ -16,6 +16,7 @@ class StudyPlanController {
   );
   final _hasAnySelectedCard = RxNotifier(false);
   String? selectedSubject;
+  String? selectedFieldOfStudy;
 
   List<bool> isSubjectSelectedList = <bool>[];
 
@@ -69,6 +70,7 @@ class StudyPlanController {
         );
 
         appController.hasStudyPlan = true;
+        selectedFieldOfStudy = studyPlan.items.first.name;
         return updatedStudyPlan;
       }
 
@@ -79,6 +81,7 @@ class StudyPlanController {
         studyPlan,
       );
 
+      selectedFieldOfStudy = studyPlan.items.first.name;
       appController.hasStudyPlan = true;
       return studyPlan;
     }
@@ -89,7 +92,8 @@ class StudyPlanController {
       LocalDBConstants.studyPlan,
       newStudyPlan,
     );
-
+    
+    selectedFieldOfStudy = newStudyPlan.items.first.name;
     return newStudyPlan;
   }
 

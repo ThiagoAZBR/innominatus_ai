@@ -35,8 +35,11 @@ class _ClassesPageState extends State<ClassesPage> {
       args = RouteUtils.getArgs(context) as ClassesPageArgs?;
       if (args != null) {
         controller.getClassesRoadmap(
-          GetRoadmapParams(args!.selectedSubject,
-              Localizations.localeOf(context).languageCode),
+          GetRoadmapParams(
+            args!.selectedSubject,
+            Localizations.localeOf(context).languageCode,
+          ),
+          args!.selectedFieldOfStudy,
         );
       }
     });
@@ -69,6 +72,7 @@ class _ClassesPageState extends State<ClassesPage> {
                 arguments: ClassPageArgs(
                   className: controller.selectedClass!,
                   subject: args?.selectedSubject ?? '',
+                  fieldOfStudy: args?.selectedFieldOfStudy ?? '',
                 ),
               );
             },

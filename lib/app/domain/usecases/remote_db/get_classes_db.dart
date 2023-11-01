@@ -2,30 +2,27 @@ import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/usecase.dart';
 
-class SaveSubjectWithClassesRemoteDB
-    implements UseCase<List<String>, SaveSubjectsWithClassesDBParams> {
+class GetClassesRemoteDB implements UseCase<List<String>, GetClassesDBParams> {
   final RemoteDBRepository remoteDBRepository;
 
-  SaveSubjectWithClassesRemoteDB(this.remoteDBRepository);
+  GetClassesRemoteDB(this.remoteDBRepository);
 
   @override
   Future<Either<Exception, List<String>>> call({
-    required SaveSubjectsWithClassesDBParams params,
+    required GetClassesDBParams params,
   }) async {
-    return await remoteDBRepository.saveSubjectWithClasses(params);
+    return await remoteDBRepository.getClasses(params);
   }
 }
 
-class SaveSubjectsWithClassesDBParams {
+class GetClassesDBParams {
   final String languageCode;
   final String fieldOfStudyName;
   final String subjectName;
-  final List<String> allClasses;
 
-  SaveSubjectsWithClassesDBParams({
+  GetClassesDBParams({
     required this.languageCode,
     required this.fieldOfStudyName,
     required this.subjectName,
-    required this.allClasses,
   });
 }
