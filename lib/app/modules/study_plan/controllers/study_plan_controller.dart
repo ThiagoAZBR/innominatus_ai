@@ -36,7 +36,7 @@ class StudyPlanController {
 
     final fieldOfStudyItem = FieldOfStudyItemLocalDB(
       name: args.fieldOfStudy,
-      subjects: subjectsItem,
+      allSubjects: subjectsItem,
     );
 
     final studyPlanBox = HiveBoxInstances.studyPlan;
@@ -89,7 +89,7 @@ class StudyPlanController {
       LocalDBConstants.studyPlan,
       newStudyPlan,
     );
-    
+
     return newStudyPlan;
   }
 
@@ -143,14 +143,15 @@ class StudyPlanController {
     required FieldsOfStudyLocalDB localStudyPlan,
     required int indexOfFieldOfStudy,
   }) {
-    final existingSubjects = localStudyPlan.items[indexOfFieldOfStudy].subjects;
+    final existingSubjects =
+        localStudyPlan.items[indexOfFieldOfStudy].allSubjects;
 
     for (var newSubject in newSubjects) {
       final bool hasAlreadySubject = existingSubjects
           .any((e) => e.name.toLowerCase() == newSubject.name.toLowerCase());
 
       if (!hasAlreadySubject) {
-        localStudyPlan.items[indexOfFieldOfStudy].subjects.add(newSubject);
+        localStudyPlan.items[indexOfFieldOfStudy].allSubjects.add(newSubject);
       }
     }
 

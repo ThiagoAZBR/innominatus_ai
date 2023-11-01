@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
@@ -121,6 +122,7 @@ class ChatRepositoryImpl implements ChatRepository {
     } on DioError catch (e) {
       return Left(e);
     } on UnexpectedException catch (e) {
+      FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(e);
     }
   }
@@ -166,6 +168,7 @@ ChatCompletionModel _handleChatResponse(Response response) {
 
     throw UnexpectedException();
   } catch (e) {
+    FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
     throw UnexpectedException();
   }
 }
@@ -187,6 +190,7 @@ List<String> _handleGetRoadmapResponse(Response response) {
 
     throw UnexpectedException();
   } catch (e) {
+    FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
     throw UnexpectedException();
   }
 }
@@ -224,6 +228,7 @@ SharedFieldsOfStudyModel _handleGetFieldsOfStudyResponse(Response response) {
 
     throw UnexpectedException();
   } catch (e) {
+    FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
     throw UnexpectedException();
   }
 }
@@ -241,6 +246,7 @@ String _handleCreateClassResponse(Response response) {
 
     throw UnexpectedException();
   } catch (e) {
+    FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
     throw UnexpectedException();
   }
 }

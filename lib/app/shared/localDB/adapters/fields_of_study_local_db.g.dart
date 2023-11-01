@@ -52,7 +52,7 @@ class FieldOfStudyItemLocalDBAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return FieldOfStudyItemLocalDB(
-      subjects: (fields[0] as List).cast<SubjectItemModel>(),
+      allSubjects: (fields[0] as List).cast<SubjectItemModel>(),
       name: fields[1] as String,
     );
   }
@@ -62,7 +62,7 @@ class FieldOfStudyItemLocalDBAdapter
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.subjects)
+      ..write(obj.allSubjects)
       ..writeByte(1)
       ..write(obj.name);
   }
@@ -90,7 +90,7 @@ class SubjectItemLocalDBAdapter extends TypeAdapter<SubjectItemLocalDB> {
     };
     return SubjectItemLocalDB(
       name: fields[0] as String,
-      classes: (fields[1] as List?)?.cast<ClassItemModel>(),
+      allClasses: (fields[1] as List?)?.cast<ClassItemModel>(),
     );
   }
 
@@ -101,7 +101,7 @@ class SubjectItemLocalDBAdapter extends TypeAdapter<SubjectItemLocalDB> {
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.classes);
+      ..write(obj.allClasses);
   }
 
   @override

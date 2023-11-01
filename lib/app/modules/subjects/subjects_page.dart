@@ -89,8 +89,11 @@ class _SubjectsPageState extends State<SubjectsPage> {
     }
     subjectsController.selectedFieldOfStudy = fieldOfStudy;
     final subjects = await appController.getSubjectsFromFieldOfStudyRoadmap(
-        GetRoadmapParams(
-            fieldOfStudy, Localizations.localeOf(context).languageCode));
+      GetRoadmapParams(
+        fieldOfStudy,
+        Localizations.localeOf(context).languageCode,
+      ),
+    );
     if (subjects != null) {
       subjectsController.subjects$.addAll(subjects);
       for (var i = 0; i < subjectsController.subjects$.length; i++) {

@@ -30,20 +30,20 @@ class FieldsOfStudyLocalDB extends FieldsOfStudyModel {
 @HiveType(typeId: 4)
 class FieldOfStudyItemLocalDB extends FieldOfStudyItemModel {
   @HiveField(0)
-  final List<SubjectItemModel> subjects;
+  final List<SubjectItemModel> allSubjects;
   @HiveField(1)
   final String name;
 
   FieldOfStudyItemLocalDB({
-    required this.subjects,
+    required this.allSubjects,
     required this.name,
-  }) : super(subjects: subjects, name: name);
+  }) : super(allSubjects: allSubjects, name: name);
 
   factory FieldOfStudyItemLocalDB.fromFieldOfStudyItemModel(
     FieldOfStudyItemModel fieldOfStudyItem,
   ) {
     return FieldOfStudyItemLocalDB(
-      subjects: fieldOfStudyItem.subjects
+      allSubjects: fieldOfStudyItem.allSubjects
           .map((e) => SubjectItemLocalDB.fromSubjectItemModel(e))
           .toList(),
       name: fieldOfStudyItem.name,
@@ -56,19 +56,19 @@ class SubjectItemLocalDB extends SubjectItemModel {
   @HiveField(0)
   final String name;
   @HiveField(1)
-  final List<ClassItemModel>? classes;
+  final List<ClassItemModel>? allClasses;
 
   SubjectItemLocalDB({
     required this.name,
-    this.classes,
-  }) : super(classes: classes, name: name);
+    this.allClasses,
+  }) : super(allClasses: allClasses, name: name);
 
   factory SubjectItemLocalDB.fromSubjectItemModel(
     SubjectItemModel subjectItemModel,
   ) {
     return SubjectItemLocalDB(
       name: subjectItemModel.name,
-      classes: subjectItemModel.classes
+      allClasses: subjectItemModel.allClasses
           ?.map((e) => ClassItemLocalDB.fromClassItemModel(e))
           .toList(),
     );

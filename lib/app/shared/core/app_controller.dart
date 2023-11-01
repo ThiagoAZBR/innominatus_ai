@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
@@ -112,6 +113,7 @@ class AppController {
     } on FirebaseException {
       return FirebaseException(plugin: 'Firestore');
     } catch (e) {
+      FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return UnexpectedException();
     }
   }
@@ -138,7 +140,7 @@ class AppController {
               (fieldOfStudy) =>
                   fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
             )
-            .subjects
+            .allSubjects
             .map((e) => e.name)
             .toList();
       }
@@ -155,7 +157,7 @@ class AppController {
         }
 
         final fieldOfStudyItemLocalDB = FieldOfStudyItemLocalDB(
-          subjects: subjectsItem,
+          allSubjects: subjectsItem,
           name: params.topic,
         );
 

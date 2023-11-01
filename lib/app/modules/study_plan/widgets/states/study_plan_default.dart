@@ -138,7 +138,7 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
   void initState() {
     super.initState();
     controller.setQuantityOfSubjects(
-      fieldOfStudyItemModel.subjects.map((e) => e.name).toList(),
+      fieldOfStudyItemModel.allSubjects.map((e) => e.name).toList(),
     );
   }
 
@@ -224,7 +224,7 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
             ),
           ),
         ),
-        for (int i = 0; i < fieldOfStudyItemModel.subjects.length; i++)
+        for (int i = 0; i < fieldOfStudyItemModel.allSubjects.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 32),
             child: InkWell(
@@ -232,13 +232,13 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
                 if (!widget.isEditing) {
                   controller.updateSelectionCard(
                     i,
-                    fieldOfStudyItemModel.subjects[i].name,
+                    fieldOfStudyItemModel.allSubjects[i].name,
                   );
                 }
               }),
               child: SelectionCard(
                 isCardSelected: controller.isSubjectSelectedList[i],
-                title: fieldOfStudyItemModel.subjects[i].name,
+                title: fieldOfStudyItemModel.allSubjects[i].name,
                 isSemiBold: false,
               ),
             ),

@@ -1,8 +1,7 @@
-import 'package:rx_notifier/rx_notifier.dart';
-
 import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
 import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_state.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../shared/localDB/adapters/fields_of_study_local_db.dart';
 import '../../../shared/localDB/localdb_constants.dart';
@@ -82,11 +81,11 @@ class ClassesController {
   }) {
     late int index;
     for (var i = 0; i < studyPlan.items.length; i++) {
-      index = studyPlan.items[i].subjects.indexWhere(
+      index = studyPlan.items[i].allSubjects.indexWhere(
         (e) => e.name.toLowerCase() == subject.toLowerCase(),
       );
       if (index != -1) {
-        return studyPlan.items[i].subjects[index].classes
+        return studyPlan.items[i].allSubjects[index].allClasses
             ?.map((e) => e.name)
             .toList();
       }
@@ -117,14 +116,14 @@ class ClassesController {
     late int index;
 
     for (var i = 0; i < studyPlan.items.length; i++) {
-      index = studyPlan.items[i].subjects.indexWhere(
+      index = studyPlan.items[i].allSubjects.indexWhere(
         (e) => e.name.toLowerCase() == subject.toLowerCase(),
       );
 
       if (index != -1) {
-        studyPlan.items[i].subjects[index] = SubjectItemLocalDB(
+        studyPlan.items[i].allSubjects[index] = SubjectItemLocalDB(
           name: subject,
-          classes: classes
+          allClasses: classes
               .map((e) => ClassItemLocalDB(name: e, wasItCompleted: false))
               .toList(),
         );

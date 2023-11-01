@@ -80,7 +80,7 @@ class SubjectsController {
           fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy.toLowerCase(),
     );
 
-    localFieldsOfStudy.items[indexOfSelectedFieldOfStudy].subjects.add(
+    localFieldsOfStudy.items[indexOfSelectedFieldOfStudy].allSubjects.add(
       SubjectItemLocalDB(name: subjectToBeAdded),
     );
 

@@ -90,17 +90,17 @@ class ClassController {
         studyPlanBox.get(LocalDBConstants.studyPlan);
 
     final FieldOfStudyItemModel fieldOfStudyItem = studyLocalDB!.items
-        .where((fieldOfStudy) => fieldOfStudy.subjects.any(
+        .where((fieldOfStudy) => fieldOfStudy.allSubjects.any(
               (subject) =>
                   subject.name.toLowerCase() == params.subject.toLowerCase(),
             ))
         .first;
 
-    final SubjectItemModel subjectItem = fieldOfStudyItem.subjects
+    final SubjectItemModel subjectItem = fieldOfStudyItem.allSubjects
         .where((e) => e.name.toLowerCase() == params.subject.toLowerCase())
         .first;
 
-    final ClassItemModel classItem = subjectItem.classes!
+    final ClassItemModel classItem = subjectItem.allClasses!
         .where((e) => e.name.toLowerCase() == params.className.toLowerCase())
         .first;
 
@@ -116,25 +116,25 @@ class ClassController {
     final studyLocalDB = studyPlanBox.get(LocalDBConstants.studyPlan);
 
     final fieldOfStudyIndex = studyLocalDB!.items
-        .indexWhere((fieldOfStudy) => fieldOfStudy.subjects.any(
+        .indexWhere((fieldOfStudy) => fieldOfStudy.allSubjects.any(
               (subject) =>
                   subject.name.toLowerCase() == params.subject.toLowerCase(),
             ));
 
-    final subjectIndex = studyLocalDB.items[fieldOfStudyIndex].subjects
+    final subjectIndex = studyLocalDB.items[fieldOfStudyIndex].allSubjects
         .indexWhere(
             (e) => e.name.toLowerCase() == params.subject.toLowerCase());
 
     final classIndex = studyLocalDB
-        .items[fieldOfStudyIndex].subjects[subjectIndex].classes!
+        .items[fieldOfStudyIndex].allSubjects[subjectIndex].allClasses!
         .indexWhere(
             (e) => e.name.toLowerCase() == params.className.toLowerCase());
 
-    final ClassItemModel classItemModel = studyLocalDB
-        .items[fieldOfStudyIndex].subjects[subjectIndex].classes![classIndex];
+    final ClassItemModel classItemModel = studyLocalDB.items[fieldOfStudyIndex]
+        .allSubjects[subjectIndex].allClasses![classIndex];
 
-    studyLocalDB.items[fieldOfStudyIndex].subjects[subjectIndex]
-        .classes![classIndex] = ClassItemLocalDB(
+    studyLocalDB.items[fieldOfStudyIndex].allSubjects[subjectIndex]
+        .allClasses![classIndex] = ClassItemLocalDB(
       name: classItemModel.name,
       wasItCompleted: classItemModel.wasItCompleted,
       content: classContent,
