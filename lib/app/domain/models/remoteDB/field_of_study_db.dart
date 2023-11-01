@@ -1,8 +1,8 @@
-class FieldOfStudyRemoteDB {
+class FieldOfStudyRemoteDBModel {
   final String name;
   final List<String> allSubjects;
 
-  FieldOfStudyRemoteDB({
+  FieldOfStudyRemoteDBModel({
     required this.name,
     required this.allSubjects,
   });
@@ -16,8 +16,8 @@ class FieldOfStudyRemoteDB {
     return result;
   }
 
-  factory FieldOfStudyRemoteDB.fromMap(Map<String, dynamic> map) {
-    return FieldOfStudyRemoteDB(
+  factory FieldOfStudyRemoteDBModel.fromMap(Map<String, dynamic> map) {
+    return FieldOfStudyRemoteDBModel(
       name: map['name'] ?? '',
       allSubjects: List<String>.from(map['allSubjects']),
     );

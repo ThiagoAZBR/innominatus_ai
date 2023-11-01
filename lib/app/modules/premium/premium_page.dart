@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:innominatus_ai/app/modules/premium/controllers/premium_controller.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_button/app_button.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
@@ -254,10 +256,15 @@ class _PremiumPageState extends State<PremiumPage> {
   }
 
   PremiumController get premiumController => widget.premiumController;
+  AppController get appController => widget.premiumController.appController;
 
   String getPrice() {
-    return premiumController.offering!.monthly!.storeProduct.priceString
-        .replaceAll('.', ',')
-        .replaceAll('\$', '\$ ');
+    final price = premiumController.offering!.monthly!.storeProduct.priceString;
+
+    if (appController.languageCode == LanguageConstants.portuguese) {
+      return price.replaceAll('.', ',').replaceAll('\$', '\$ ');
+    }
+
+    return price;
   }
 }

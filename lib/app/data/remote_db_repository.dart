@@ -63,7 +63,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       final doc = queryDoc.docs.first.reference;
 
       await doc.collection(RemoteDBConstants.fieldsOfStudy).add(
-            FieldOfStudyRemoteDB(
+            FieldOfStudyRemoteDBModel(
               name: params.fieldOfStudyName.toLowerCase(),
               allSubjects: params.allSubjects,
             ).toMap(),
@@ -115,7 +115,7 @@ List<String> _handleGetSubjects(
   QuerySnapshot<Map<String, dynamic>> querySnapshot,
 ) {
   try {
-    final fieldOfStudyRemote = FieldOfStudyRemoteDB.fromMap(
+    final fieldOfStudyRemote = FieldOfStudyRemoteDBModel.fromMap(
       querySnapshot.docs.first.data(),
     );
     return fieldOfStudyRemote.allSubjects;
