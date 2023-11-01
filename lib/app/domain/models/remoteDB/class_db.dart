@@ -8,4 +8,22 @@ class ClassRemoteDBModel {
     required this.content,
     required this.audioUrl,
   });
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'name': name});
+    result.addAll({'content': content});
+    result.addAll({'audioUrl': audioUrl});
+
+    return result;
+  }
+
+  factory ClassRemoteDBModel.fromMap(Map<String, dynamic> map) {
+    return ClassRemoteDBModel(
+      name: map['name'] ?? '',
+      content: map['content'] ?? '',
+      audioUrl: map['audioUrl'] ?? '',
+    );
+  }
 }

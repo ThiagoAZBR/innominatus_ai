@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:innominatus_ai/app/domain/models/remoteDB/class_db.dart';
 import 'package:innominatus_ai/app/domain/models/remoteDB/language.dart';
+import 'package:innominatus_ai/app/domain/models/remoteDB/subject_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/get_class_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/save_class_db.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/save_field_of_study_with_subjects_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/save_subject_with_classes_db.dart';
 import 'package:innominatus_ai/app/shared/app_constants/remote_db_constants.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 
@@ -20,6 +25,18 @@ abstract class RemoteDBRepository {
   );
   Future<Either<Exception, List<String>>> getSubjects(
     GetFieldOfStudyWithSubjectsDBParams params,
+  );
+  Future<Either<Exception, List<String>>> saveSubjectWithClasses(
+    SaveSubjectsWithClassesDBParams params,
+  );
+  Future<Either<Exception, List<String>>> getClasses(
+    GetClassDBParams params,
+  );
+  Future<Either<Exception, String>> saveClassContent(
+    SaveClassDBParams params,
+  );
+  Future<Either<Exception, String>> getClassContent(
+    GetClassDBParams params,
   );
 }
 
@@ -100,6 +117,105 @@ class FirebaseStoreRepository implements RemoteDBRepository {
           )
           .get();
       return Right(_handleGetSubjects(fieldOfStudy));
+    } on FirebaseException catch (e) {
+      return Left(e);
+    } on MissingLanguageCacheException catch (e) {
+      return Left(e);
+    } catch (e) {
+      FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
+      return Left(UnexpectedException());
+    }
+  }
+
+  @override
+  Future<Either<Exception, String>> getClassContent(GetClassDBParams params) {
+    // TODO: implement getClassContent
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Exception, List<String>>> getClasses(GetClassDBParams params) {
+    // TODO: implement getClasses
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Exception, String>> saveClassContent(
+    SaveClassDBParams params,
+  ) async {
+    try {
+      final queryDoc = await firebaseFirestore
+          .collection(RemoteDBConstants.languages)
+          .where(RemoteDBFieldsConstants.name, isEqualTo: params.languageCode)
+          .get();
+
+      final doc = queryDoc.docs.first.reference;
+
+      final queryFieldOfStudy = await doc
+          .collection(RemoteDBConstants.fieldsOfStudy)
+          .where(
+            RemoteDBFieldsConstants.name,
+            isEqualTo: params.fieldOfStudyName.toLowerCase(),
+          )
+          .get();
+
+      final fieldOfStudy = queryFieldOfStudy.docs.first.reference;
+
+      final querySubject = await fieldOfStudy
+          .collection(RemoteDBConstants.subjects)
+          .where(RemoteDBFieldsConstants.name, isEqualTo: params.subjectName.toLowerCase())
+          .get();
+
+      final subject = querySubject.docs.first.reference;
+
+      subject.collection(RemoteDBConstants.classes).add(
+            ClassRemoteDBModel(
+              name: params.className.toLowerCase(),
+              content: params.content,
+              audioUrl: params.audioUrl,
+            ).toMap(),
+          );
+
+      return Right(params.content);
+    } on FirebaseException catch (e) {
+      return Left(e);
+    } on MissingLanguageCacheException catch (e) {
+      return Left(e);
+    } catch (e) {
+      FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
+      return Left(UnexpectedException());
+    }
+  }
+
+  @override
+  Future<Either<Exception, List<String>>> saveSubjectWithClasses(
+    SaveSubjectsWithClassesDBParams params,
+  ) async {
+    try {
+      final queryDoc = await firebaseFirestore
+          .collection(RemoteDBConstants.languages)
+          .where(RemoteDBFieldsConstants.name, isEqualTo: params.languageCode)
+          .get();
+
+      final doc = queryDoc.docs.first.reference;
+
+      final queryFieldOfStudy = await doc
+          .collection(RemoteDBConstants.fieldsOfStudy)
+          .where(
+            RemoteDBFieldsConstants.name,
+            isEqualTo: params.fieldOfStudyName.toLowerCase(),
+          )
+          .get();
+
+      final fieldOfStudy = queryFieldOfStudy.docs.first.reference;
+
+      await fieldOfStudy.collection(RemoteDBConstants.subjects).add(
+            SubjectRemoteDBModel(
+              name: params.subjectName.toLowerCase(),
+              allClasses: params.allClasses,
+            ).toMap(),
+          );
+      return Right(params.allClasses);
     } on FirebaseException catch (e) {
       return Left(e);
     } on MissingLanguageCacheException catch (e) {
