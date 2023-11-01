@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_assets.dart';
@@ -40,7 +41,8 @@ class SplashPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Crie sua própria maneira de estudar através do Chaos',
+                        AppLocalizations.of(context)!
+                            .splashPageCreateYourWayThroughChaos,
                         style: AppTextStyles.interVeryBig(),
                         textAlign: TextAlign.center,
                       ),
@@ -88,7 +90,7 @@ class SplashPage extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        'Vamos Começar!',
+                        AppLocalizations.of(context)!.splashPageLetsStart,
                         style: AppTextStyles.interBig(
                           color: AppColors.primary,
                         ),
