@@ -29,23 +29,25 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
   StudyPlanPageArgs? args;
 
   @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    args = RouteUtils.getArgs(context) as StudyPlanPageArgs?;
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      args = RouteUtils.getArgs(context) as StudyPlanPageArgs?;
 
-    if (args == null) {
-      final fieldsOfStudy = controller.recoverStudyPlan();
+      if (args == null) {
+        final fieldsOfStudy = controller.recoverStudyPlan();
 
-      if (fieldsOfStudy != null) {
-        return controller.setDefaultState(fieldsOfStudy);
+        if (fieldsOfStudy != null) {
+          return controller.setDefaultState(fieldsOfStudy);
+        }
+
+        return controller.setErrorState();
       }
 
-      return controller.setErrorState();
-    }
-
-    final studyPlan = await controller.saveStudyPlan(args!);
-    await controller.appController.checkUserPremiumStatus();
-    controller.setDefaultState(studyPlan);
+      final studyPlan = await controller.saveStudyPlan(args!);
+      await controller.appController.checkUserPremiumStatus();
+      controller.setDefaultState(studyPlan);
+    });
   }
 
   @override

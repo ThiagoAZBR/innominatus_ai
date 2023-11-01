@@ -6,6 +6,8 @@ import 'package:innominatus_ai/app/data/remote_db_repository.dart';
 import 'package:innominatus_ai/app/domain/usecases/chat/create_chat_completion.dart';
 import 'package:innominatus_ai/app/domain/usecases/fields_of_study/get_fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/get_fields_of_study_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/get_subjects_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/save_field_of_study_with_subjects_db.dart';
 import 'package:innominatus_ai/app/domain/usecases/roadmap_creation/get_roadmap.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 
@@ -65,11 +67,23 @@ class AppContainer implements Dependencies {
         I.get<ChatRepository>(),
       ),
     );
+    I.registerLazySingleton(
+      () => SaveFieldOfStudyWithSubjects(
+        I.get<RemoteDBRepository>(),
+      ),
+    );
+    I.registerLazySingleton(
+      () => GetFieldOfStudyWithSubjects(
+        I.get<RemoteDBRepository>(),
+      ),
+    );
     I.registerSingleton(
       AppController(
         getFieldsOfStudyDB: I.get<GetFieldsOfStudyDB>(),
         getRoadmap: I.get<GetRoadmapUseCase>(),
         getFieldsOfStudyAI: I.get<GetFieldsOfStudyAI>(),
+        saveFieldOfStudyWithSubjects: I.get<SaveFieldOfStudyWithSubjects>(),
+        getFieldOfStudyWithSubjects: I.get<GetFieldOfStudyWithSubjects>(),
         prefs: I.get<PrefsImpl>(),
       ),
     );

@@ -23,9 +23,10 @@ class _ClassPageState extends State<ClassPage> {
   ClassPageArgs? args;
 
   @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    args = RouteUtils.getArgs(context) as ClassPageArgs?;
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      args = RouteUtils.getArgs(context) as ClassPageArgs?;
     await controller.appController.checkUserPremiumStatus();
     if (args != null) {
       await controller.createClass(
@@ -37,6 +38,7 @@ class _ClassPageState extends State<ClassPage> {
         ),
       );
     }
+    });
   }
 
   @override

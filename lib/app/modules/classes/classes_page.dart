@@ -27,15 +27,19 @@ class ClassesPage extends StatefulWidget {
 
 class _ClassesPageState extends State<ClassesPage> {
   ClassesPageArgs? args;
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    args = RouteUtils.getArgs(context) as ClassesPageArgs?;
-    if (args != null) {
-      controller.getClassesRoadmap(
-        GetRoadmapParams(args!.selectedSubject,Localizations.localeOf(context).languageCode),
-      );
-    }
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      args = RouteUtils.getArgs(context) as ClassesPageArgs?;
+      if (args != null) {
+        controller.getClassesRoadmap(
+          GetRoadmapParams(args!.selectedSubject,
+              Localizations.localeOf(context).languageCode),
+        );
+      }
+    });
   }
 
   @override

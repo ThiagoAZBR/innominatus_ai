@@ -9,8 +9,8 @@ import '../../shared/routes/args/fields_of_study_page_args.dart';
 import '../../shared/utils/route_utils.dart';
 import '../../shared/widgets/app_scaffold/app_scaffold.dart';
 import '../../shared/widgets/continue_floating_button.dart';
-import 'controllers/states/fields_of_study_states.dart';
 import 'controllers/fields_of_study_controller.dart';
+import 'controllers/states/fields_of_study_states.dart';
 import 'widgets/state_widgets/fields_of_study_error.dart';
 import 'widgets/state_widgets/fields_of_study_loading.dart';
 import 'widgets/state_widgets/fields_of_study_selection.dart';
@@ -30,18 +30,20 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
   FieldsOfStudyPageArgs? args;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      args = RouteUtils.getArgs(context) as FieldsOfStudyPageArgs;
+      controller.setToFieldsOfStudySelectionState();
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     controller.resetSelectedCards();
     controller.appController.fieldsOfStudy$.clear();
     FieldsOfStudyContainer().dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    args = RouteUtils.getArgs(context) as FieldsOfStudyPageArgs;
-    controller.setToFieldsOfStudySelectionState();
   }
 
   @override

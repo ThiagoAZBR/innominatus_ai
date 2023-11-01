@@ -29,10 +29,12 @@ class _SubjectsPageState extends State<SubjectsPage> {
   SubjectsPageArgs? args;
 
   @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    args = RouteUtils.getArgs(context) as SubjectsPageArgs;
-    await fetchSubjects(args!.fieldOfStudy);
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      args = RouteUtils.getArgs(context) as SubjectsPageArgs;
+      await fetchSubjects(args!.fieldOfStudy);
+    });
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/domain/usecases/fields_of_study/get_fields_of_study.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/save_field_of_study_with_subjects_db.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -15,6 +16,7 @@ import '../../domain/models/shared_field_of_study_item.dart';
 import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/models/subject_item.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
+import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../app_constants/remote_db_constants.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
@@ -28,6 +30,8 @@ class AppController {
   String languageCode = '';
   final GetFieldsOfStudyDB _getFieldsOfStudyDB;
   final GetFieldsOfStudyAI _getFieldsOfStudyAI;
+  final SaveFieldOfStudyWithSubjects _saveFieldOfStudyWithSubjects;
+  final GetFieldOfStudyWithSubjects _getFieldOfStudyWithSubjects;
   final GetRoadmapUseCase _getRoadmap;
   final RxNotifier _pageIndex = RxNotifier(0);
 
@@ -43,11 +47,16 @@ class AppController {
     required GetRoadmapUseCase getRoadmap,
     required GetFieldsOfStudyDB getFieldsOfStudyDB,
     required GetFieldsOfStudyAI getFieldsOfStudyAI,
+    required SaveFieldOfStudyWithSubjects saveFieldOfStudyWithSubjects,
+    required GetFieldOfStudyWithSubjects getFieldOfStudyWithSubjects,
     required this.prefs,
   })  : _getFieldsOfStudyDB = getFieldsOfStudyDB,
         _getRoadmap = getRoadmap,
-        _getFieldsOfStudyAI = getFieldsOfStudyAI;
+        _getFieldsOfStudyAI = getFieldsOfStudyAI,
+        _saveFieldOfStudyWithSubjects = saveFieldOfStudyWithSubjects,
+        _getFieldOfStudyWithSubjects = getFieldOfStudyWithSubjects;
 
+  // Functions
   Future<Exception?> getFieldsOfStudy() async {
     final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
     final SharedFieldsOfStudyModel? fieldsOfStudy =
@@ -121,65 +130,145 @@ class AppController {
   Future<List<String>?> getSubjectsFromFieldOfStudyRoadmap(
     GetRoadmapParams params,
   ) async {
-    final fieldsOfStudyBox = HiveBoxInstances.fieldsOfStudy;
-    final FieldsOfStudyLocalDB? localFieldsOfStudy = fieldsOfStudyBox.get(
+    final FieldsOfStudyLocalDB? localFieldsOfStudy =
+        HiveBoxInstances.fieldsOfStudy.get(
       LocalDBConstants.fieldsOfStudy,
     );
 
+    // Get LocalDB Subjects
     if (localFieldsOfStudy != null) {
-      final selectedFieldOfStudy = params.topic.toLowerCase();
+      final localSubjects = getLocalSubjects(localFieldsOfStudy, params.topic);
 
-      final hasSubjectsInSelectedFieldOfStudy = localFieldsOfStudy.items.any(
-        (fieldOfStudy) =>
-            fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
-      );
-
-      if (hasSubjectsInSelectedFieldOfStudy) {
-        return localFieldsOfStudy.items
-            .firstWhere(
-              (fieldOfStudy) =>
-                  fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
-            )
-            .allSubjects
-            .map((e) => e.name)
-            .toList();
+      if (localSubjects != null) {
+        return localSubjects;
       }
     }
 
+    // Get Remote Subjects
+    final remoteSubjects = await getRemoteSubjects(
+      GetFieldOfStudyWithSubjectsDBParams(
+        languageCode: languageCode,
+        fieldOfStudyName: params.topic,
+      ),
+    );
+
+    if (remoteSubjects != null) {
+      await saveLocalSubjects(
+        localFieldsOfStudy: localFieldsOfStudy,
+        subjects: remoteSubjects,
+        topic: params.topic,
+      );
+      return remoteSubjects;
+    }
+
+    // Get AI Generated Subjects
     final response = await _getRoadmap(params: params);
-    return response.fold(
+    return await response.fold(
       (failure) => null,
-      (subjects) {
-        List<SubjectItemModel> subjectsItem = [];
+      (subjects) async => await _getAISubjectsHandleSuccess(
+        subjects: subjects,
+        topic: params.topic,
+        localFieldsOfStudy: localFieldsOfStudy,
+      ),
+    );
+  }
 
-        for (var i = 0; i < subjects.length; i++) {
-          subjectsItem.add(SubjectItemLocalDB(name: subjects[i]));
-        }
+  Future<List<String>> _getAISubjectsHandleSuccess({
+    required List<String> subjects,
+    required String topic,
+    required FieldsOfStudyLocalDB? localFieldsOfStudy,
+  }) async {
+    await saveRemoteSubjects(
+      SaveFieldOfStudyWithSubjectsDBParams(
+        languageCode: languageCode,
+        fieldOfStudyName: topic,
+        allSubjects: subjects,
+      ),
+    );
 
-        final fieldOfStudyItemLocalDB = FieldOfStudyItemLocalDB(
-          allSubjects: subjectsItem,
-          name: params.topic,
-        );
+    await saveLocalSubjects(
+      localFieldsOfStudy: localFieldsOfStudy,
+      subjects: subjects,
+      topic: topic,
+    );
 
-        if (localFieldsOfStudy != null) {
-          localFieldsOfStudy.items.add(
-            fieldOfStudyItemLocalDB,
-          );
-          fieldsOfStudyBox.put(
-            LocalDBConstants.fieldsOfStudy,
-            localFieldsOfStudy,
-          );
-        } else {
-          // First Time it's created FieldsOfStudy cache
-          fieldsOfStudyBox.put(
-            LocalDBConstants.fieldsOfStudy,
-            FieldsOfStudyLocalDB(
-              items: [fieldOfStudyItemLocalDB],
-            ),
-          );
-        }
-        return subjects;
-      },
+    return subjects;
+  }
+
+  Future<void> saveRemoteSubjects(
+    SaveFieldOfStudyWithSubjectsDBParams params,
+  ) async =>
+      await _saveFieldOfStudyWithSubjects(params: params);
+
+  Future<void> saveLocalSubjects({
+    required FieldsOfStudyLocalDB? localFieldsOfStudy,
+    required List<String> subjects,
+    required String topic,
+  }) async {
+    List<SubjectItemModel> subjectsItem = [];
+
+    for (var i = 0; i < subjects.length; i++) {
+      subjectsItem.add(SubjectItemLocalDB(name: subjects[i]));
+    }
+
+    final fieldOfStudyItemLocalDB = FieldOfStudyItemLocalDB(
+      allSubjects: subjectsItem,
+      name: topic,
+    );
+
+    final fieldsOfStudyBox = HiveBoxInstances.fieldsOfStudy;
+
+    if (localFieldsOfStudy != null) {
+      localFieldsOfStudy.items.add(
+        fieldOfStudyItemLocalDB,
+      );
+      await fieldsOfStudyBox.put(
+        LocalDBConstants.fieldsOfStudy,
+        localFieldsOfStudy,
+      );
+    } else {
+      // First Time it's created FieldsOfStudy cache
+      await fieldsOfStudyBox.put(
+        LocalDBConstants.fieldsOfStudy,
+        FieldsOfStudyLocalDB(
+          items: [fieldOfStudyItemLocalDB],
+        ),
+      );
+    }
+  }
+
+  List<String>? getLocalSubjects(
+    FieldsOfStudyLocalDB localFieldsOfStudy,
+    String topic,
+  ) {
+    final selectedFieldOfStudy = topic.toLowerCase();
+
+    final hasSubjectsInSelectedFieldOfStudy = localFieldsOfStudy.items.any(
+      (fieldOfStudy) => fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
+    );
+
+    if (hasSubjectsInSelectedFieldOfStudy) {
+      return localFieldsOfStudy.items
+          .firstWhere(
+            (fieldOfStudy) =>
+                fieldOfStudy.name.toLowerCase() == selectedFieldOfStudy,
+          )
+          .allSubjects
+          .map((e) => e.name)
+          .toList();
+    }
+
+    return null;
+  }
+
+  Future<List<String>?> getRemoteSubjects(
+    GetFieldOfStudyWithSubjectsDBParams params,
+  ) async {
+    final result = await _getFieldOfStudyWithSubjects(params: params);
+
+    return result.fold(
+      (failure) => null,
+      (subjects) => subjects,
     );
   }
 
