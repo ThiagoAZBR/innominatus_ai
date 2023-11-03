@@ -23,7 +23,7 @@ import '../localDB/adapters/fields_of_study_local_db.dart';
 import '../localDB/adapters/non_premium_user_local_db.dart';
 import '../localDB/adapters/shared_fields_of_study_local_db.dart';
 import '../localDB/localdb.dart';
-import '../localDB/localdb_constants.dart';
+import '../app_constants/localdb_constants.dart';
 import '../localDB/localdb_instances.dart';
 
 class AppController {

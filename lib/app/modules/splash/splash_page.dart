@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:innominatus_ai/app/shared/app_constants/app_assets.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 
 import '../../shared/routes/args/fields_of_study_page_args.dart';

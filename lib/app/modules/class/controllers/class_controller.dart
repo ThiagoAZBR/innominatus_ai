@@ -9,7 +9,7 @@ import 'package:innominatus_ai/app/domain/usecases/remote_db/save_class_db.dart'
 import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
-import 'package:innominatus_ai/app/shared/localDB/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../shared/localDB/localdb_instances.dart';

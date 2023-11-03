@@ -3,7 +3,7 @@ import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local
 import 'package:innominatus_ai/app/shared/localDB/adapters/non_premium_user_local_db.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/shared_fields_of_study_local_db.dart';
 
-import 'localdb_constants.dart';
+import '../app_constants/localdb_constants.dart';
 
 class HiveBoxInstances {
   static Box<SharedFieldsOfStudyLocalDB> get sharedFieldsOfStudy =>
