@@ -7,9 +7,9 @@ import 'package:innominatus_ai/app/domain/usecases/class/stream_create_class_use
 import 'package:innominatus_ai/app/domain/usecases/remote_db/get_class_db.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/save_class_db.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
+import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
-import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../shared/localDB/localdb_instances.dart';
@@ -46,7 +46,7 @@ class ClassController {
       }
     }
 
-    final localContent = recoverClass(params);
+    final localContent = recoverLocalClass(params);
 
     if (localContent != null) {
       return setClassDefault(localContent, params.className);
@@ -143,7 +143,10 @@ class ClassController {
     );
   }
 
-  String? recoverClass(CreateClassParams params) {
+  String? recoverLocalClass(CreateClassParams params) {
+    if (!appController.isUserPremium) {
+      return null;
+    }
     final studyPlanBox = HiveBoxInstances.studyPlan;
 
     final FieldsOfStudyLocalDB? studyLocalDB =
@@ -171,6 +174,9 @@ class ClassController {
     String classContent,
     CreateClassParams params,
   ) {
+    if (!appController.isUserPremium) {
+      return;
+    }
     final studyPlanBox = HiveBoxInstances.studyPlan;
 
     final studyLocalDB = studyPlanBox.get(LocalDBConstants.studyPlan);

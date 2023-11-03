@@ -5,4 +5,5 @@ class LocalDBConstants {
   static const String nonPremiumUser = 'nonPremiumUser';
   // SharedPreferences
   static const String hasShowedSplashScreen = 'isFirstTimeOfSplashScreen';
+  static const String isUserPremium = 'isUserPremium';
 }

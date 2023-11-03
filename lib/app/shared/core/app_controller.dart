@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:innominatus_ai/app/domain/usecases/fields_of_study/get_fields_of_study.dart';
 import 'package:innominatus_ai/app/domain/usecases/remote_db/save_field_of_study_with_subjects_db.dart';
@@ -18,12 +17,12 @@ import '../../domain/models/subject_item.dart';
 import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
+import '../app_constants/localdb_constants.dart';
 import '../app_constants/remote_db_constants.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
 import '../localDB/adapters/non_premium_user_local_db.dart';
 import '../localDB/adapters/shared_fields_of_study_local_db.dart';
 import '../localDB/localdb.dart';
-import '../app_constants/localdb_constants.dart';
 import '../localDB/localdb_instances.dart';
 
 class AppController {
@@ -307,12 +306,20 @@ class AppController {
 
       if (customerInfo.entitlements.active
           .containsKey(AppConstants.premiumPlan)) {
+        prefs.put(LocalDBConstants.isUserPremium, true);
         return activatePremium();
       }
 
+      prefs.put(LocalDBConstants.isUserPremium, false);
       await deactivatePremium();
-    } on PlatformException {
+    } catch (e) {
       // Because it's not recommended make restorePurchase automatically, in case of error the user must go to PremiumPage to do it himself
+      final localIsUserPremium = prefs.get(LocalDBConstants.isUserPremium);
+
+      if (localIsUserPremium != null) {
+        return localIsUserPremium ? activatePremium() : deactivatePremium();
+      }
+
       return;
     }
   }
