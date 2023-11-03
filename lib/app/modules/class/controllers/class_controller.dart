@@ -4,6 +4,8 @@ import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
 import 'package:innominatus_ai/app/domain/models/subject_item.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/create_class_use_case.dart';
 import 'package:innominatus_ai/app/domain/usecases/class/stream_create_class_use_case.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/get_class_db.dart';
+import 'package:innominatus_ai/app/domain/usecases/remote_db/save_class_db.dart';
 import 'package:innominatus_ai/app/modules/class/controllers/states/class_states.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
@@ -14,6 +16,8 @@ import '../../../shared/localDB/localdb_instances.dart';
 
 class ClassController {
   final AppController appController;
+  final GetClassDB getClassDB;
+  final SaveClassDB saveClassDB;
   final CreateClassUseCase createClassUseCase;
   final StreamCreateClassUseCase streamCreateClassUseCase;
 
@@ -24,7 +28,18 @@ class ClassController {
     const ClassIsLoadingState(),
   );
 
-  Future<void> createClass(CreateClassParams params) async {
+  ClassController(
+    this.appController,
+    this.createClassUseCase,
+    this.streamCreateClassUseCase,
+    this.getClassDB,
+    this.saveClassDB,
+  );
+
+  Future<void> createClass(
+    CreateClassParams params,
+    String fieldOfStudy,
+  ) async {
     if (!appController.isUserPremium) {
       if (await hasNonPremiumUserLimitation()) {
         return setClassError(isNonPremiumLimitation: true);
@@ -37,12 +52,41 @@ class ClassController {
       return setClassDefault(localContent, params.className);
     }
 
+    final remoteContent = await recoverRemoteClass(
+      GetClassDBParams(
+        languageCode: appController.languageCode,
+        fieldOfStudyName: fieldOfStudy,
+        subjectName: params.subject,
+        className: params.className,
+      ),
+    );
+
+    if (remoteContent != null) {
+      saveLocalClass(
+        remoteContent,
+        params,
+      );
+      return setClassDefault(
+        remoteContent,
+        params.className,
+      );
+    }
+
     final response = await createClassUseCase(params: params);
 
     response.fold(
       (failure) => setClassError(),
-      (data) {
+      (data) async {
         saveLocalClass(data, params);
+        await saveRemoteClass(
+          SaveClassDBParams(
+            languageCode: appController.languageCode,
+            fieldOfStudyName: fieldOfStudy,
+            subjectName: params.subject,
+            className: params.className,
+            content: data,
+          ),
+        );
         return setClassDefault(
           data,
           params.className,
@@ -81,6 +125,22 @@ class ClassController {
     }
 
     return true;
+  }
+
+  Future<void> saveRemoteClass(
+    SaveClassDBParams params,
+  ) async =>
+      saveClassDB(params: params);
+
+  Future<String?> recoverRemoteClass(
+    GetClassDBParams params,
+  ) async {
+    final response = await getClassDB(params: params);
+
+    return response.fold(
+      (failure) => null,
+      (data) => data,
+    );
   }
 
   String? recoverClass(CreateClassParams params) {
@@ -154,12 +214,6 @@ class ClassController {
       },
     );
   }
-
-  ClassController(
-    this.appController,
-    this.createClassUseCase,
-    this.streamCreateClassUseCase,
-  );
 
   // Getters and Setters
   ClassState get state => _state.value;

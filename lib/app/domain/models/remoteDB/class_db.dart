@@ -1,7 +1,7 @@
 class ClassRemoteDBModel {
   final String name;
   final String content;
-  final String audioUrl;
+  final String? audioUrl;
 
   ClassRemoteDBModel({
     required this.name,
@@ -14,7 +14,9 @@ class ClassRemoteDBModel {
 
     result.addAll({'name': name});
     result.addAll({'content': content});
-    result.addAll({'audioUrl': audioUrl});
+    if (audioUrl != null) {
+      result.addAll({'audioUrl': audioUrl});
+    }
 
     return result;
   }
@@ -23,7 +25,7 @@ class ClassRemoteDBModel {
     return ClassRemoteDBModel(
       name: map['name'] ?? '',
       content: map['content'] ?? '',
-      audioUrl: map['audioUrl'] ?? '',
+      audioUrl: map['audioUrl'],
     );
   }
 }

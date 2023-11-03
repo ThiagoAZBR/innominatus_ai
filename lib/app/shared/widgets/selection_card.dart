@@ -77,12 +77,15 @@ class _SelectionCardState extends State<SelectionCard> {
                 Flexible(
                   child: Text(
                     widget.title,
-                    style: AppTextStyles.interBig(
-                      color: widget.textColor,
-                      fontWeight: widget.isSemiBold
-                          ? FontWeight.w500
-                          : FontWeight.normal,
-                    ),
+                    style: widget.isSemiBold
+                        ? AppTextStyles.interBig(
+                            color: widget.textColor,
+                            fontWeight: FontWeight.w500,
+                          )
+                        : AppTextStyles.interMedium(
+                            color: widget.textColor,
+                            fontWeight: FontWeight.normal,
+                          ),
                   ),
                 ),
                 Visibility(

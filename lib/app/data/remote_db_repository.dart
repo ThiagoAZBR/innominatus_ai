@@ -93,8 +93,6 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(params.allSubjects);
     } on FirebaseException catch (e) {
       return Left(e);
-    } on MissingLanguageCacheException catch (e) {
-      return Left(e);
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(UnexpectedException());
@@ -126,7 +124,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(_handleGetSubjects(fieldOfStudy));
     } on FirebaseException catch (e) {
       return Left(e);
-    } on MissingLanguageCacheException catch (e) {
+    } on MissingContentCacheException catch (e) {
       return Left(e);
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
@@ -179,7 +177,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(_handleGetClassContent(classes));
     } on FirebaseException catch (e) {
       return Left(e);
-    } on MissingLanguageCacheException catch (e) {
+    } on MissingContentCacheException catch (e) {
       return Left(e);
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
@@ -220,7 +218,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(_handleGetClasses(querySubject));
     } on FirebaseException catch (e) {
       return Left(e);
-    } on MissingLanguageCacheException catch (e) {
+    } on MissingContentCacheException catch (e) {
       return Left(e);
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
@@ -271,8 +269,6 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(params.content);
     } on FirebaseException catch (e) {
       return Left(e);
-    } on MissingLanguageCacheException catch (e) {
-      return Left(e);
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(UnexpectedException());
@@ -309,8 +305,6 @@ class FirebaseStoreRepository implements RemoteDBRepository {
           );
       return Right(params.allClasses);
     } on FirebaseException catch (e) {
-      return Left(e);
-    } on MissingLanguageCacheException catch (e) {
       return Left(e);
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);

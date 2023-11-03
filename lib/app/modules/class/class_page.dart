@@ -36,6 +36,7 @@ class _ClassPageState extends State<ClassPage> {
           // ignore: use_build_context_synchronously
           language: Localizations.localeOf(context).languageCode,
         ),
+        args!.fieldOfStudy,
       );
     }
     });
