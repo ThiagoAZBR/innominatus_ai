@@ -75,15 +75,16 @@ class ClassesController {
 
     final result = await getRoadmapUseCase(params: params);
 
-    return result.fold(
+    return await result.fold(
       (failure) {
         setError();
         return null;
       },
-      (classes) => successInGeneratingClasses(
-        classes: classes,
+      (classes) async => await successInGeneratingClasses(
+        allClasses: classes,
         studyPlan: studyPlan,
         subject: subject,
+        fieldOfStudy: fieldOfStudy,
       ),
     );
   }
@@ -104,7 +105,7 @@ class ClassesController {
     return response.fold(
       (failure) => null,
       (classes) {
-        setLocalClasses(
+        saveLocalClasses(
           subject: subject,
           classes: classes,
           studyPlan: studyPlan,
@@ -141,22 +142,38 @@ class ClassesController {
     return null;
   }
 
-  List<String> successInGeneratingClasses({
-    required List<String> classes,
+  Future<List<String>> successInGeneratingClasses({
+    required List<String> allClasses,
     required FieldsOfStudyLocalDB studyPlan,
     required String subject,
-  }) {
-    setLocalClasses(
+    required String fieldOfStudy,
+  }) async {
+    await saveRemoteClasses(
+      params: SaveSubjectsWithClassesDBParams(
+        languageCode: appController.languageCode,
+        fieldOfStudyName: fieldOfStudy,
+        subjectName: subject,
+        allClasses: allClasses,
+      ),
+    );
+    saveLocalClasses(
       subject: subject,
-      classes: classes,
+      classes: allClasses,
       studyPlan: studyPlan,
     );
 
-    setupClasses(classes);
-    return classes;
+    setupClasses(allClasses);
+    return allClasses;
   }
 
-  void setLocalClasses({
+  Future<void> saveRemoteClasses({
+    required SaveSubjectsWithClassesDBParams params,
+  }) async =>
+      await saveSubjectWithClassesRemoteDB(
+        params: params,
+      );
+
+  void saveLocalClasses({
     required String subject,
     required List<String> classes,
     required FieldsOfStudyLocalDB studyPlan,

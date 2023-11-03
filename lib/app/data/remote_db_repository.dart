@@ -323,10 +323,15 @@ List<String> _handleGetSubjects(
   QuerySnapshot<Map<String, dynamic>> querySnapshot,
 ) {
   try {
+    if (querySnapshot.docs.isEmpty) {
+      throw const MissingContentCacheException();
+    }
     final fieldOfStudyRemote = FieldOfStudyRemoteDBModel.fromMap(
       querySnapshot.docs.first.data(),
     );
     return fieldOfStudyRemote.allSubjects;
+  } on MissingContentCacheException {
+    throw const MissingContentCacheException();
   } catch (e) {
     FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
     throw UnexpectedException();
@@ -356,10 +361,13 @@ List<String> _handleGetClasses(
   QuerySnapshot<Map<String, dynamic>> querySnapshot,
 ) {
   try {
+    if (querySnapshot.docs.isEmpty) {
+      throw const MissingContentCacheException();
+    }
     final data = querySnapshot.docs.first;
     return SubjectRemoteDBModel.fromMap(data.data()).allClasses;
-  } on MissingLanguageCacheException {
-    throw MissingLanguageCacheException();
+  } on MissingContentCacheException {
+    throw const MissingContentCacheException();
   } catch (e) {
     FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
     throw UnexpectedException();
@@ -370,10 +378,13 @@ String _handleGetClassContent(
   QuerySnapshot<Map<String, dynamic>> querySnapshot,
 ) {
   try {
+    if (querySnapshot.docs.isEmpty) {
+      throw const MissingContentCacheException();
+    }
     final data = querySnapshot.docs.first;
     return ClassRemoteDBModel.fromMap(data.data()).content;
-  } on MissingLanguageCacheException {
-    throw MissingLanguageCacheException();
+  } on MissingContentCacheException {
+    throw const MissingContentCacheException();
   } catch (e) {
     FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
     throw UnexpectedException();

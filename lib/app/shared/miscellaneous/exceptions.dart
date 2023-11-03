@@ -6,6 +6,10 @@ class CantGenerateTranslatedFieldsOfStudyException {
 
 class MissingLanguageCacheException implements Exception {}
 
+class MissingContentCacheException implements Exception {
+  const MissingContentCacheException();
+}
+
 class HomologResponse implements Exception {}
 
 class UnableToValidatePremiumStatus implements Exception {

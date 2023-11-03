@@ -25,7 +25,12 @@ class StudyPlanController {
   FieldsOfStudyLocalDB? recoverStudyPlan() {
     final studyPlanBox = HiveBoxInstances.studyPlan;
 
-    return studyPlanBox.get(LocalDBConstants.studyPlan);
+    final studyPlanLocal = studyPlanBox.get(LocalDBConstants.studyPlan);
+
+    // TODO: When being possible have two or more fields of study, do this reference in selecting/changing subject, selecting the respective field of study
+    selectedFieldOfStudy = studyPlanLocal?.items.first.name;
+
+    return studyPlanLocal;
   }
 
   Future<FieldsOfStudyLocalDB> saveStudyPlan(StudyPlanPageArgs args) async {
@@ -92,7 +97,7 @@ class StudyPlanController {
       LocalDBConstants.studyPlan,
       newStudyPlan,
     );
-    
+
     selectedFieldOfStudy = newStudyPlan.items.first.name;
     return newStudyPlan;
   }

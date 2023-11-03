@@ -9,9 +9,9 @@ class AppConstants {
   // Prompts
   static String getRoadmap(String content, String language) {
     if (language == LanguageConstants.portuguese) {
-      return 'Você é uma IA especializada em educação. Crie um Roadmap de estudos detalhado sobre $content (sem tipo "Módulo" ou 1.1) e escreva em formato de Json, onde será um array de objetos, onde cada objeto terá a apenas a chave "content"';
+      return 'Você é uma IA especializada em educação. Crie um Roadmap de estudos detalhado sobre $content (sem tipo "Módulo", "1." ou "1.1") e escreva em formato de Json, onde será um array de objetos, onde cada objeto terá a apenas a chave "content"';
     }
-    return 'You are an AI specialized in education. Create a detailed learning roadmap for $content (without bullet points, like "Module" or 1.1) and write it in Json format, which will be an array of objects, where each object will have only the key "content"';
+    return 'You are an AI specialized in education. Create a detailed learning roadmap for $content (without like "Module", "1." or "1.1") and write it in Json format, which will be an array of objects, where each object will have only the key "content"';
   }
 
   static String createClass(String className, String language) {

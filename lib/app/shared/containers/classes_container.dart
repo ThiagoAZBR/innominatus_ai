@@ -13,6 +13,8 @@ class ClassesContainer implements Dependencies {
   @override
   void dispose() {
     I.unregister<ClassesController>();
+    I.unregister<GetClassesRemoteDB>();
+    I.unregister<SaveSubjectWithClassesRemoteDB>();
   }
 
   @override
