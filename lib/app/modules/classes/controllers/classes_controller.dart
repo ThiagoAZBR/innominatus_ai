@@ -5,8 +5,8 @@ import 'package:innominatus_ai/app/modules/classes/controllers/states/classes_st
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../../shared/localDB/adapters/fields_of_study_local_db.dart';
 import '../../../shared/app_constants/localdb_constants.dart';
+import '../../../shared/localDB/adapters/fields_of_study_local_db.dart';
 import '../../../shared/localDB/localdb_instances.dart';
 
 class ClassesController {
@@ -128,6 +128,10 @@ class ClassesController {
     required String subject,
     required FieldsOfStudyLocalDB studyPlan,
   }) {
+    if (!appController.isUserPremium) {
+      return null;
+    }
+
     late int index;
     for (var i = 0; i < studyPlan.items.length; i++) {
       index = studyPlan.items[i].allSubjects.indexWhere(
@@ -178,6 +182,10 @@ class ClassesController {
     required List<String> classes,
     required FieldsOfStudyLocalDB studyPlan,
   }) {
+    if (!appController.isUserPremium) {
+      return;
+    }
+
     late int index;
 
     for (var i = 0; i < studyPlan.items.length; i++) {

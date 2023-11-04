@@ -57,13 +57,15 @@ class AppController {
 
   // Functions
   Future<Exception?> getFieldsOfStudy() async {
-    final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
-    final SharedFieldsOfStudyModel? fieldsOfStudy =
-        fieldsOfStudyBox.get(LocalDBConstants.sharedFieldsOfStudy);
+    if (isUserPremium) {
+      final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
+      final SharedFieldsOfStudyModel? fieldsOfStudy =
+          fieldsOfStudyBox.get(LocalDBConstants.sharedFieldsOfStudy);
 
-    if (fieldsOfStudy != null) {
-      fieldsOfStudy$.addAll(fieldsOfStudy.items);
-      return null;
+      if (fieldsOfStudy != null) {
+        fieldsOfStudy$.addAll(fieldsOfStudy.items);
+        return null;
+      }
     }
 
     final responseDB = await _getFieldsOfStudyDB(
@@ -80,8 +82,11 @@ class AppController {
   }
 
   void getFieldsOfStudyOnSuccess(SharedFieldsOfStudyModel data) {
-    final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
     fieldsOfStudy$.addAll(data.items);
+    if (!isUserPremium) {
+      return;
+    }
+    final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
     fieldsOfStudyBox.put(
       LocalDBConstants.sharedFieldsOfStudy,
       SharedFieldsOfStudyLocalDB.fromFieldsOfStudyModel(data),
@@ -204,6 +209,10 @@ class AppController {
     required List<String> subjects,
     required String topic,
   }) async {
+    if (!isUserPremium) {
+      return;
+    }
+
     List<SubjectItemModel> subjectsItem = [];
 
     for (var i = 0; i < subjects.length; i++) {
@@ -240,6 +249,10 @@ class AppController {
     FieldsOfStudyLocalDB localFieldsOfStudy,
     String topic,
   ) {
+    if (!isUserPremium) {
+      return null;
+    }
+
     final selectedFieldOfStudy = topic.toLowerCase();
 
     final hasSubjectsInSelectedFieldOfStudy = localFieldsOfStudy.items.any(
