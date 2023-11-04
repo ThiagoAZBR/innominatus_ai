@@ -93,6 +93,8 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(params.allSubjects);
     } on FirebaseException catch (e) {
       return Left(e);
+    } on MissingContentCacheException catch (e) {
+      return Left(e);
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(UnexpectedException());
@@ -155,6 +157,10 @@ class FirebaseStoreRepository implements RemoteDBRepository {
           )
           .get();
 
+      if (queryFieldOfStudy.docs.isEmpty) {
+        throw const MissingContentCacheException();
+      }
+
       final fieldOfStudy = queryFieldOfStudy.docs.first.reference;
 
       final querySubject = await fieldOfStudy
@@ -164,6 +170,10 @@ class FirebaseStoreRepository implements RemoteDBRepository {
             isEqualTo: params.subjectName.toLowerCase(),
           )
           .get();
+
+      if (querySubject.docs.isEmpty) {
+        throw const MissingContentCacheException();
+      }
 
       final subject = querySubject.docs.first.reference;
 
@@ -204,6 +214,10 @@ class FirebaseStoreRepository implements RemoteDBRepository {
             isEqualTo: params.fieldOfStudyName.toLowerCase(),
           )
           .get();
+
+      if (queryFieldOfStudy.docs.isEmpty) {
+        throw const MissingContentCacheException();
+      }
 
       final fieldOfStudy = queryFieldOfStudy.docs.first.reference;
 
@@ -246,6 +260,10 @@ class FirebaseStoreRepository implements RemoteDBRepository {
           )
           .get();
 
+      if (queryFieldOfStudy.docs.isEmpty) {
+        throw const MissingContentCacheException();
+      }
+
       final fieldOfStudy = queryFieldOfStudy.docs.first.reference;
 
       final querySubject = await fieldOfStudy
@@ -255,6 +273,10 @@ class FirebaseStoreRepository implements RemoteDBRepository {
             isEqualTo: params.subjectName.toLowerCase(),
           )
           .get();
+
+      if (querySubject.docs.isEmpty) {
+        throw const MissingContentCacheException();
+      }
 
       final subject = querySubject.docs.first.reference;
 
@@ -269,6 +291,8 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(params.content);
     } on FirebaseException catch (e) {
       return Left(e);
+    } on MissingContentCacheException {
+      throw const MissingContentCacheException();
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(UnexpectedException());
@@ -295,6 +319,10 @@ class FirebaseStoreRepository implements RemoteDBRepository {
           )
           .get();
 
+      if (queryFieldOfStudy.docs.isEmpty) {
+        throw const MissingContentCacheException();
+      }
+
       final fieldOfStudy = queryFieldOfStudy.docs.first.reference;
 
       await fieldOfStudy.collection(RemoteDBConstants.subjects).add(
@@ -306,6 +334,8 @@ class FirebaseStoreRepository implements RemoteDBRepository {
       return Right(params.allClasses);
     } on FirebaseException catch (e) {
       return Left(e);
+    } on MissingContentCacheException {
+      throw const MissingContentCacheException();
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(UnexpectedException());
