@@ -27,7 +27,9 @@ void main() async {
   );
 
   // TODO: Update setup with IOS, when possible
-  await Purchases.setLogLevel(kDebugMode ? LogLevel.debug : LogLevel.info);
+  if (!kDebugMode) {
+    await Purchases.setLogLevel(LogLevel.info);
+  }
   final configuration = PurchasesConfiguration(AppConstants.revenueCatApiKey);
   await Purchases.configure(configuration);
 

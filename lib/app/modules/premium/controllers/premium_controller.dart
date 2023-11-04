@@ -10,6 +10,7 @@ class PremiumController {
   final AppController appController;
   Offering? offering;
   final RxNotifier _isPremiumLoading = RxNotifier(true);
+  final RxNotifier _hasError = RxNotifier(false);
 
   PremiumController({
     required this.appController,
@@ -17,12 +18,14 @@ class PremiumController {
 
   Future<Offering?> recoverOffer() async {
     try {
+      hasError = false;
       final offerings = await Purchases.getOfferings();
       final current = offerings.current;
 
       isPremiumLoading = false;
       return current;
     } on PlatformException {
+      hasError = true;
       return null;
     }
   }
@@ -84,4 +87,7 @@ class PremiumController {
 
   void startPremiumLoading() => isPremiumLoading = true;
   void endPremiumLoading() => isPremiumLoading = false;
+
+  bool get hasError => _hasError.value;
+  set hasError(bool value) => _hasError.value = value;
 }

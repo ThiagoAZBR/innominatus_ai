@@ -109,12 +109,20 @@ class ClassWithError extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.popUntil(
-                            context,
-                            (route) =>
-                                route.settings.name == AppRoutes.homePage,
-                          );
-                          classController.appController.setPageToPremium();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          if (ModalRoute.of(context)!.settings.name !=
+                              AppRoutes.homePage) {
+                            Navigator.popAndPushNamed(
+                              context,
+                              AppRoutes.homePage,
+                            ).then((_) async {
+                              await Future.delayed(const Duration(seconds: 1));
+                              classController.appController.setPageToPremium();
+                            });
+                          } else {
+                            classController.appController.setPageToPremium();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(

@@ -45,20 +45,39 @@ class _PremiumPageState extends State<PremiumPage> {
                 height: MediaQuery.sizeOf(context).height -
                     kBottomNavigationBarHeight,
                 width: MediaQuery.sizeOf(context).width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CircularProgressIndicator(
-                      color: AppColors.secondary,
+                child: Visibility(
+                  visible: !premiumController.hasError,
+                  replacement: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Ocorreu um erro ao tentar pegar os dados do Plano Premium',
+                          style: AppTextStyles.interMedium(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 24),
-                    Text(
-                      'Carregando plano de assinatura',
-                      style: AppTextStyles.interMedium(),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const CircularProgressIndicator(
+                        color: AppColors.secondary,
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Carregando plano de assinatura',
+                        style: AppTextStyles.interMedium(),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
                 ),
               )
             : Column(
@@ -107,18 +126,6 @@ class _PremiumPageState extends State<PremiumPage> {
                           children: <Widget>[
                             const Icon(Icons.check, color: AppColors.secondary),
                             const SizedBox(width: 16),
-                            Text(
-                              'Use sem anúncios',
-                              style: AppTextStyles.interMedium(),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const Icon(Icons.check, color: AppColors.secondary),
-                            const SizedBox(width: 16),
                             Flexible(
                               child: Text(
                                 'Tenha acesso ilimitado as suas aulas e perguntas',
@@ -128,6 +135,17 @@ class _PremiumPageState extends State<PremiumPage> {
                           ],
                         ),
                         const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            const Icon(Icons.check, color: AppColors.secondary),
+                            const SizedBox(width: 16),
+                            Text(
+                              'Acesse aulas offline',
+                              style: AppTextStyles.interMedium(),
+                            )
+                          ],
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
