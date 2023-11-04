@@ -116,10 +116,7 @@ class ClassWithError extends StatelessWidget {
                             Navigator.popAndPushNamed(
                               context,
                               AppRoutes.homePage,
-                            ).then((_) async {
-                              await Future.delayed(const Duration(seconds: 1));
-                              classController.appController.setPageToPremium();
-                            });
+                            );
                           } else {
                             classController.appController.setPageToPremium();
                           }
