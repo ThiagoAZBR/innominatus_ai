@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/themes/app_color.dart';
+import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
 import 'package:innominatus_ai/app/shared/widgets/loading/shimmer_cards.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -43,41 +44,57 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
           RxBuilder(
             builder: (_) => Visibility(
               visible: !subjectsController.isLoading$,
-              child: Column(
-                children: [
-                  const SizedBox(height: 32),
-                  AddPersonalizedSubject(
-                    textEditingController:
-                        subjectsController.personalizedSubjectFieldController,
-                    onTap: () {
-                      FocusScope.of(context).unfocus();
+              child: InkWell(
+                onTap: () {
+                  if (!appController.isUserPremium) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => const AppDialog(
+                        content:
+                            'Para ter acesso a criação de disciplinas personalizadas, assine o Chaos IO Premium',
+                      ),
+                    );
+                  }
+                },
+                child: AbsorbPointer(
+                  absorbing: !appController.isUserPremium,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 32),
+                      AddPersonalizedSubject(
+                        textEditingController: subjectsController
+                            .personalizedSubjectFieldController,
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
 
-                      final subjectToBeAdded = subjectsController
-                          .personalizedSubjectFieldController.text;
-                      if (subjectToBeAdded.isNotEmpty) {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (_) => AddNewSubjectConfirmation(
-                            subjectToBeAdded: subjectToBeAdded,
-                            onTap: () {
-                              subjectsController.updateSubjectsSelection(
+                          final subjectToBeAdded = subjectsController
+                              .personalizedSubjectFieldController.text;
+                          if (subjectToBeAdded.isNotEmpty) {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (_) => AddNewSubjectConfirmation(
                                 subjectToBeAdded: subjectToBeAdded,
-                                selectedFieldOfStudy:
-                                    subjectsController.selectedFieldOfStudy,
-                              );
-                              subjectsController
-                                  .personalizedSubjectFieldController
-                                  .clear();
+                                onTap: () {
+                                  subjectsController.updateSubjectsSelection(
+                                    subjectToBeAdded: subjectToBeAdded,
+                                    selectedFieldOfStudy:
+                                        subjectsController.selectedFieldOfStudy,
+                                  );
+                                  subjectsController
+                                      .personalizedSubjectFieldController
+                                      .clear();
 
-                              Navigator.pop(context);
-                            },
-                          ),
-                        );
-                      }
-                    },
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                ],
+                ),
               ),
             ),
           ),
