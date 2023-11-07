@@ -292,7 +292,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
     } on FirebaseException catch (e) {
       return Left(e);
     } on MissingContentCacheException {
-      throw const MissingContentCacheException();
+      return const Left(MissingContentCacheException());
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(UnexpectedException());
@@ -335,7 +335,7 @@ class FirebaseStoreRepository implements RemoteDBRepository {
     } on FirebaseException catch (e) {
       return Left(e);
     } on MissingContentCacheException {
-      throw const MissingContentCacheException();
+      return const Left(MissingContentCacheException());
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
       return Left(UnexpectedException());
