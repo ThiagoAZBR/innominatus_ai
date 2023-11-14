@@ -1,4 +1,21 @@
 {
     "splashPageCreateYourWayThroughChaos": "Crie sua própria maneira de estudar através do Chaos",
-    "splashPageLetsStart": "Vamos Começar!"
+    "splashPageLetsStart": "Vamos Começar!",
+    "homeAskChaos": "Pergunte ao Chaos",
+    "homeViewStudyPlan": "Ver Plano de Estudos",
+    "homeViewStudyPlanDescription": "Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.",
+    "homeStartStudy": "Iniciar estudos",
+    "homeStartStudyDescription": "Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!",
+    "homeHello": "Olá,",
+    "homeHelloDescription": "É bom ter você aqui.",
+    "homeLoadAppInfo": "Carregando informações do aplicativo...",
+    "chatTextFieldHint": " Mensagem...",
+    "chatErrorGeneratingContent": "Ocorreu um erro ao tentar gerar a sua resposta.\nPor favor, tente novamente!",
+    "chatLimitNonPremiumUsers": "Seu limite de perguntas foi atingido por hoje...\n\nAssine a versão Premium do Chaos IO para receber diversos benefícios, entre eles, o fim dos limites diários de perguntas!",
+    "studyPlanIsEditing": "Você está editando seu plano de estudos",
+    "studyPlanSelectSubjectToAccessClasses": "Selecione uma disciplina para acessar suas aulas",
+    "studyPlanStopEditingToAccessSubjects": "Clique em "Parar de editar", para conseguir acessar o conteúdo das disciplinas",
+    "studyPlanHowToAccessSubjects": "Você consegue selecionar uma disciplina ao tocar em cima dela",
+    "studyPlanStopEdit": "Parar de Editar",
+    "studyPlanEdit": "Editar",
 }

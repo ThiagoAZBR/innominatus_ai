@@ -1,4 +1,21 @@
 {
     "splashPageCreateYourWayThroughChaos": "Create your unique way of learning through Chaos",
-    "splashPageLetsStart": "Let's get started!"
+    "splashPageLetsStart": "Let's get started!",
+    "homeAskChaos": "Ask to Chaos",
+    "homeViewStudyPlan": "View Study Plan",
+    "homeViewStudyPlanDescription": "Check your study plan! Your chosen field of study and subjects.",
+    "homeStartStudy": "Start studies",
+    "homeStartStudyDescription": "Here, you will choose what you want to learn and kickstart your studies",
+    "homeHello": "Hello,",
+    "homeHelloDescription": "It's nice to see you here.",
+    "homeLoadAppInfo": "Loading app content...",
+    "chatTextFieldHint": " Message...",
+    "chatErrorGeneratingContent": "Occur an error when trying to generate response.\nPlease, try again!",
+    "chatLimitNonPremiumUsers": "You limit of questions was made today...\n\nSubscribe Chaos IO Premium plan to receive many benefits, including the end of daily question limits!",
+    "studyPlanIsEditing": "You are editing your study plan",
+    "studyPlanSelectSubjectToAccessClasses": "Select a subject to access its classes",
+    "studyPlanStopEditingToAccessSubjects": 'Click "Stop Editing" to access the content of the subjects',
+    "studyPlanHowToAccessSubjects": "You can select a subject by tapping on it",
+    "studyPlanStopEdit": "Stop Editing",
+    "studyPlanEdit": "Edit",
 }
