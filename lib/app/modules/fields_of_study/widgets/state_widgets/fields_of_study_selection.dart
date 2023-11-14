@@ -5,7 +5,9 @@ import 'package:innominatus_ai/app/shared/widgets/loading/shimmer_cards.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
+import '../../../../shared/app_constants/app_constants.dart';
 import '../../../../shared/themes/app_text_styles.dart';
+import '../../../../shared/utils/validator_utils.dart';
 
 class FieldsOfStudySelection extends StatefulWidget {
   final FieldsOfStudyController fieldsOfStudyController;
@@ -26,8 +28,15 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (appController.languageCode.isEmpty) {
-          appController.languageCode =
+          String languageCode =
+              // ignore: use_build_context_synchronously
               Localizations.localeOf(context).languageCode;
+
+          if (ValidatorUtils.hasSupportedLanguage(languageCode)) {
+            appController.languageCode = languageCode;
+          } else {
+            appController.languageCode = LanguageConstants.english;
+          }
         }
         await widget.fieldsOfStudyController.getFieldsOfStudy();
       },

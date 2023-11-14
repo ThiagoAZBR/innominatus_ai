@@ -7,11 +7,13 @@ import 'package:innominatus_ai/app/modules/home/widgets/states/home_loading.dart
 import 'package:innominatus_ai/app/modules/premium/controllers/premium_controller.dart';
 import 'package:innominatus_ai/app/modules/premium/premium_page.dart';
 import 'package:innominatus_ai/app/modules/study_plan/study_plan_page.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/containers/home_container.dart';
 import 'package:innominatus_ai/app/shared/containers/premium_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
+import 'package:innominatus_ai/app/shared/utils/validator_utils.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
 import 'package:innominatus_ai/app/shared/widgets/navigation_bar.dart/app_navigation_bar.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -65,9 +67,16 @@ class _HomePageState extends State<HomePage> {
         await appController.checkUserPremiumStatus();
         appController.isAppUpdated = await appController.isAppVersionUpdated();
         appController.isHomeLoading = false;
-        appController.languageCode =
+        String languageCode =
             // ignore: use_build_context_synchronously
             Localizations.localeOf(context).languageCode;
+
+        if (ValidatorUtils.hasSupportedLanguage(languageCode)) {
+          appController.languageCode = languageCode;
+        } else {
+          appController.languageCode = LanguageConstants.english;
+        }
+
         if (!appController.isAppUpdated) {
           // ignore: use_build_context_synchronously
           showDialog(
