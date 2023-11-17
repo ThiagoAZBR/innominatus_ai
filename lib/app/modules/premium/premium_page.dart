@@ -280,7 +280,7 @@ class _PremiumPageState extends State<PremiumPage> {
     final price = premiumController.offering!.monthly!.storeProduct.priceString;
 
     if (appController.languageCode == LanguageConstants.portuguese) {
-      return price.replaceAll('.', ',').replaceAll('\$', '\$ ');
+      return price.replaceAll('.', ',');
     }
 
     return price;
