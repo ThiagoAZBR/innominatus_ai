@@ -5,6 +5,7 @@ import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/themes/app_color.dart';
 
 import '../../../../shared/themes/app_text_styles.dart';
+import '../../../../shared/utils/language_utils.dart';
 
 class ClassWithError extends StatelessWidget {
   final ClassController classController;
@@ -42,12 +43,12 @@ class ClassWithError extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Ops...',
+                    LocalizationUtils.I(context).classOps,
                     style: AppTextStyles.interBig(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Ocorreu um problema no momento de geração de sua aula!\n\nPor favor, tente novamente.',
+                    LocalizationUtils.I(context).classErrorMessage,
                     style: AppTextStyles.interMedium(),
                   ),
                   const SizedBox(height: 16),
@@ -62,7 +63,7 @@ class ClassWithError extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Voltar',
+                        LocalizationUtils.I(context).classBack,
                         style: AppTextStyles.interMedium(
                           color: AppColors.link,
                         ),
@@ -78,13 +79,13 @@ class ClassWithError extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Ops...',
+                    LocalizationUtils.I(context).classOps,
                     style:
                         AppTextStyles.interVeryBig(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Seu limite de aulas foi atingido por hoje...\n\nAssine a versão Premium do Chaos IO para receber diversos benefícios, entre eles, o fim dos limites diários de aulas!',
+                    LocalizationUtils.I(context).classLimitOfFreePlan,
                     style: AppTextStyles.interMedium(),
                   ),
                   const SizedBox(height: 16),
@@ -100,7 +101,7 @@ class ClassWithError extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Voltar',
+                          LocalizationUtils.I(context).classBack,
                           style: AppTextStyles.interMedium(
                             color: AppColors.link,
                           ),
@@ -128,7 +129,7 @@ class ClassWithError extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Remover limites',
+                          LocalizationUtils.I(context).classRemoveLimits,
                           style: AppTextStyles.interMedium(
                             color: AppColors.link,
                           ),

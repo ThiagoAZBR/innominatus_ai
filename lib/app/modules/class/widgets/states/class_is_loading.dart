@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_color.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
+import '../../../../shared/utils/language_utils.dart';
+
 class ClassIsLoading extends StatelessWidget {
   const ClassIsLoading({super.key});
 
@@ -20,7 +22,7 @@ class ClassIsLoading extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 42),
               child: Text(
-                'Sua aula está sendo criada! Isso pode levar alguns segundos...',
+                LocalizationUtils.I(context).classLoadingMessage,
                 style: AppTextStyles.interMedium(),
                 textAlign: TextAlign.center,
               ),

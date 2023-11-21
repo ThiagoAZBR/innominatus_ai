@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
+import 'package:innominatus_ai/app/shared/utils/language_utils.dart';
 
 import '../../../../shared/themes/app_color.dart';
 
@@ -21,7 +22,7 @@ class HomeLoading extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Carregando informações do aplicativo...',
+              LocalizationUtils.I(context).homeLoadAppInfo,
               style: AppTextStyles.interMedium(),
             ),
           ],

@@ -9,10 +9,11 @@ import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../../../shared/localDB/adapters/fields_of_study_local_db.dart';
 import '../../../../shared/app_constants/localdb_constants.dart';
+import '../../../../shared/localDB/adapters/fields_of_study_local_db.dart';
 import '../../../../shared/localDB/localdb_instances.dart';
 import '../../../../shared/routes/app_routes.dart';
+import '../../../../shared/utils/language_utils.dart';
 
 class StudyPlanDefault extends StatefulWidget {
   final StudyPlanController controller;
@@ -58,15 +59,17 @@ class _StudyPlanDefaultState extends State<StudyPlanDefault> {
             children: [
               Text(
                 isEditing
-                    ? 'Você está editando seu plano de estudos'
-                    : 'Selecione uma disciplina para acessar suas aulas',
+                    ? LocalizationUtils.I(context).studyPlanIsEditing
+                    : LocalizationUtils.I(context)
+                        .studyPlanSelectSubjectToAccessClasses,
                 style: AppTextStyles.interVeryBig(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
               Text(
                 isEditing
-                    ? 'Clique em "Parar de editar", para conseguir acessar o conteúdo das disciplinas'
-                    : 'Você consegue selecionar uma disciplina ao tocar em cima dela',
+                    ? LocalizationUtils.I(context)
+                        .studyPlanStopEditingToAccessSubjects
+                    : LocalizationUtils.I(context).studyPlanHowToAccessSubjects,
                 style: AppTextStyles.interSmall(),
               ),
               const SizedBox(height: 16),
@@ -85,7 +88,9 @@ class _StudyPlanDefaultState extends State<StudyPlanDefault> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      isEditing ? 'Parar de Editar' : 'Editar',
+                      isEditing
+                          ? LocalizationUtils.I(context).studyPlanStopEdit
+                          : LocalizationUtils.I(context).studyPlanEdit,
                       style: AppTextStyles.interSmall(
                         color: isEditing ? AppColors.primary : AppColors.link,
                       ),

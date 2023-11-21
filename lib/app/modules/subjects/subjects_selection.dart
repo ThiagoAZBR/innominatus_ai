@@ -5,6 +5,7 @@ import 'package:innominatus_ai/app/shared/themes/app_color.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
 import 'package:innominatus_ai/app/shared/widgets/loading/shimmer_cards.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/themes/app_text_styles.dart';
@@ -29,7 +30,7 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Escolha até 3 Disciplinas",
+            AppLocalizations.of(context)!.subjectsChooseSubjects,
             style: AppTextStyles.interVeryBig(
               fontWeight: FontWeight.w500,
             ),
@@ -37,7 +38,7 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
           Padding(
             padding: const EdgeInsets.only(right: 16, top: 8),
             child: Text(
-              'Você consegue selecionar uma disciplina ao tocar em cima dela',
+              AppLocalizations.of(context)!.subjectsHowToChooseSubjects,
               style: AppTextStyles.interSmall(),
             ),
           ),
@@ -49,9 +50,9 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
                   if (!appController.isUserPremium) {
                     showDialog(
                       context: context,
-                      builder: (_) => const AppDialog(
+                      builder: (_) => AppDialog(
                         content:
-                            'Para ter acesso a criação de disciplinas personalizadas, assine o Chaos IO Premium',
+                            AppLocalizations.of(context)!.dialogToAccessPersonalizedSubjectsPremiumPlan,
                       ),
                     );
                   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
 import '../../themes/app_color.dart';
+import '../../utils/language_utils.dart';
 
 class AppButton extends StatelessWidget {
   final Widget? child;
@@ -33,7 +34,7 @@ class AppButton extends StatelessWidget {
       ),
       child: child ??
           Text(
-            text ?? 'Continuar',
+            text ?? LocalizationUtils.I(context).appWidgetsContinue,
             style: AppTextStyles.interMedium(
               color: AppColors.primary,
               fontWeight: FontWeight.bold,

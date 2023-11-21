@@ -4,6 +4,7 @@ import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../domain/usecases/chat/create_chat_completion.dart';
 import '../../../shared/themes/app_color.dart';
+import '../../../shared/utils/language_utils.dart';
 import '../controllers/states/chat_states.dart';
 
 class ChatTextField extends StatelessWidget {
@@ -58,9 +59,9 @@ class ChatTextField extends StatelessWidget {
                       controller: chatController.messageFieldController,
                       focusNode: chatController.messageFieldFocusNode,
                       cursorColor: AppColors.black,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: ' Mensagem...',
+                        hintText: LocalizationUtils.I(context).chatTextFieldHint,
                       ),
                       minLines: 1,
                       maxLines: 3,
@@ -80,11 +81,13 @@ class ChatTextField extends StatelessWidget {
                               ),
                             );
                             if (state is ChatHttpErrorState) {
-                              chatController.showErrorToUser();
+                              // ignore: use_build_context_synchronously
+                              chatController.showErrorToUser(context);
                             }
 
                             if (state is ChatLimitationNonPremiumUserState) {
-                              chatController.showLimitationErrorToUser();
+                              // ignore: use_build_context_synchronously
+                              chatController.showLimitationErrorToUser(context);
                             }
                           },
                           child: const Padding(

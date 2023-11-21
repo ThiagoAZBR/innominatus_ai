@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
 import '../themes/app_color.dart';
+import '../utils/language_utils.dart';
 
 class SelectionCard extends StatefulWidget {
   final String title;
@@ -122,8 +123,10 @@ class _SelectionCardState extends State<SelectionCard> {
                         onTap: () => setState(() => isExpanded = !isExpanded),
                         child: Text(
                           isExpanded
-                              ? 'Minimizar descrição'
-                              : 'Conhecer mais dessa área',
+                              ? LocalizationUtils.I(context)
+                                  .appWidgetsMinimizeDescription
+                              : LocalizationUtils.I(context)
+                                  .appWidgetsLearnMoreAboutThisField,
                           style: AppTextStyles.interSmall(
                             color: AppColors.link,
                           ),

@@ -11,6 +11,7 @@ import 'package:rx_notifier/rx_notifier.dart';
 import '../../shared/app_constants/app_assets.dart';
 import '../../shared/themes/app_color.dart';
 import '../../shared/themes/app_text_styles.dart';
+import '../../shared/utils/language_utils.dart';
 import '../../shared/widgets/app_scaffold/app_scaffold.dart';
 
 class PremiumPage extends StatefulWidget {
@@ -54,7 +55,7 @@ class _PremiumPageState extends State<PremiumPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Ocorreu um erro ao tentar pegar os dados do Plano Premium',
+                          LocalizationUtils.I(context).premiumErrorMessage,
                           style: AppTextStyles.interMedium(
                             fontWeight: FontWeight.w600,
                           ),
@@ -72,7 +73,7 @@ class _PremiumPageState extends State<PremiumPage> {
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        'Carregando plano de assinatura',
+                        LocalizationUtils.I(context).premiumLoadingMessage,
                         style: AppTextStyles.interMedium(),
                         textAlign: TextAlign.center,
                       )
@@ -106,7 +107,8 @@ class _PremiumPageState extends State<PremiumPage> {
                       horizontal: 64,
                     ),
                     child: Text(
-                      'Liberdade, Facilidade e Personalização',
+                      LocalizationUtils.I(context)
+                          .premiumFreedomEaseCustomization,
                       style: AppTextStyles.interVeryBig(
                         fontWeight: FontWeight.bold,
                       ),
@@ -128,7 +130,8 @@ class _PremiumPageState extends State<PremiumPage> {
                             const SizedBox(width: 16),
                             Flexible(
                               child: Text(
-                                'Tenha acesso ilimitado as suas aulas e perguntas',
+                                LocalizationUtils.I(context)
+                                    .premiumFirstBenefit,
                                 style: AppTextStyles.interMedium(),
                               ),
                             )
@@ -141,7 +144,7 @@ class _PremiumPageState extends State<PremiumPage> {
                             const Icon(Icons.check, color: AppColors.secondary),
                             const SizedBox(width: 16),
                             Text(
-                              'Acesse aulas offline',
+                              LocalizationUtils.I(context).premiumSecondBenefit,
                               style: AppTextStyles.interMedium(),
                             )
                           ],
@@ -152,7 +155,7 @@ class _PremiumPageState extends State<PremiumPage> {
                             const Icon(Icons.check, color: AppColors.secondary),
                             const SizedBox(width: 16),
                             Text(
-                              'Liberdade total no seu aprendizado',
+                              LocalizationUtils.I(context).premiumThirdBenefit,
                               style: AppTextStyles.interMedium(),
                             )
                           ],
@@ -162,7 +165,7 @@ class _PremiumPageState extends State<PremiumPage> {
                   ),
                   const Expanded(flex: 2, child: SizedBox()),
                   Text(
-                    'Teste grátis por 1 mês',
+                    LocalizationUtils.I(context).premiumTryFree,
                     style: AppTextStyles.interHuge(
                       fontWeight: FontWeight.bold,
                     ),
@@ -170,7 +173,8 @@ class _PremiumPageState extends State<PremiumPage> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Depois, pague somente ${getPrice()}/mês.\nCancele quando quiser.',
+                    LocalizationUtils.I(context)
+                        .premiumAfterPayJustPriceCancelWhenYouWant(getPrice()),
                     style: AppTextStyles.interSmall(),
                     textAlign: TextAlign.center,
                   ),
@@ -187,7 +191,7 @@ class _PremiumPageState extends State<PremiumPage> {
                             (error) =>
                                 _handleAfterPurchaseResult(context, error),
                           ),
-                      text: 'Experimente Gratuitamente',
+                      text: LocalizationUtils.I(context).premiumTryFree,
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -196,7 +200,8 @@ class _PremiumPageState extends State<PremiumPage> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Sua assinatura será automaticamente renovada mensalmente a não ser que cancele antes sua assinatura. Teste gratuito apenas para primeira assinatura.',
+                          LocalizationUtils.I(context)
+                              .premiumBureaucraticMessage,
                           style: AppTextStyles.interTiny(),
                           textAlign: TextAlign.center,
                         ),
@@ -205,7 +210,7 @@ class _PremiumPageState extends State<PremiumPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Política de Privacidade',
+                              LocalizationUtils.I(context).premiumPrivacyPolice,
                               style: AppTextStyles.interTiny(
                                 textDecoration: TextDecoration.underline,
                               ),
@@ -220,7 +225,8 @@ class _PremiumPageState extends State<PremiumPage> {
                                         error,
                                       )),
                               child: Text(
-                                'Restaurar compra',
+                                LocalizationUtils.I(context)
+                                    .premiumRestorePurchase,
                                 style: AppTextStyles.interTiny(
                                   textDecoration: TextDecoration.underline,
                                 ),
@@ -255,21 +261,21 @@ class _PremiumPageState extends State<PremiumPage> {
     }
     showDialog(
       context: context,
-      builder: (_) => const AppDialog(
-        title: 'Boas-vindas ao Chaos IO Premium',
+      builder: (_) => AppDialog(
+        title: LocalizationUtils.I(context).dialogCongratsPremiumPlan,
         content:
-            'Obrigado por acreditar no Chaos IO e investir no seu conhecimento!',
+            LocalizationUtils.I(context).dialogCongratsPremiumPlanDescription,
       ),
     ).then((_) => premiumController.setupPremiumPlan());
   }
 
   String getMessageError(Exception exception) {
     if (exception is UnableToValidatePremiumStatus) {
-      return exception.message;
+      return LocalizationUtils.I(context).dialogUnableToValidatePremiumStatus;
     } else if (exception is ThereIsNoPurchaseToRestore) {
-      return exception.message;
+      return LocalizationUtils.I(context).dialogThereIsNoPurchaseToRestore;
     } else {
-      return (exception as UnableToMakeSubscriptionPurchase).message;
+      return LocalizationUtils.I(context).dialogUnableToMakeSubscriptionPurchase;
     }
   }
 

@@ -7,6 +7,7 @@ import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../../shared/app_constants/app_constants.dart';
 import '../../../../shared/themes/app_text_styles.dart';
+import '../../../../shared/utils/language_utils.dart';
 import '../../../../shared/utils/validator_utils.dart';
 
 class FieldsOfStudySelection extends StatefulWidget {
@@ -59,7 +60,8 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Escolha uma área de estudo',
+                      LocalizationUtils.I(context)
+                          .fieldsOfStudyChooseFieldOfStudy,
                       style: AppTextStyles.interVeryBig(
                         fontWeight: FontWeight.w500,
                       ),
@@ -67,7 +69,8 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                     Padding(
                       padding: const EdgeInsets.only(right: 16, top: 8),
                       child: Text(
-                        'Você consegue selecionar uma área de estudo ao tocar em cima dela.',
+                        LocalizationUtils.I(context)
+                            .fieldsOfStudyHowToChooseFieldOfStudy,
                         style: AppTextStyles.interSmall(),
                       ),
                     ),
@@ -77,7 +80,7 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Carregando conteúdo...',
+                      LocalizationUtils.I(context).fieldsOfStudyLoadingMessage,
                       style: AppTextStyles.interBig(
                         fontWeight: FontWeight.w500,
                       ),
@@ -89,7 +92,8 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                         bottom: 8,
                       ),
                       child: Text(
-                        'Logo, logo, suas áreas de estudo estarão prontas para serem selecionadas.',
+                        LocalizationUtils.I(context)
+                            .fieldsOfStudyLoadingMessageDescription,
                         style: AppTextStyles.interSmall(),
                       ),
                     ),

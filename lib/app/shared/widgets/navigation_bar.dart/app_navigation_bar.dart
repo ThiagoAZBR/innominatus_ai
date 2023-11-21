@@ -7,6 +7,8 @@ import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/themes/app_color.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
+import '../../utils/language_utils.dart';
+
 class AppNavigationBar extends StatelessWidget {
   final bool? showNavigationBar;
   final AppController appController;
@@ -44,7 +46,8 @@ class AppNavigationBar extends StatelessWidget {
               appController.pageIndex = index;
             }
           },
-          destinations: getNavigationPages(appController.isUserPremium),
+          destinations:
+              getNavigationPages(appController.isUserPremium, context),
           selectedIndex: appController.pageIndex,
           backgroundColor: AppColors.primary,
           elevation: 3,
@@ -54,33 +57,33 @@ class AppNavigationBar extends StatelessWidget {
   }
 }
 
-List<Widget> getNavigationPages(bool isUserPremium) {
+List<Widget> getNavigationPages(bool isUserPremium, BuildContext context) {
   return isUserPremium
       ? [
-          const NavigationDestination(
-            icon: Icon(Icons.home_rounded),
-            label: 'Início',
+          NavigationDestination(
+            icon: const Icon(Icons.home_rounded),
+            label: LocalizationUtils.I(context).appWidgetsHomeIcon,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.school_rounded),
-            label: 'Plano de Estudos',
+          NavigationDestination(
+            icon: const Icon(Icons.school_rounded),
+            label: LocalizationUtils.I(context).appWidgetsStudyPlanIcon,
           )
         ]
       : [
-          const NavigationDestination(
-            icon: Icon(Icons.home_rounded),
-            label: 'Início',
+          NavigationDestination(
+            icon: const Icon(Icons.home_rounded),
+            label: LocalizationUtils.I(context).appWidgetsHomeIcon,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.school_rounded),
-            label: 'Plano de Estudos',
+          NavigationDestination(
+            icon: const Icon(Icons.school_rounded),
+            label: LocalizationUtils.I(context).appWidgetsStudyPlanIcon,
           ),
           NavigationDestination(
             icon: SvgPicture.asset(
               AppAssets.chaosIOLogo,
               width: 32,
             ),
-            label: 'Premium',
+            label: LocalizationUtils.I(context).appWidgetsPremiumIcon,
           ),
         ];
 }

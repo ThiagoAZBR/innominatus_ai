@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../themes/app_color.dart';
 import '../themes/app_text_styles.dart';
+import '../utils/language_utils.dart';
 
 class ContinueFloatingButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -35,7 +36,7 @@ class ContinueFloatingButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Continuar',
+                LocalizationUtils.I(context).appWidgetsContinue,
                 style: AppTextStyles.interMedium(
                   color: AppColors.primary,
                 ),

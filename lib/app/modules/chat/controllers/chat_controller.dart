@@ -1,14 +1,15 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
-import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
+import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../domain/models/chat_completion.dart';
 import '../../../domain/usecases/chat/create_chat_completion.dart';
+import '../../../shared/utils/language_utils.dart';
 import '../../../shared/utils/validator_utils.dart';
 
 class ChatController {
@@ -102,19 +103,19 @@ class ChatController {
     chatMessages$.add(ChatMessage(isUser: false, message: content));
   }
 
-  void showErrorToUser() {
+  void showErrorToUser(BuildContext context) {
     chatMessages$.add(ChatMessage(
-        isUser: false,
-        message:
-            'Ocorreu um erro ao tentar gerar a sua resposta.\nPor favor, tente novamente!'));
+      isUser: false,
+      message: LocalizationUtils.I(context).chatErrorGeneratingContent,
+    ));
   }
 
-  void showLimitationErrorToUser() {
+  void showLimitationErrorToUser(BuildContext context) {
     chatMessages$.add(
       ChatMessage(
           isUser: false,
           message:
-              'Seu limite de perguntas foi atingido por hoje...\n\nAssine a versão Premium do Chaos IO para receber diversos benefícios, entre eles, o fim dos limites diários de perguntas!'),
+              LocalizationUtils.I(context).chatLimitNonPremiumUsers),
     );
   }
 

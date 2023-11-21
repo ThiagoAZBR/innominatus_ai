@@ -5,6 +5,7 @@ import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../../shared/themes/app_text_styles.dart';
+import '../../../shared/utils/language_utils.dart';
 
 class ClassesSelection extends StatefulWidget {
   final ClassesController controller;
@@ -23,7 +24,7 @@ class _ClassesSelectionState extends State<ClassesSelection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Escolha sua aula",
+            LocalizationUtils.I(context).classesChooseYourClass,
             style: AppTextStyles.interVeryBig(
               fontWeight: FontWeight.w500,
             ),
@@ -31,7 +32,7 @@ class _ClassesSelectionState extends State<ClassesSelection> {
           Padding(
             padding: const EdgeInsets.only(right: 16, top: 8),
             child: Text(
-              'Você consegue selecionar uma aula ao tocar em cima dela',
+              LocalizationUtils.I(context).classesHowToChooseClass,
               style: AppTextStyles.interSmall(),
             ),
           ),

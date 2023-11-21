@@ -13,6 +13,7 @@ import 'package:innominatus_ai/app/shared/containers/premium_container.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
 import 'package:innominatus_ai/app/shared/routes/args/fields_of_study_page_args.dart';
+import 'package:innominatus_ai/app/shared/utils/language_utils.dart';
 import 'package:innominatus_ai/app/shared/utils/validator_utils.dart';
 import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
 import 'package:innominatus_ai/app/shared/widgets/navigation_bar.dart/app_navigation_bar.dart';
@@ -81,10 +82,10 @@ class _HomePageState extends State<HomePage> {
           // ignore: use_build_context_synchronously
           showDialog(
             context: context,
-            builder: (_) => const AppDialog(
-              title: 'Nova versão do Chaos IO disponível',
+            builder: (_) => AppDialog(
+              title: LocalizationUtils.I(context).dialogAppNewVersion,
               content:
-                  'Atualize o App para receber as últimas atualizações e funcionalidades',
+                  LocalizationUtils.I(context).dialogAppNewVersionDescription,
             ),
           );
         }
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'Pergunte ao Chaos',
+                              LocalizationUtils.I(context).homeAskChaos,
                               style: AppTextStyles.interSmall(
                                 color: AppColors.primary,
                               ),
@@ -212,16 +213,16 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
                   visible: !appController.hasStudyPlan,
                   replacement: CardAction(
                     url: AppAssets.studyWoman,
-                    title: 'Ver Plano de Estudos',
-                    subtitle:
-                        'Verifique seu plano de estudos! Sua área de estudo escolhida e disciplinas.',
+                    title: LocalizationUtils.I(context).homeViewStudyPlan,
+                    subtitle: LocalizationUtils.I(context)
+                        .homeViewStudyPlanDescription,
                     onTap: () => appController.setPageToStudyPlan(),
                   ),
                   child: CardAction(
                     url: AppAssets.studyMan,
-                    title: 'Iniciar estudos',
+                    title: LocalizationUtils.I(context).homeStartStudy,
                     subtitle:
-                        'Aqui você irá escolher o que deseja aprender e dar o pontapé inicial nos seus estudos!',
+                        LocalizationUtils.I(context).homeStartStudyDescription,
                     onTap: () => Navigator.pushNamed(
                       context,
                       AppRoutes.fieldsOfStudyPage,

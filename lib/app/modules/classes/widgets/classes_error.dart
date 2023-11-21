@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 
+import '../../../shared/utils/language_utils.dart';
+
 class ClassesError extends StatelessWidget {
   const ClassesError({super.key});
 
@@ -11,7 +13,7 @@ class ClassesError extends StatelessWidget {
       children: <Widget>[
         const SizedBox(height: 32),
         Text(
-          'Ocorreu um erro na criação de aulas',
+          LocalizationUtils.I(context).classesErrorMessage,
           style: AppTextStyles.interMedium(),
         ),
       ],
