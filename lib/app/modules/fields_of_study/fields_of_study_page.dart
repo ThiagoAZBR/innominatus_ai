@@ -77,7 +77,7 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
                   final fieldOfStudySelected =
                       appController.fieldsOfStudy$[fieldOfStudyIndex].name;
                   FirebaseAnalytics.instance.logSelectContent(
-                    contentType: 'Field of Study',
+                    contentType: 'FieldofStudy + $fieldOfStudySelected',
                     itemId: fieldOfStudySelected,
                   );
                   Navigator.pushNamed(
