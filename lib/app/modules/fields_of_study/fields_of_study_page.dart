@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/routes/app_routes.dart';
@@ -73,12 +74,17 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
             child: ContinueFloatingButton(
               onTap: () {
                 if (controller.state$ is FieldsOfStudySelectionState) {
+                  final fieldOfStudySelected =
+                      appController.fieldsOfStudy$[fieldOfStudyIndex].name;
+                  FirebaseAnalytics.instance.logSelectContent(
+                    contentType: 'Field of Study',
+                    itemId: fieldOfStudySelected,
+                  );
                   Navigator.pushNamed(
                     context,
                     AppRoutes.subjectsPage,
                     arguments: SubjectsPageArgs(
-                      fieldOfStudy:
-                          appController.fieldsOfStudy$[fieldOfStudyIndex].name,
+                      fieldOfStudy: fieldOfStudySelected,
                     ),
                   );
                 }

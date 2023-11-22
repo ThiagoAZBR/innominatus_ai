@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:innominatus_ai/app/modules/premium/controllers/premium_controller.dart';
@@ -30,6 +31,9 @@ class _PremiumPageState extends State<PremiumPage> {
   @override
   void initState() {
     super.initState();
+    FirebaseAnalytics.instance.logScreenView(
+      screenName: 'Premium Page',
+    );
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         premiumController.offering = await premiumController.recoverOffer();
@@ -185,12 +189,18 @@ class _PremiumPageState extends State<PremiumPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: AppButton(
-                      onTap: () => premiumController
-                          .makePurchase(premiumController.offering!.monthly!)
-                          .then(
-                            (error) =>
-                                _handleAfterPurchaseResult(context, error),
-                          ),
+                      height: 48,
+                      onTap: () {
+                        FirebaseAnalytics.instance.logBeginCheckout(
+                          currency: getPrice(),
+                        );
+                        premiumController
+                            .makePurchase(premiumController.offering!.monthly!)
+                            .then(
+                              (error) =>
+                                  _handleAfterPurchaseResult(context, error),
+                            );
+                      },
                       text: LocalizationUtils.I(context).premiumTryFree,
                     ),
                   ),
@@ -275,7 +285,8 @@ class _PremiumPageState extends State<PremiumPage> {
     } else if (exception is ThereIsNoPurchaseToRestore) {
       return LocalizationUtils.I(context).dialogThereIsNoPurchaseToRestore;
     } else {
-      return LocalizationUtils.I(context).dialogUnableToMakeSubscriptionPurchase;
+      return LocalizationUtils.I(context)
+          .dialogUnableToMakeSubscriptionPurchase;
     }
   }
 

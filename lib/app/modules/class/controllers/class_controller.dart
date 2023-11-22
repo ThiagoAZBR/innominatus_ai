@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:http/http.dart' as http;
 import 'package:innominatus_ai/app/domain/models/class_item.dart';
 import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
@@ -12,6 +13,7 @@ import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
+import '../../../shared/app_constants/app_constants.dart';
 import '../../../shared/localDB/localdb_instances.dart';
 
 class ClassController {
@@ -105,6 +107,8 @@ class ClassController {
 
       if (generatedClasses == 0) {
         if (nonPremiumUserLocalDB.chatAnswers == 0) {
+          FirebaseAnalytics.instance
+              .logEvent(name: AppConstants.hasReachedClassLimitAnalytics);
           await nonPremiumUserBox.put(
               LocalDBConstants.nonPremiumUser,
               nonPremiumUserLocalDB.copyWith(

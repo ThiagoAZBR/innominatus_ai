@@ -1,6 +1,8 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:innominatus_ai/app/modules/chat/controllers/states/chat_states.dart';
+import 'package:innominatus_ai/app/shared/app_constants/app_constants.dart';
 import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
@@ -71,6 +73,8 @@ class ChatController {
 
       if (chatAnswers == 0) {
         if (nonPremiumUserLocalDB.generatedClasses == 0) {
+          FirebaseAnalytics.instance
+              .logEvent(name: AppConstants.hasReachedChatLimitAnalytics);
           await nonPremiumUserBox.put(
               LocalDBConstants.nonPremiumUser,
               nonPremiumUserLocalDB.copyWith(
@@ -114,8 +118,7 @@ class ChatController {
     chatMessages$.add(
       ChatMessage(
           isUser: false,
-          message:
-              LocalizationUtils.I(context).chatLimitNonPremiumUsers),
+          message: LocalizationUtils.I(context).chatLimitNonPremiumUsers),
     );
   }
 
