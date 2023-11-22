@@ -18,6 +18,7 @@
     "studyPlanHowToAccessSubjects": "Você consegue selecionar uma disciplina ao tocar em cima dela",
     "studyPlanStopEdit": "Parar de Editar",
     "studyPlanEdit": "Editar",
+    "studyPlanAddSubject":"Adicionar Disciplina",
     "fieldsOfStudyChooseFieldOfStudy": "Escolha uma área de estudo",
     "fieldsOfStudyHowToChooseFieldOfStudy": "Você consegue selecionar uma área de estudo ao tocar em cima dela.",
     "fieldsOfStudyErrorMessage": "Ocorreu um erro ao tentar mostrar os conteúdos, tente novamente.",

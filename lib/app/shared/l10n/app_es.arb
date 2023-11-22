@@ -18,6 +18,7 @@
     "studyPlanHowToAccessSubjects": "Puedes seleccionar una asignatura al tocarla",
     "studyPlanStopEdit": "Dejar de editar",
     "studyPlanEdit": "Editar",
+    "studyPlanAddSubject":"Agregar una Disciplina",
     "fieldsOfStudyChooseFieldOfStudy": "Elige un campo de estudio",
     "fieldsOfStudyHowToChooseFieldOfStudy": "Puedes seleccionar un campo de estudio tocándolo.",
     "fieldsOfStudyErrorMessage": "Se produjo un error al intentar mostrar el contenido. Inténtalo de nuevo.",

@@ -24,19 +24,8 @@ class AppWidget extends StatelessWidget {
           ? AppRoutes.homePage
           : AppRoutes.splashPage,
       debugShowCheckedModeBanner: false,
-      locale: getLocale(context, AppLocalizations.supportedLocales),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );
   }
-}
-
-Locale? getLocale(BuildContext context, List<Locale> locales) {
-  final String language = Localizations.localeOf(context).languageCode;
-  if (ValidatorUtils.hasSupportedLanguage(language)) {
-    return null;
-  }
-  return locales
-      .where((e) => e.languageCode == LanguageConstants.english)
-      .first;
 }

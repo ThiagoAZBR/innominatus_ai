@@ -217,8 +217,8 @@ class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
                   isAddingSubjectsToExistingStudyPlan: true,
                 ),
               ),
-              child: const SelectionCard(
-                title: 'Adicionar Disciplina',
+              child: SelectionCard(
+                title: LocalizationUtils.I(context).studyPlanAddSubject,
                 isCardSelected: true,
                 hasBoxShadow: false,
                 hasIcon: true,
