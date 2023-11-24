@@ -219,14 +219,14 @@ class _PremiumPageState extends State<PremiumPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              LocalizationUtils.I(context).premiumPrivacyPolice,
-                              style: AppTextStyles.interTiny(
-                                textDecoration: TextDecoration.underline,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(width: 8),
+                            // Text(
+                            //   LocalizationUtils.I(context).premiumPrivacyPolice,
+                            //   style: AppTextStyles.interTiny(
+                            //     textDecoration: TextDecoration.underline,
+                            //   ),
+                            //   textAlign: TextAlign.center,
+                            // ),
+                            // const SizedBox(width: 8),
                             InkWell(
                               onTap: () => premiumController
                                   .restorePurchase()
