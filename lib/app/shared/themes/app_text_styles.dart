@@ -29,6 +29,7 @@ class AppTextStyles {
     Color color = AppColors.textColor,
     FontWeight fontWeight = FontWeight.normal,
     double lineHeight = 1,
+    TextDecoration? textDecoration,
   }) =>
       TextStyle(
         fontSize: 14,
@@ -36,6 +37,7 @@ class AppTextStyles {
         fontWeight: fontWeight,
         color: color,
         height: lineHeight,
+        decoration: textDecoration,
       );
 
   static TextStyle interMedium({

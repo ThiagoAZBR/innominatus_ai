@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/controllers/fields_of_study_controller.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/widgets/loading/shimmer_cards.dart';
+import 'package:innominatus_ai/app/shared/widgets/offline_download_button/offline_downlad_button.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -67,11 +68,21 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 16, top: 8),
+                      padding: const EdgeInsets.only(
+                        right: 16,
+                        top: 8,
+                        bottom: 16,
+                      ),
                       child: Text(
                         LocalizationUtils.I(context)
                             .fieldsOfStudyHowToChooseFieldOfStudy,
                         style: AppTextStyles.interSmall(),
+                      ),
+                    ),
+                    Visibility(
+                      visible: appController.isUserPremium,
+                      child: OfflineDownloadButton(
+                        onTap: () {},
                       ),
                     ),
                   ],
