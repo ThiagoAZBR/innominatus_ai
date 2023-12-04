@@ -79,7 +79,6 @@ class AppContainer implements Dependencies {
     );
     I.registerSingleton(
       AppController(
-        getFieldsOfStudyDB: I.get<GetFieldsOfStudyDB>(),
         getRoadmap: I.get<GetRoadmapUseCase>(),
         getFieldsOfStudyAI: I.get<GetFieldsOfStudyAI>(),
         saveFieldOfStudyWithSubjects: I.get<SaveFieldOfStudyWithSubjects>(),

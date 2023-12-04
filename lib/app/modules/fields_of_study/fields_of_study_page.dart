@@ -43,7 +43,7 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
   void dispose() {
     super.dispose();
     controller.resetSelectedCards();
-    controller.appController.fieldsOfStudy$.clear();
+    controller.fieldsOfStudy$.clear();
     FieldsOfStudyContainer().dispose();
   }
 
@@ -75,7 +75,7 @@ class _FieldsOfStudyPageState extends State<FieldsOfStudyPage> {
               onTap: () {
                 if (controller.state$ is FieldsOfStudySelectionState) {
                   final fieldOfStudySelected =
-                      appController.fieldsOfStudy$[fieldOfStudyIndex].name;
+                      controller.fieldsOfStudy$[fieldOfStudyIndex].name;
                   FirebaseAnalytics.instance.logSelectContent(
                     contentType: 'FieldofStudy + $fieldOfStudySelected',
                     itemId: fieldOfStudySelected,

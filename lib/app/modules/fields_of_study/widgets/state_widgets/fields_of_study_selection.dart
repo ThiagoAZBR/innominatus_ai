@@ -80,7 +80,8 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                       ),
                     ),
                     Visibility(
-                      visible: appController.isUserPremium,
+                      visible: appController.isUserPremium &&
+                          !fieldsOfStudyController.hasLocalCachedContent,
                       child: OfflineDownloadButton(
                         onTap: () {},
                       ),
@@ -116,32 +117,33 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
 
             // Cards with Fields Of Study
             RxBuilder(
-              builder: (context) =>
-                  fieldsOfStudyController.isFieldOfStudyPageLoading$
-                      ? const ShimmerCards()
-                      : Column(
-                          children: [
-                            for (int i = 0;
-                                i < appController.fieldsOfStudy$.length;
-                                i++)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 32),
-                                child: InkWell(
-                                  onTap: () => setState(
-                                    () => fieldsOfStudyController
-                                        .changeFieldOfStudySelectedCard(i),
-                                  ),
-                                  child: SelectionCard(
-                                    title: appController.fieldsOfStudy$[i].name,
-                                    description: appController
-                                        .fieldsOfStudy$[i].description,
-                                    isCardSelected: fieldsOfStudyController
-                                        .isFieldOfStudySelectedList[i],
-                                  ),
-                                ),
+              builder: (context) => fieldsOfStudyController
+                      .isFieldOfStudyPageLoading$
+                  ? const ShimmerCards()
+                  : Column(
+                      children: [
+                        for (int i = 0;
+                            i < fieldsOfStudyController.fieldsOfStudy$.length;
+                            i++)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 32),
+                            child: InkWell(
+                              onTap: () => setState(
+                                () => fieldsOfStudyController
+                                    .changeFieldOfStudySelectedCard(i),
                               ),
-                          ],
-                        ),
+                              child: SelectionCard(
+                                title: fieldsOfStudyController
+                                    .fieldsOfStudy$[i].name,
+                                description: fieldsOfStudyController
+                                    .fieldsOfStudy$[i].description,
+                                isCardSelected: fieldsOfStudyController
+                                    .isFieldOfStudySelectedList[i],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
             ),
           ],
         ),

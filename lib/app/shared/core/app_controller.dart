@@ -11,23 +11,19 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../domain/models/remoteDB/language.dart';
-import '../../domain/models/shared_field_of_study_item.dart';
-import '../../domain/models/shared_fields_of_study.dart';
 import '../../domain/models/subject_item.dart';
-import '../../domain/usecases/remote_db/get_fields_of_study_db.dart';
 import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../app_constants/localdb_constants.dart';
 import '../app_constants/remote_db_constants.dart';
 import '../localDB/adapters/fields_of_study_local_db.dart';
 import '../localDB/adapters/non_premium_user_local_db.dart';
-import '../localDB/adapters/shared_fields_of_study_local_db.dart';
 import '../localDB/localdb.dart';
 import '../localDB/localdb_instances.dart';
 
 class AppController {
   String languageCode = '';
-  final GetFieldsOfStudyDB _getFieldsOfStudyDB;
+
   final GetFieldsOfStudyAI _getFieldsOfStudyAI;
   final SaveFieldOfStudyWithSubjects _saveFieldOfStudyWithSubjects;
   final GetFieldOfStudyWithSubjects _getFieldOfStudyWithSubjects;
@@ -37,62 +33,22 @@ class AppController {
   final LocalDB prefs;
 
   final _hasStudyPlan = RxNotifier(false);
-  final fieldsOfStudy$ = RxList<SharedFieldOfStudyItemModel>();
   final RxNotifier _isHomeLoading = RxNotifier(true);
   final RxNotifier _isUserPremium = RxNotifier(false);
   final RxNotifier _isAppUpdated = RxNotifier(false);
 
   AppController({
     required GetRoadmapUseCase getRoadmap,
-    required GetFieldsOfStudyDB getFieldsOfStudyDB,
     required GetFieldsOfStudyAI getFieldsOfStudyAI,
     required SaveFieldOfStudyWithSubjects saveFieldOfStudyWithSubjects,
     required GetFieldOfStudyWithSubjects getFieldOfStudyWithSubjects,
     required this.prefs,
-  })  : _getFieldsOfStudyDB = getFieldsOfStudyDB,
-        _getRoadmap = getRoadmap,
+  })  : _getRoadmap = getRoadmap,
         _getFieldsOfStudyAI = getFieldsOfStudyAI,
         _saveFieldOfStudyWithSubjects = saveFieldOfStudyWithSubjects,
         _getFieldOfStudyWithSubjects = getFieldOfStudyWithSubjects;
 
   // Functions
-  Future<Exception?> getFieldsOfStudy() async {
-    if (isUserPremium) {
-      final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
-      final SharedFieldsOfStudyModel? fieldsOfStudy =
-          fieldsOfStudyBox.get(LocalDBConstants.sharedFieldsOfStudy);
-
-      if (fieldsOfStudy != null) {
-        fieldsOfStudy$.addAll(fieldsOfStudy.items);
-        return null;
-      }
-    }
-
-    final responseDB = await _getFieldsOfStudyDB(
-      params: GetFieldsOfStudyDBParams(language: languageCode),
-    );
-    if (responseDB.isRight()) {
-      responseDB.map(getFieldsOfStudyOnSuccess);
-      return null;
-    }
-    Exception? exception;
-    responseDB.mapLeft((a) => exception = a);
-
-    return exception;
-  }
-
-  void getFieldsOfStudyOnSuccess(SharedFieldsOfStudyModel data) {
-    fieldsOfStudy$.addAll(data.items);
-    if (!isUserPremium) {
-      return;
-    }
-    final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
-    fieldsOfStudyBox.put(
-      LocalDBConstants.sharedFieldsOfStudy,
-      SharedFieldsOfStudyLocalDB.fromFieldsOfStudyModel(data),
-    );
-  }
-
   Future<Exception?> addLanguageCache(String language) async {
     try {
       final firebaseInstance = FirebaseFirestore.instance;
