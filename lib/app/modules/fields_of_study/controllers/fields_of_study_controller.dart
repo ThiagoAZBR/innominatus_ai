@@ -72,6 +72,8 @@ class FieldsOfStudyController {
     return _hasAnyFieldOfStudySelected;
   }
 
+  void downloadLocalFieldsOfStudy() {}
+
   // Getters and Setters
   FieldOfStudyStates get state$ => _state.value;
   bool get isFieldOfStudyPageLoading$ => _isFieldOfStudyLoading$.value;
