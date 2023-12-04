@@ -83,7 +83,10 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
                       visible: appController.isUserPremium &&
                           !fieldsOfStudyController.hasLocalCachedContent,
                       child: OfflineDownloadButton(
-                        onTap: () {},
+                        onTap: () =>
+                            fieldsOfStudyController.downloadLocalFieldsOfStudy(
+                          fieldsOfStudyController.fieldsOfStudy$,
+                        ),
                       ),
                     ),
                   ],
