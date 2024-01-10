@@ -105,12 +105,6 @@ class ClassesController {
     return response.fold(
       (failure) => null,
       (classes) {
-        saveLocalClasses(
-          subject: subject,
-          classes: classes,
-          studyPlan: studyPlan,
-        );
-
         setupClasses(classes);
 
         return classes;
@@ -160,11 +154,6 @@ class ClassesController {
         allClasses: allClasses,
       ),
     );
-    saveLocalClasses(
-      subject: subject,
-      classes: allClasses,
-      studyPlan: studyPlan,
-    );
 
     setupClasses(allClasses);
     return allClasses;
@@ -176,38 +165,6 @@ class ClassesController {
       await saveSubjectWithClassesRemoteDB(
         params: params,
       );
-
-  void saveLocalClasses({
-    required String subject,
-    required List<String> classes,
-    required FieldsOfStudyLocalDB studyPlan,
-  }) {
-    if (!appController.isUserPremium) {
-      return;
-    }
-
-    late int index;
-
-    for (var i = 0; i < studyPlan.items.length; i++) {
-      index = studyPlan.items[i].allSubjects.indexWhere(
-        (e) => e.name.toLowerCase() == subject.toLowerCase(),
-      );
-
-      if (index != -1) {
-        studyPlan.items[i].allSubjects[index] = SubjectItemLocalDB(
-          name: subject,
-          allClasses: classes
-              .map((e) => ClassItemLocalDB(name: e, wasItCompleted: false))
-              .toList(),
-        );
-
-        break;
-      }
-    }
-
-    final studyPlanBox = HiveBoxInstances.studyPlan;
-    studyPlanBox.put(LocalDBConstants.studyPlan, studyPlan);
-  }
 
   void setupClasses(
     List<String> classes,

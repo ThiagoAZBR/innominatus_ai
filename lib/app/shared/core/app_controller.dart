@@ -11,7 +11,6 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../domain/models/remoteDB/language.dart';
-import '../../domain/models/subject_item.dart';
 import '../../domain/usecases/remote_db/get_subjects_db.dart';
 import '../../domain/usecases/roadmap_creation/get_roadmap.dart';
 import '../app_constants/localdb_constants.dart';
@@ -113,11 +112,6 @@ class AppController {
     );
 
     if (remoteSubjects != null) {
-      await saveLocalSubjects(
-        localFieldsOfStudy: localFieldsOfStudy,
-        subjects: remoteSubjects,
-        topic: params.topic,
-      );
       return remoteSubjects;
     }
 
@@ -146,12 +140,6 @@ class AppController {
       ),
     );
 
-    await saveLocalSubjects(
-      localFieldsOfStudy: localFieldsOfStudy,
-      subjects: subjects,
-      topic: topic,
-    );
-
     return subjects;
   }
 
@@ -159,47 +147,6 @@ class AppController {
     SaveFieldOfStudyWithSubjectsDBParams params,
   ) async =>
       await _saveFieldOfStudyWithSubjects(params: params);
-
-  Future<void> saveLocalSubjects({
-    required FieldsOfStudyLocalDB? localFieldsOfStudy,
-    required List<String> subjects,
-    required String topic,
-  }) async {
-    if (!isUserPremium) {
-      return;
-    }
-
-    List<SubjectItemModel> subjectsItem = [];
-
-    for (var i = 0; i < subjects.length; i++) {
-      subjectsItem.add(SubjectItemLocalDB(name: subjects[i]));
-    }
-
-    final fieldOfStudyItemLocalDB = FieldOfStudyItemLocalDB(
-      allSubjects: subjectsItem,
-      name: topic,
-    );
-
-    final fieldsOfStudyBox = HiveBoxInstances.fieldsOfStudy;
-
-    if (localFieldsOfStudy != null) {
-      localFieldsOfStudy.items.add(
-        fieldOfStudyItemLocalDB,
-      );
-      await fieldsOfStudyBox.put(
-        LocalDBConstants.fieldsOfStudy,
-        localFieldsOfStudy,
-      );
-    } else {
-      // First Time it's created FieldsOfStudy cache
-      await fieldsOfStudyBox.put(
-        LocalDBConstants.fieldsOfStudy,
-        FieldsOfStudyLocalDB(
-          items: [fieldOfStudyItemLocalDB],
-        ),
-      );
-    }
-  }
 
   List<String>? getLocalSubjects(
     FieldsOfStudyLocalDB localFieldsOfStudy,

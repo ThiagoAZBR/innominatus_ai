@@ -1,7 +1,6 @@
 import 'package:innominatus_ai/app/modules/fields_of_study/controllers/states/fields_of_study_states.dart';
 import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
-import 'package:innominatus_ai/app/shared/localDB/adapters/shared_fields_of_study_local_db.dart';
 import 'package:innominatus_ai/app/shared/miscellaneous/exceptions.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
@@ -113,14 +112,6 @@ class FieldsOfStudyController {
 
   RxNotifier isFloatingButtonVisible(FieldOfStudyStates state) {
     return _hasAnyFieldOfStudySelected;
-  }
-
-  void downloadLocalFieldsOfStudy(List<SharedFieldOfStudyItemModel> items) {
-    final fieldsOfStudyBox = HiveBoxInstances.sharedFieldsOfStudy;
-    fieldsOfStudyBox.put(
-      LocalDBConstants.sharedFieldsOfStudy,
-      SharedFieldsOfStudyLocalDB(items: items),
-    );
   }
 
   // Getters and Setters
