@@ -89,17 +89,20 @@ class AppController {
   Future<List<String>?> getSubjectsFromFieldOfStudyRoadmap(
     GetRoadmapParams params,
   ) async {
-    final FieldsOfStudyLocalDB? localFieldsOfStudy =
-        HiveBoxInstances.fieldsOfStudy.get(
-      LocalDBConstants.fieldsOfStudy,
-    );
+    if (isUserPremium) {
+      final FieldsOfStudyLocalDB? localFieldsOfStudy =
+          HiveBoxInstances.fieldsOfStudy.get(
+        LocalDBConstants.fieldsOfStudy,
+      );
 
-    // Get LocalDB Subjects
-    if (localFieldsOfStudy != null) {
-      final localSubjects = getLocalSubjects(localFieldsOfStudy, params.topic);
+      // Get LocalDB Subjects
+      if (localFieldsOfStudy != null) {
+        final localSubjects =
+            getLocalSubjects(localFieldsOfStudy, params.topic);
 
-      if (localSubjects != null) {
-        return localSubjects;
+        if (localSubjects != null) {
+          return localSubjects;
+        }
       }
     }
 
@@ -122,7 +125,6 @@ class AppController {
       (subjects) async => await _getAISubjectsHandleSuccess(
         subjects: subjects,
         topic: params.topic,
-        localFieldsOfStudy: localFieldsOfStudy,
       ),
     );
   }
@@ -130,7 +132,6 @@ class AppController {
   Future<List<String>> _getAISubjectsHandleSuccess({
     required List<String> subjects,
     required String topic,
-    required FieldsOfStudyLocalDB? localFieldsOfStudy,
   }) async {
     await saveRemoteSubjects(
       SaveFieldOfStudyWithSubjectsDBParams(

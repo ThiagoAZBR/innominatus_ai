@@ -12,9 +12,13 @@ class ClassesError extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         const SizedBox(height: 32),
-        Text(
-          LocalizationUtils.I(context).classesErrorMessage,
-          style: AppTextStyles.interMedium(),
+        Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Text(
+            // ignore: prefer_interpolation_to_compose_strings
+            LocalizationUtils.I(context).classesErrorMessage + '\n\n=(',
+            style: AppTextStyles.interVeryBig(),
+          ),
         ),
       ],
     );

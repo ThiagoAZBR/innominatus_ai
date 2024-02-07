@@ -79,7 +79,12 @@ class FieldsOfStudyController {
     if (exception is! MissingLanguageCacheException) {
       return false;
     }
-    await appController.addLanguageCache(appController.languageCode);
+    final hasErrorInTranslation =
+        await appController.addLanguageCache(appController.languageCode);
+
+    if (hasErrorInTranslation != null) {
+      return false;
+    }
 
     final hasFailed = await _getFieldsOfStudy();
 

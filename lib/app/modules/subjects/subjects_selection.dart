@@ -42,6 +42,8 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
               style: AppTextStyles.interSmall(),
             ),
           ),
+          // When the user is not premium, it shows a dialog "call-to-action" to subscribe to premium plan
+          // Else, when it's premium, it gives the user the option to write a personalized subject
           RxBuilder(
             builder: (_) => Visibility(
               visible: !subjectsController.isLoading$,
