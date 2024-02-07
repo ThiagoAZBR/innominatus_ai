@@ -35,6 +35,10 @@ class ValidatorUtils {
       return true;
     } else if (language == LanguageConstants.english) {
       return true;
+    } else if (language == LanguageConstants.french) {
+      return true;
+    } else if (language == LanguageConstants.spanish) {
+      return true;
     }
     return false;
   }
