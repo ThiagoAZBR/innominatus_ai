@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:innominatus_ai/app/modules/subjects/controllers/subjects_controller.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/themes/app_color.dart';
-import 'package:innominatus_ai/app/shared/widgets/app_dialog/app_dialog.dart';
 import 'package:innominatus_ai/app/shared/widgets/loading/shimmer_cards.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
 import '../../shared/themes/app_text_styles.dart';
@@ -42,62 +41,44 @@ class _SubjectsSelectionState extends State<SubjectsSelection> {
               style: AppTextStyles.interSmall(),
             ),
           ),
-          // When the user is not premium, it shows a dialog "call-to-action" to subscribe to premium plan
-          // Else, when it's premium, it gives the user the option to write a personalized subject
           RxBuilder(
             builder: (_) => Visibility(
               visible: !subjectsController.isLoading$,
-              child: InkWell(
-                onTap: () {
-                  if (!appController.isUserPremium) {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AppDialog(
-                        content:
-                            AppLocalizations.of(context)!.dialogToAccessPersonalizedSubjectsPremiumPlan,
-                      ),
-                    );
-                  }
-                },
-                child: AbsorbPointer(
-                  absorbing: !appController.isUserPremium,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 32),
-                      AddPersonalizedSubject(
-                        textEditingController: subjectsController
-                            .personalizedSubjectFieldController,
-                        onTap: () {
-                          FocusScope.of(context).unfocus();
+              child: Column(
+                children: [
+                  const SizedBox(height: 32),
+                  AddPersonalizedSubject(
+                    textEditingController:
+                        subjectsController.personalizedSubjectFieldController,
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
 
-                          final subjectToBeAdded = subjectsController
-                              .personalizedSubjectFieldController.text;
-                          if (subjectToBeAdded.isNotEmpty) {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (_) => AddNewSubjectConfirmation(
+                      final subjectToBeAdded = subjectsController
+                          .personalizedSubjectFieldController.text;
+                      if (subjectToBeAdded.isNotEmpty) {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (_) => AddNewSubjectConfirmation(
+                            subjectToBeAdded: subjectToBeAdded,
+                            onTap: () {
+                              subjectsController.updateSubjectsSelection(
                                 subjectToBeAdded: subjectToBeAdded,
-                                onTap: () {
-                                  subjectsController.updateSubjectsSelection(
-                                    subjectToBeAdded: subjectToBeAdded,
-                                    selectedFieldOfStudy:
-                                        subjectsController.selectedFieldOfStudy,
-                                  );
-                                  subjectsController
-                                      .personalizedSubjectFieldController
-                                      .clear();
+                                selectedFieldOfStudy:
+                                    subjectsController.selectedFieldOfStudy,
+                              );
+                              subjectsController
+                                  .personalizedSubjectFieldController
+                                  .clear();
 
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                    ],
+                              Navigator.pop(context);
+                            },
+                          ),
+                        );
+                      }
+                    },
                   ),
-                ),
+                  const SizedBox(height: 16),
+                ],
               ),
             ),
           ),
