@@ -104,6 +104,7 @@ class _HomePageState extends State<HomePage> {
           ),
           backgroundColor: AppColors.primary,
           body: <Widget>[
+            // Here is one of the parts that makes bottomNavigation page's works
             HomeDefault(homeController: widget.controller),
             _handleStudyPlanPage(),
             _handlePremiumPage(),
@@ -226,9 +227,7 @@ class _SuggestionPlaceholdersState extends State<SuggestionPlaceholders> {
                     onTap: () => Navigator.pushNamed(
                       context,
                       AppRoutes.fieldsOfStudyPage,
-                      arguments: FieldsOfStudyPageArgs(
-                        canChooseMoreThanOneFieldOfStudy: true,
-                      ),
+                      arguments: FieldsOfStudyPageArgs(),
                     ),
                   ),
                 ),

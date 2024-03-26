@@ -17,6 +17,7 @@ class SelectionCard extends StatefulWidget {
   final bool hasIcon;
   final IconData icon;
   final Color iconColor;
+  final double lineHeight;
 
   const SelectionCard({
     Key? key,
@@ -32,6 +33,7 @@ class SelectionCard extends StatefulWidget {
     this.hasIcon = false,
     this.icon = Icons.add_outlined,
     this.iconColor = AppColors.link,
+    this.lineHeight = 1.35,
   }) : super(key: key);
 
   @override
@@ -86,6 +88,7 @@ class _SelectionCardState extends State<SelectionCard> {
                         : AppTextStyles.interMedium(
                             color: widget.textColor,
                             fontWeight: FontWeight.normal,
+                            lineHeight: widget.lineHeight,
                           ),
                   ),
                 ),
