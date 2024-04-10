@@ -8,11 +8,9 @@ import 'package:innominatus_ai/app/shared/themes/app_text_styles.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../../../shared/app_constants/localdb_constants.dart';
-import '../../../../shared/localDB/adapters/fields_of_study_local_db.dart';
-import '../../../../shared/localDB/localdb_instances.dart';
-import '../../../../shared/routes/app_routes.dart';
-import '../../../../shared/utils/language_utils.dart';
+import '../../../../../shared/routes/app_routes.dart';
+import '../../../../../shared/utils/language_utils.dart';
+import 'field_of_study_widget.dart';
 
 class StudyPlanDefault extends StatefulWidget {
   final StudyPlanController controller;
@@ -135,12 +133,24 @@ class _StudyPlanDefaultState extends State<StudyPlanDefault> {
                   ),
                 ),
               ),
-              ...state.fieldsOfStudyLocalDB!.items
-                  .map((e) => FieldOfStudyWidget(
-                        fieldOfStudyItemModel: e,
-                        controller: widget.controller,
-                        isEditing: isEditing,
-                      ))
+              Column(
+                children: state.fieldsOfStudyLocalDB!.items
+                    .map((e) => FieldOfStudyWidget(
+                          fieldOfStudyItemModel: e,
+                          controller: widget.controller,
+                          isEditing: isEditing,
+                          fieldOfStudyIndex: getFieldOfStudyIndex(
+                            e,
+                            state.fieldsOfStudyLocalDB!.items
+                                .map((e) => e.name)
+                                .toList(),
+                          ),
+                          isSubjectSelectedList:
+                              widget.controller.isSubjectSelectedList,
+                          hasAnyCardSelected: widget.controller.hasAnySelectedCard,
+                        ))
+                    .toList(),
+              )
             ],
           ),
         ),
@@ -150,114 +160,13 @@ class _StudyPlanDefaultState extends State<StudyPlanDefault> {
 
   StudyPlanDefaultState get state =>
       widget.controller.state$ as StudyPlanDefaultState;
-}
 
-class FieldOfStudyWidget extends StatefulWidget {
-  final StudyPlanController controller;
-  final FieldOfStudyItemModel fieldOfStudyItemModel;
-  final bool isEditing;
-
-  const FieldOfStudyWidget({
-    Key? key,
-    required this.controller,
-    required this.fieldOfStudyItemModel,
-    required this.isEditing,
-  }) : super(key: key);
-
-  @override
-  State<FieldOfStudyWidget> createState() => _FieldOfStudyWidgetState();
-}
-
-class _FieldOfStudyWidgetState extends State<FieldOfStudyWidget> {
-  @override
-  void initState() {
-    super.initState();
-    controller.setQuantityOfSubjects(
-      fieldOfStudyItemModel.allSubjects.map((e) => e.name).toList(),
-    );
+  int getFieldOfStudyIndex(
+    FieldOfStudyItemModel e,
+    List<String> allFieldsOfStudy,
+  ) {
+    String name = e.name;
+    int fieldOfStudyIndex = allFieldsOfStudy.indexOf(name);
+    return fieldOfStudyIndex;
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              fieldOfStudyItemModel.name,
-              style: AppTextStyles.interBig(fontWeight: FontWeight.w500),
-            ),
-            Visibility(
-              visible: widget.isEditing,
-              child: IconButton(
-                onPressed: () async {
-                  final studyPlanBox = HiveBoxInstances.studyPlan;
-
-                  FieldsOfStudyLocalDB? studyPlan = studyPlanBox.get(
-                    LocalDBConstants.studyPlan,
-                  );
-
-                  final index = studyPlan!.items.indexWhere(
-                    (e) =>
-                        e.name.toLowerCase() ==
-                        fieldOfStudyItemModel.name.toLowerCase(),
-                  );
-
-                  studyPlan.items.removeAt(index);
-
-                  await studyPlanBox.put(
-                    LocalDBConstants.studyPlan,
-                    studyPlan,
-                  );
-
-                  if (studyPlan.items.isEmpty) {
-                    controller.appController.hasStudyPlan = false;
-                    // ignore: use_build_context_synchronously
-                    Navigator.popAndPushNamed(
-                      context,
-                      AppRoutes.fieldsOfStudyPage,
-                      arguments: FieldsOfStudyPageArgs(),
-                    );
-                    return;
-                  }
-
-                  controller.setDefaultState(studyPlan);
-                },
-                icon: const Icon(
-                  Icons.delete_outline,
-                  color: Colors.red,
-                ),
-              ),
-            )
-          ],
-        ),
-        const SizedBox(height: 16),
-        for (int i = 0; i < fieldOfStudyItemModel.allSubjects.length; i++)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 32),
-            child: InkWell(
-              onTap: () => setState(() {
-                if (!widget.isEditing) {
-                  controller.updateSelectionCard(
-                    i,
-                    fieldOfStudyItemModel.allSubjects[i].name,
-                  );
-                }
-              }),
-              child: SelectionCard(
-                isCardSelected: controller.isSubjectSelectedList[i],
-                title: fieldOfStudyItemModel.allSubjects[i].name,
-                isSemiBold: false,
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-
-  StudyPlanController get controller => widget.controller;
-  FieldOfStudyItemModel get fieldOfStudyItemModel =>
-      widget.fieldOfStudyItemModel;
 }

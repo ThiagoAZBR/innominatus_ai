@@ -10,7 +10,7 @@ import '../../shared/widgets/app_scaffold/app_scaffold.dart';
 import '../../shared/widgets/continue_floating_button.dart';
 import 'controllers/states/study_plan_states.dart';
 import 'controllers/study_plan_controller.dart';
-import 'widgets/states/study_plan_default.dart';
+import 'widgets/states/study_plan_default/study_plan_default.dart';
 import 'widgets/states/study_plan_is_loading.dart';
 import 'widgets/states/study_plan_with_error.dart';
 

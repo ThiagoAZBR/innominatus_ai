@@ -1,8 +1,8 @@
 import 'package:innominatus_ai/app/domain/models/field_of_study_item.dart';
 import 'package:innominatus_ai/app/modules/study_plan/controllers/states/study_plan_states.dart';
+import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
 import 'package:innominatus_ai/app/shared/localDB/adapters/fields_of_study_local_db.dart';
-import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/localDB/localdb_instances.dart';
 import 'package:innominatus_ai/app/shared/routes/args/study_plan_args.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -18,7 +18,7 @@ class StudyPlanController {
   String? selectedSubject;
   String? selectedFieldOfStudy;
 
-  List<bool> isSubjectSelectedList = <bool>[];
+  RxList<List<bool>> isSubjectSelectedList = RxList(<List<bool>>[]);
 
   StudyPlanController(this.appController);
 
@@ -27,7 +27,7 @@ class StudyPlanController {
 
     final studyPlanLocal = studyPlanBox.get(LocalDBConstants.studyPlan);
 
-    // TODO: When being possible have two or more fields of study, do this reference in selecting/changing subject, selecting the respective field of study
+    // ToDo: When being possible have two or more fields of study, do this reference in selecting/changing subject, selecting the respective field of study
     selectedFieldOfStudy = studyPlanLocal?.items.first.name;
 
     return studyPlanLocal;
@@ -112,22 +112,27 @@ class StudyPlanController {
     );
   }
 
-  void setQuantityOfSubjects(List<String> subjects) {
+  void setQuantityOfSubjects(List<String> subjects, int fieldOfStudyIndex) {
     for (var i = 0; i < subjects.length; i++) {
-      isSubjectSelectedList.add(false);
+      isSubjectSelectedList[fieldOfStudyIndex].add(false);
     }
   }
 
-  void updateSelectionCard(int index, String subject) {
-    final lastSelectedIndex = isSubjectSelectedList.indexOf(true);
+  void updateSelectionCard({
+    required int subjectIndex,
+    required int fieldOfStudyIndex,
+    required String subject,
+  }) {
+    final lastSelectedIndex =
+        isSubjectSelectedList[fieldOfStudyIndex].indexOf(true);
 
-    for (var i = 0; i < isSubjectSelectedList.length; i++) {
-      isSubjectSelectedList[i] = false;
+    removeSelectedSubject();
+
+    if (subjectIndex != lastSelectedIndex) {
+      isSubjectSelectedList[fieldOfStudyIndex][subjectIndex] =
+          !isSubjectSelectedList[fieldOfStudyIndex][subjectIndex];
     }
 
-    if (index != lastSelectedIndex) {
-      isSubjectSelectedList[index] = !isSubjectSelectedList[index];
-    }
     searchForAnySelectedCard();
     if (hasAnySelectedCard) {
       selectedSubject = subject;
@@ -137,7 +142,17 @@ class StudyPlanController {
   }
 
   void searchForAnySelectedCard() =>
-      hasAnySelectedCard = isSubjectSelectedList.any((e) => e == true);
+      hasAnySelectedCard = isSubjectSelectedList.any(
+        (subject) => subject.any((item) => item == true) == true,
+      );
+
+  void removeSelectedSubject() {
+    isSubjectSelectedList = RxList(
+      isSubjectSelectedList
+          .map((list) => list.map((_) => false).toList())
+          .toList(),
+    );
+  }
 
   int getIndexOfFieldOfStudy({
     required List<FieldOfStudyItemModel> items,
@@ -160,6 +175,7 @@ class StudyPlanController {
           .any((e) => e.name.toLowerCase() == newSubject.name.toLowerCase());
 
       if (!hasAlreadySubject) {
+        // ToDo: Remove the repeated subject
         localStudyPlan.items[indexOfFieldOfStudy].allSubjects.add(newSubject);
       }
     }
@@ -173,10 +189,28 @@ class StudyPlanController {
 
   void setDefaultState([
     FieldsOfStudyLocalDB? fieldsOfStudyLocalDB,
-  ]) =>
-      state$ = StudyPlanDefaultState(
-        fieldsOfStudyLocalDB: fieldsOfStudyLocalDB,
-      );
+  ]) {
+    if (fieldsOfStudyLocalDB != null) {
+      for (var i = 0; i < fieldsOfStudyLocalDB.items.length; i++) {
+        isSubjectSelectedList.add([]);
+      }
+
+      for (int fieldOfStudyIndex = 0;
+          fieldOfStudyIndex < fieldsOfStudyLocalDB.items.length;
+          fieldOfStudyIndex++) {
+        setQuantityOfSubjects(
+          fieldsOfStudyLocalDB.items[fieldOfStudyIndex].allSubjects
+              .map((e) => e.name)
+              .toList(),
+          fieldOfStudyIndex,
+        );
+      }
+    }
+
+    state$ = StudyPlanDefaultState(
+      fieldsOfStudyLocalDB: fieldsOfStudyLocalDB,
+    );
+  }
 
   void setErrorState() => state$ = const StudyPlanWithErrorState();
 
