@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/controllers/fields_of_study_controller.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
+import 'package:innominatus_ai/app/shared/widgets/add_personalized_content/add_new_content_confirmation.dart';
+import 'package:innominatus_ai/app/shared/widgets/add_personalized_content/add_personalized_content.dart';
 import 'package:innominatus_ai/app/shared/widgets/loading/shimmer_cards.dart';
 import 'package:innominatus_ai/app/shared/widgets/selection_card.dart';
 import 'package:rx_notifier/rx_notifier.dart';
@@ -106,6 +108,44 @@ class _FieldsOfStudySelectionState extends State<FieldsOfStudySelection> {
               ),
             ),
             const SizedBox(height: 16),
+
+            // ToDo: Add here the widget for personalized field of study
+            RxBuilder(
+              builder: (_) => Visibility(
+                visible: !fieldsOfStudyController.isFieldOfStudyPageLoading$,
+                replacement: const SizedBox(),
+                child: AddPersonalizedContent(
+                  onTap: () {
+                    // ToDo: Create logic for saving local DB
+                    FocusScope.of(context).unfocus();
+
+                    final fieldOfStudyToBeAdded = fieldsOfStudyController
+                        .personalizedFieldOfStudyTextController.text;
+
+                    if (fieldOfStudyToBeAdded.isNotEmpty) {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (_) => AddNewContentConfirmation(
+                          contentToBeAdded: fieldOfStudyToBeAdded,
+                          onTap: () {
+                            // ToDo: Add function that deals with LocalDB
+                            fieldsOfStudyController
+                                .personalizedFieldOfStudyTextController
+                                .clear();
+
+                            Navigator.pop(context);
+                          },
+                        ),
+                      );
+                    }
+                  },
+                  textEditingController: fieldsOfStudyController
+                      .personalizedFieldOfStudyTextController,
+                  title: LocalizationUtils.I(context)
+                      .appWidgetsAddPersonalizedFieldOfStudy,
+                ),
+              ),
+            ),
 
             // Cards with Fields Of Study
             RxBuilder(

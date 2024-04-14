@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:innominatus_ai/app/modules/fields_of_study/controllers/states/fields_of_study_states.dart';
 import 'package:innominatus_ai/app/shared/app_constants/localdb_constants.dart';
 import 'package:innominatus_ai/app/shared/core/app_controller.dart';
@@ -21,6 +22,9 @@ class FieldsOfStudyController {
   List<bool> isFieldOfStudySelectedList = <bool>[];
   final RxNotifier _hasAnyFieldOfStudySelected = RxNotifier(false);
   final RxNotifier _hasLocalCachedContent = RxNotifier(false);
+
+  final TextEditingController personalizedFieldOfStudyTextController =
+      TextEditingController();
 
   FieldsOfStudyController(
     this._getFieldsOfStudyDB,
